@@ -518,7 +518,7 @@ function render(){
   $("sub").hidden=subs.length<2;
   $("sub").innerHTML=subs.map(([k,l])=>`<button role="tab" data-sub="${k}" aria-selected="${sub[sec]===k}">${l}</button>`).join("");
   const s=sub[sec];let h="";
-  if(sec==="hulp")h=`<div class="stack">${iosCard()}${basisBlock(s==="kb"?"kb":"zd")}<h3 style="margin-top:10px">Wat ging er mis?</h3>`+(s==="kb"?helpPage(KB_PROBLEMS,S.kbBatch.items,b=>`${esc(b.name||"Kombucha")}, ${dateLabel(b.date)}`):helpPage(DESEM_PROBLEMS,S.bakes.items,b=>`${esc(b.recipeName||DEFAULT.name)}, ${dateLabel(b.startedAt)}`))+`</div>`;
+  if(sec==="hulp")h=`<div class="stack">${iosCard()}${basisBlock(s==="kb"?"kb":"zd")}<h3 style="margin-top:10px">Wat ging er mis?</h3>`+(s==="kb"?helpPage(KB_PROBLEMS,S.kbBatch.items,b=>`${esc(b.name||"Kombucha")}, ${dateLabel(b.date)}`):helpPage(DESEM_PROBLEMS,S.bakes.items,b=>`${esc(b.recipeName||DEFAULT.name)}, ${dateLabel(b.startedAt)}`))+`<section class="card" style="margin-top:10px"><h3>Reservekopie</h3><p class="small">Je gegevens staan alleen op deze iPhone. Maak af en toe een reservekopie en bewaar ze in iCloud Drive.</p><div class="row tight"><button class="btn soft sm" data-act="backup">Reservekopie maken</button><label class="btn soft sm file" for="restore-file">Reservekopie terugzetten<input id="restore-file" type="file" accept=".json,application/json" hidden></label></div></section></div>`;
   if(sec==="zd")h=s==="bake"?(active?(active.finished?zdResult():zdActive()):zdIdle()):s==="log"?(draft?bakeEditor():zdLog()):(draft?zdEditor():zdRecipe());
   if(sec==="kb")h=s==="scoby"?kbScoby():s==="log"?(draft?kbBatchEditor():kbLog()):(draft?kbRecEditor():kbRecipes());
   if(sec==="sap")h=draft?sapEditor():sapLog();
@@ -552,8 +552,6 @@ function home(){
   if(active)q.push(`<button class="qcard b" data-go="zd"><span class="lbl">Brood bezig</span><span class="big">${active.finished?"Klaar":"Stap "+(active.step+1)}</span><span class="sub">${active.finished?"Geef het een score":esc(steps()[active.step].t)}</span></button>`);
   if(left!=null)q.push(`<button class="qcard r" data-go="kb" data-to="scoby"><span class="lbl">Scoby voeden</span><span class="big">${left>1?left+" dagen":left===1?"Morgen":left===0?"Vandaag":"Te laat"}</span><span class="sub">${left>1?"tot de volgende keer":left===1?"is het weer tijd":left===0?"is het tijd":-left+(left===-1?" dag":" dagen")+" over tijd"}</span></button>`);
   plukGroups().forEach(g=>q.push(`<button class="qcard ${g.st==="now"?"l":"h"}" data-go="pluk"><span class="lbl">${g.st==="now"?"Nu plukken":"Bijna plukken"}</span><span class="big">${esc(g.name)}</span><span class="sub">${g.st==="now"?(g.n>1?g.n+" plekken":"1 plek"):"over "+g.days+(g.days===1?" dag":" dagen")}</span></button>`));
-  const exp=S.kast.items.filter(i=>(+i.count||0)>0&&i.best&&daysUntil(i.best)<=14);
-  if(exp.length)q.push(`<button class="qcard r" data-go="kast"><span class="lbl">Voorraad</span><span class="big">${exp.length}</span><span class="sub">${exp.length===1?"bijna over datum":"bijna over datum"}</span></button>`);
   if(open)q.push(`<button class="qcard l" data-go="kb" data-to="log"><span class="lbl">Kombucha</span><span class="big">${open}</span><span class="sub">${open===1?"nog te proeven":"nog te proeven"}</span></button>`);
   const zd=active?`${esc(active.recipeName||DEFAULT.name)} is bezig`:lastBake?`Laatst gebakken ${dateLabel(lastBake.startedAt)}`:"Bak je eerste brood";
   const kb=feed?`Scoby gevoed ${agoLabel(feed.at)}`:"Hou je scoby en batches bij";
@@ -565,7 +563,6 @@ function home(){
   return `<div class="stack">
     ${q.length?`<div class="stack" style="gap:10px"><div class="section-title"><h2>Vandaag</h2></div><div class="quick">${q.join("")}</div></div>`:""}
     <div class="wallet">${tile("zd","Bakken","Desem",zd)}${tile("kb","Fermenteren","Kombucha",kb)}${tile("sap","Sappan","Sappen",sp)}${tile("pluk","Buiten","Wildpluk",pl)}</div>
-    <div class="row tight" style="justify-content:center"><button class="btn soft sm" data-act="backup">Reservekopie maken</button><label class="btn soft sm file" for="restore-file">Reservekopie terugzetten<input id="restore-file" type="file" accept=".json,application/json" hidden></label></div>
   </div>`;
 }
 
@@ -1141,7 +1138,6 @@ async function readImport(file){
 /* ---------- voorraad ---------- */
 function kastChip(i){
   if(!(+i.count>0))return `<span class="chip wait">Op</span>`;
-  if(i.best){const d=daysUntil(i.best);if(d<0)return `<span class="chip bad">Over datum</span>`;if(d<=14)return `<span class="chip">Nog ${d} ${d===1?"dag":"dagen"}</span>`}
   return "";
 }
 function kastPage(){
