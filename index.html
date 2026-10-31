@@ -1,0 +1,1373 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Kitchen Witch">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#FBF7F8">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<style>html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px)}</style>
+<title>Kitchen Witch</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Mono&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&display=swap">
+<style>
+/* Kitchen Witch huisstijl, optie A: Hemel als rustige achtergrond, witte kaarten, Biet voor logo en knoppen, Bos voor tekst */
+:root{
+  --bos:#1B3907;--biet:#BD475F;--hemel:#D6E7FD;--limoen:#C9DB84;--rabarber:#FEC2E6;--wit:#FFFFFF;
+  --bg:#FBF7F8;--surface:#FFFFFF;--ink:#1B3907;--muted:#4A5E3C;--line:#D6E7FD;--field:#F2F7FF;
+  --title:#BD475F;--accent:#BD475F;
+  --b1:#BD475F;--b1-ink:#FFFFFF;--b2:#1B3907;--b2-ink:#D6E7FD;--b3:#FEC2E6;--b3-ink:#1B3907;--b4:#D6E7FD;--b4-ink:#1B3907;
+  --tip:#D6E7FD;--tip-ink:#1B3907;
+  --f-title:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-body:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#122806;--surface:#1B3907;--ink:#D6E7FD;--muted:#AFC3D9;--line:#2C5214;--field:#122806;
+  --title:#FEC2E6;--accent:#FEC2E6;
+  --b1:#BD475F;--b1-ink:#FFFFFF;--b2:#D6E7FD;--b2-ink:#1B3907;--b3:#FEC2E6;--b3-ink:#1B3907;--b4:#C9DB84;--b4-ink:#1B3907;
+  --tip:#264A12;--tip-ink:#D6E7FD;color-scheme:dark}
+  :root:not([data-theme="light"]) .logo.lt{display:none}:root:not([data-theme="light"]) .logo.dk{display:block}}
+:root[data-theme="dark"]{
+  --bg:#122806;--surface:#1B3907;--ink:#D6E7FD;--muted:#AFC3D9;--line:#2C5214;--field:#122806;
+  --title:#FEC2E6;--accent:#FEC2E6;
+  --b1:#BD475F;--b1-ink:#FFFFFF;--b2:#D6E7FD;--b2-ink:#1B3907;--b3:#FEC2E6;--b3-ink:#1B3907;--b4:#C9DB84;--b4-ink:#1B3907;
+  --tip:#264A12;--tip-ink:#D6E7FD;color-scheme:dark}
+:root[data-theme="dark"] .logo.lt{display:none}:root[data-theme="dark"] .logo.dk{display:block}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-weight:400;font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+b,strong{font-weight:700}
+.wrap{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.logo{display:block;width:min(240px,62vw);height:auto}
+.logo.dk{display:none}
+.home-head{display:flex;justify-content:center;padding:18px 0 6px}
+.inner-head{display:flex;align-items:center;gap:12px}
+.icon{width:48px;height:48px;border-radius:13px;background:var(--biet);border:0;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:0 0 48px;padding:0}
+.icon img{width:29px;height:auto}
+body[data-page="home"] .inner-head,body[data-page="inner"] .home-head{display:none}
+body[data-page="home"] #h1{text-align:center;font-size:22px;color:var(--ink)}
+h1{font-family:var(--f-title);font-weight:400;font-size:32px;line-height:1.15;margin:0;color:var(--title);text-wrap:balance}
+h2{font-family:var(--f-title);font-weight:400;font-size:22px;line-height:1.25;margin:0;text-wrap:balance}
+h3{font-size:13px;font-weight:700;margin:0;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+p{margin:0}
+nav.sub{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+nav.sub button{font:inherit;font-size:15px;font-weight:500;border:0;border-radius:999px;padding:8px 16px;min-height:40px;cursor:pointer;white-space:nowrap;background:var(--surface);color:var(--ink)}
+nav.sub button[aria-selected="true"]{background:var(--b2);color:var(--b2-ink);font-weight:700}
+.stack{display:flex;flex-direction:column;gap:16px}
+.card{background:var(--surface);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.btn{font:inherit;font-size:15px;font-weight:700;border-radius:999px;padding:0 22px;min-height:46px;cursor:pointer;border:0;background:var(--b2);color:var(--b2-ink)}
+.btn.primary{background:var(--b1);color:var(--b1-ink)}
+.btn.soft{background:var(--b3);color:var(--b3-ink)}
+.btn.danger{background:var(--biet);color:#FFFFFF}
+.step-d{font-size:18px;line-height:1.5}
+.confirm .btn.danger{background:var(--biet);color:#FFFFFF}
+.btn.big{font-size:18px;min-height:56px;width:100%}
+.btn.sm{min-height:44px;padding:0 16px;font-size:14px}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row>.btn{flex:1 1 140px}
+.row.tight>.btn{flex:0 0 auto}
+.between{justify-content:space-between}
+.tip{background:var(--tip);color:var(--tip-ink);border-radius:16px;padding:14px 16px;font-size:15px;display:flex;flex-direction:column;gap:4px}
+.tip b{font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.timer{font-family:var(--f-title);font-size:58px;line-height:1;font-variant-numeric:tabular-nums;text-align:center;padding:8px 0;color:var(--title)}
+.timer.done{animation:pulse 1.2s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.timer.done{animation:none}}
+@keyframes pulse{50%{opacity:.4}}
+.timer-sub{text-align:center;color:var(--muted);font-size:14px}
+.progress{height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+.progress>i{display:block;height:100%;background:var(--biet);border-radius:4px}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.steps li{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:baseline;padding:10px 0;border-top:1px solid var(--line);font-size:15px}
+.steps li:first-child{border-top:0}
+.steps .n,.steps .dur{font-family:var(--f-title);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.steps li.done{color:var(--muted)}
+.steps li.now{font-weight:700}
+.steps li.now .n{color:var(--accent)}
+.recipe{display:grid;grid-template-columns:1fr auto auto;gap:6px 16px;font-size:16px;align-items:baseline}
+.recipe span:nth-child(3n+2),.recipe span:nth-child(3n){font-family:var(--f-title);font-size:14px;text-align:right;font-variant-numeric:tabular-nums}
+.recipe span:nth-child(3n){color:var(--muted)}
+.recipe .sum{border-top:1px solid var(--line);padding-top:6px}
+label{font-weight:500;font-size:15px;display:flex;flex-direction:column;gap:6px}
+input,textarea,select{font:inherit;font-weight:400;color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:12px;padding:11px 14px;width:100%}
+select{font-weight:500;cursor:pointer}
+textarea{min-height:76px;resize:vertical}
+.temp{display:flex;flex-direction:row;align-items:center;gap:8px;font-weight:300;font-size:15px;color:var(--muted)}
+.temp input{width:80px;padding:6px 10px}
+.stars{display:flex;gap:4px}
+.stars button{font-size:30px;line-height:1;background:none;border:0;cursor:pointer;color:var(--line);padding:4px}
+.stars button.on{color:var(--accent)}
+.entry{display:flex;flex-direction:column;gap:6px;padding:16px 0;border-top:1px solid var(--line)}
+.entry:first-child{border-top:0;padding-top:0}
+.entry strong{font-family:var(--f-title);font-weight:400;font-size:18px}
+.meta{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
+.score{color:var(--accent);letter-spacing:2px}
+.chip{display:inline-block;font-size:13px;font-weight:500;padding:4px 12px;border-radius:999px;background:var(--rabarber);color:var(--bos)}
+.chip.ok{background:var(--limoen);color:var(--bos)}
+.chip.wait{background:var(--hemel);color:var(--bos)}
+.chip.bad{background:var(--biet);color:#FFFFFF}
+.status{font-size:13px;color:var(--muted);text-align:center}
+.empty{color:var(--muted);text-align:center;padding:12px 0}
+.confirm{display:flex;flex-direction:column;gap:10px;background:var(--surface);border:2px solid var(--biet);border-radius:16px;padding:14px}
+ul.notes{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:15px}
+.edit-row{display:grid;grid-template-columns:1fr 90px auto auto;gap:8px;align-items:center}
+.chk{display:flex;flex-direction:row;align-items:center;gap:6px;font-weight:300;font-size:14px;color:var(--muted)}
+.chk input{width:auto;accent-color:var(--biet)}
+.edit-step{display:flex;flex-direction:column;gap:8px;padding:14px 0;border-top:1px solid var(--line)}
+.nums{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.x{font:inherit;font-weight:700;background:var(--b4);color:var(--b4-ink);border:0;border-radius:999px;min-width:44px;min-height:44px;padding:0 12px;cursor:pointer}
+.small{font-size:14px;color:var(--muted)}
+.err{font-size:14px;color:var(--biet);font-weight:500}
+.scoby-big{font-family:var(--f-title);font-size:44px;line-height:1.1;color:var(--title)}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{font:inherit;font-weight:500;font-size:15px;border:0;border-radius:999px;padding:0 16px;min-height:40px;cursor:pointer;background:var(--b4);color:var(--b4-ink)}
+.seg button[aria-checked="true"]{background:var(--b2);color:var(--b2-ink);font-weight:700}
+.pre{white-space:pre-line}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+.tile{font:inherit;text-align:left;border:0;border-radius:22px;padding:18px 20px;cursor:pointer;display:flex;flex-direction:column;gap:10px}
+.tile:focus-visible{outline:3px solid var(--biet);outline-offset:3px}
+.tile .t-name{font-family:var(--f-title);font-size:26px;line-height:1.1}
+.tile .t-info{font-size:15px;font-weight:400;line-height:1.35}
+.tile .t-info b{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;opacity:.85}
+.tile.zd{background:var(--biet);color:#FFFFFF}
+.tile.kb{background:var(--bos);color:var(--hemel)}
+.tile.sap{background:var(--limoen);color:var(--bos)}
+:root[data-theme="dark"] .tile.kb{background:var(--rabarber);color:var(--bos)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tile.kb{background:var(--rabarber);color:var(--bos)}}
+
+/* --- inspiratie-update: zwevende menubalk, portefeuille-kaarten, ring-timer --- */
+:root{--dock:#1B3907;--dock-ink:#D6E7FD;--dock-on:#FBF7F8;--dock-on-ink:#1B3907;--shadow:rgba(27,57,7,.16)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--dock:#D6E7FD;--dock-ink:#1B3907;--dock-on:#1B3907;--dock-on-ink:#D6E7FD;--shadow:rgba(0,0,0,.4)}}
+:root[data-theme="dark"]{--dock:#D6E7FD;--dock-ink:#1B3907;--dock-on:#1B3907;--dock-on-ink:#D6E7FD;--shadow:rgba(0,0,0,.4)}
+body{padding-block:16px 128px}
+.top{display:flex;flex-direction:column;gap:4px;padding-top:4px}
+.top .logo{width:132px;margin-bottom:14px}
+.eyebrow{font-size:14px;color:var(--muted);font-weight:500;margin:0}
+.eyebrow::first-letter{text-transform:uppercase}
+h1{font-size:40px;line-height:1.05}
+h1.hello{font-size:34px;color:var(--ink)}
+.card{border-radius:28px}
+.section-title{display:flex;justify-content:space-between;align-items:baseline;margin-top:6px}
+.section-title h2{font-size:20px}
+.dock{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));width:min(420px,calc(100% - 32px));background:var(--dock);border-radius:999px;padding:7px;display:flex;align-items:center;gap:4px;z-index:20;box-shadow:0 12px 32px var(--shadow)}
+.dock button{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:none;border:0;color:var(--dock-ink);font:inherit;font-size:11px;font-weight:500;min-height:54px;border-radius:999px;cursor:pointer}
+.dock button[aria-current="page"]{background:var(--dock-on);color:var(--dock-on-ink);font-weight:700}
+.dock .plus{flex:0 0 54px;height:54px;border-radius:50%;background:var(--biet);color:#FFFFFF}
+.dock svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.dock .plus svg{width:26px;height:26px;stroke-width:2.2}
+.sheet-bg{position:fixed;inset:0;background:rgba(18,40,6,.4);z-index:30}
+.sheet{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));width:min(420px,calc(100% - 32px));background:var(--surface);border-radius:30px;padding:20px;z-index:31;display:flex;flex-direction:column;gap:10px;box-shadow:0 12px 40px var(--shadow)}
+.sheet h2{font-size:20px;margin-bottom:4px}
+.act{display:flex;align-items:center;gap:14px;width:100%;background:var(--field);border:0;border-radius:20px;padding:12px 14px;font:inherit;font-weight:500;color:var(--ink);text-align:left;cursor:pointer;min-height:60px}
+.act i{flex:0 0 40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-style:normal;font-family:var(--f-title);font-size:18px;color:var(--bos)}
+.act small{display:block;font-size:13px;color:var(--muted);font-weight:400}
+.wallet{display:flex;flex-direction:column}
+.wallet .tile{border-radius:28px;padding:18px 20px 58px;margin-top:-40px;box-shadow:0 -8px 20px var(--shadow);gap:6px;min-height:0}
+.wallet .tile:first-child{margin-top:0}
+.wallet .tile:last-child{padding-bottom:22px}
+.t-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.t-label{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;opacity:.85}
+.t-arrow{flex:0 0 38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,currentColor 18%,transparent);font-size:18px}
+.tile .t-name{font-size:30px}
+.quick{display:flex;gap:12px;overflow-x:auto;padding-bottom:4px;scroll-snap-type:x mandatory;margin-inline:-2px}
+.qcard{flex:0 0 190px;scroll-snap-align:start;border-radius:24px;padding:16px;border:0;text-align:left;font:inherit;cursor:pointer;display:flex;flex-direction:column;gap:6px;min-height:120px;color:var(--bos)}
+.qcard .big{font-family:var(--f-title);font-size:28px;line-height:1.05}
+.qcard .lbl{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;opacity:.8}
+.qcard .sub{font-size:14px;margin-top:auto}
+.qcard.r{background:var(--rabarber)}.qcard.l{background:var(--limoen)}.qcard.b{background:var(--biet);color:#FFFFFF}.qcard.h{background:var(--surface);color:var(--ink)}
+.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;text-align:center}
+.week .d{font-size:12px;color:var(--muted);font-weight:500}
+.week .c{width:100%;max-width:42px;aspect-ratio:1;margin:6px auto 0;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--field);font-size:14px;font-weight:500;font-variant-numeric:tabular-nums}
+.week .c.fed{background:var(--biet);color:#FFFFFF}
+.week .c.due{box-shadow:inset 0 0 0 2px var(--biet)}
+.week .c.today{font-weight:700;background:var(--b2);color:var(--b2-ink)}
+.week .c.today.fed{background:var(--biet);color:#FFFFFF}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px;background:var(--biet)}
+.legend span.due::before{background:none;box-shadow:inset 0 0 0 2px var(--biet)}
+.ring{position:relative;width:min(230px,66vw);aspect-ratio:1;margin:4px auto}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg);display:block}
+.ring .track{stroke:var(--line)}
+.ring .prog{stroke:var(--biet);transition:stroke-dashoffset .9s linear}
+.ring .rt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;padding:0 24px}
+.ring .timer{font-size:46px;padding:0}
+.log{display:flex;flex-direction:column;gap:12px}
+.log .entry{background:var(--surface);border-radius:24px;padding:18px 20px;border:0}
+.log .entry:first-child{padding-top:18px}
+.scoby-big{font-size:56px}
+@media (prefers-reduced-motion:reduce){.ring .prog{transition:none}}
+.card,.log .entry,nav.sub button{box-shadow:0 2px 14px var(--shadow-soft)}
+:root{--shadow-soft:rgba(27,57,7,.07)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--shadow-soft:transparent}}
+:root[data-theme="dark"]{--shadow-soft:transparent}
+.top.home{align-items:center;text-align:center}
+.top.home .logo{width:150px;margin-bottom:10px}
+.quote-lbl{color:var(--muted);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-top:6px}
+.quote{font-family:var(--f-title);font-size:21px;line-height:1.4;color:var(--ink);max-width:28ch;text-wrap:balance;margin:2px 0 6px}
+h1,h2,.timer,.quote,.t-name,.qcard .big,.scoby-big,.entry strong{font-weight:300;letter-spacing:-.01em}
+h1{letter-spacing:-.02em}
+.timer{font-weight:300}
+:root{--dock-line:rgba(27,57,7,.1)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--dock-line:rgba(214,231,253,.14)}}
+:root[data-theme="dark"]{--dock-line:rgba(214,231,253,.14)}
+.dock{left:0;right:0;bottom:0;transform:none;width:auto;border-radius:0;background:var(--bg);box-shadow:0 -1px 0 var(--dock-line);justify-content:center;gap:0;padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+.dock button{flex:1 1 0;max-width:110px;color:var(--muted);min-height:56px}
+.dock button[aria-current="page"]{background:none;color:var(--ink)}
+.dock button[aria-current="page"] svg{stroke-width:2.4}
+.dock .plus{flex:0 0 50px;max-width:50px;height:50px;min-height:50px;margin:0 10px;background:var(--biet);color:#FFFFFF}
+.sheet{bottom:calc(80px + env(safe-area-inset-bottom,0px))}
+body{padding-block:16px 110px}
+.dock svg.ic{width:30px;height:30px;fill:currentColor;stroke:none}
+.quote{font-size:30px;line-height:1.2;max-width:20ch}
+.dock [data-go="zd"] svg.ic{width:46px;height:31px}
+.tile.pluk{background:var(--hemel);color:var(--bos)}
+.tile.kast{background:var(--rabarber);color:var(--bos)}
+:root[data-theme="dark"] .tile.kast{background:#F2F6EA}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tile.kast{background:#F2F6EA}}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{font:inherit;font-size:14px;font-weight:500;border:0;border-radius:999px;padding:0 14px;min-height:44px;cursor:pointer;background:var(--b4);color:var(--b4-ink)}
+.chips button[aria-pressed="true"]{background:var(--b2);color:var(--b2-ink);font-weight:700}
+.chip-row{display:flex;flex-wrap:wrap;gap:6px}
+.photos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.photos img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:14px;display:block;background:var(--field)}
+label.file{display:inline-flex;flex-direction:row;align-items:center;justify-content:center;gap:6px;align-self:flex-start}
+details.help{background:var(--surface);border-radius:24px;padding:0;box-shadow:0 2px 14px var(--shadow-soft)}
+details.help summary{list-style:none;cursor:pointer;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:18px;font-weight:400}
+details.help summary::-webkit-details-marker{display:none}
+details.help summary::after{content:"+";font-size:22px;color:var(--muted);flex:0 0 auto}
+details.help[open] summary::after{content:"−"}
+details.help .hb{padding:0 20px 18px;display:flex;flex-direction:column;gap:12px}
+details.help ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:15px}
+.cal{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:3px}
+.cal i{height:16px;border-radius:5px;background:var(--field);display:block}
+.cal i.on{background:var(--limoen)}
+.cal i.cur{box-shadow:inset 0 0 0 2px var(--biet)}
+.cal span{font-size:11px;color:var(--muted);text-align:center;font-weight:500}
+.counter{display:flex;align-items:center;gap:12px}
+.counter b{font-size:22px;font-weight:300;min-width:2ch;text-align:center;font-variant-numeric:tabular-nums}
+.preview{max-height:320px;overflow:auto;display:flex;flex-direction:column;gap:2px;font-size:15px}
+.preview div{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
+.preview div:first-child{border-top:0}
+a.link{color:var(--ink);font-weight:500}
+.top-row{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.round{flex:0 0 44px;width:44px;height:44px;border-radius:50%;border:0;background:var(--surface);color:var(--ink);font:inherit;font-size:20px;cursor:pointer;box-shadow:0 2px 14px var(--shadow-soft);display:flex;align-items:center;justify-content:center}
+.t-lead{display:flex;align-items:center;gap:10px}
+.t-ic{width:40px;height:30px;fill:currentColor}
+.t-ic.stroke{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;width:28px;height:28px}
+.dock{justify-content:center}
+.dock button{max-width:120px}
+.dock .plus{margin:0 22px}
+.logo-sm{height:34px;width:auto;display:block}
+.logo-sm.dk{display:none}
+:root[data-theme="dark"] .logo-sm.lt{display:none}:root[data-theme="dark"] .logo-sm.dk{display:block}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .logo-sm.lt{display:none}:root:not([data-theme="light"]) .logo-sm.dk{display:block}}
+.map-card{padding:10px;gap:10px}
+.map-wrap{position:relative;border-radius:20px;overflow:hidden}
+.map{height:min(360px,58vh);overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;background:#f2efe9;scrollbar-width:none}
+.map::-webkit-scrollbar{display:none}
+.map-inner{position:relative}
+.map-inner img{display:block;max-width:none;user-select:none;-webkit-user-drag:none}
+.pin{position:absolute;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;border:3px solid #FFFFFF;background:var(--biet);box-shadow:0 2px 6px rgba(27,57,7,.35);cursor:pointer;padding:0}
+.pin.now{background:#C9DB84;border-color:#1B3907}
+.pin.soon{background:#FEC2E6;border-color:#BD475F}
+.pin.later,.pin.none{background:#BD475F}
+.pin.sel{width:34px;height:34px;margin:-17px 0 0 -17px;z-index:2;box-shadow:0 0 0 4px rgba(189,71,95,.35),0 2px 8px rgba(27,57,7,.4)}
+.attr{pointer-events:none;position:absolute;right:8px;bottom:6px;font-size:10px;background:rgba(255,255,255,.85);color:#1B3907;padding:1px 6px;border-radius:6px}
+.map-legend{padding:0 6px}
+.map-legend span::before{background:#BD475F;box-shadow:inset 0 0 0 2px #fff,0 0 0 1px rgba(27,57,7,.2)}
+.map-legend span.now::before{background:#C9DB84;box-shadow:inset 0 0 0 2px #1B3907}
+.map-legend span.soon::before{background:#FEC2E6;box-shadow:inset 0 0 0 2px #BD475F}
+.pin-info,.map-card>.small{padding:4px 8px 8px;display:flex;flex-direction:column;gap:8px}
+.top-row{margin-bottom:0}
+.top-row h1{flex:1 1 auto;min-width:0;font-size:30px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top-row .logo-sm{height:30px;flex:0 0 auto}
+.dock{display:grid;grid-template-columns:1fr 82px 1fr;justify-items:center}
+.dock button{max-width:140px}
+.top{position:relative}
+.help-home{position:absolute;right:0;top:0}
+.help-ic{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.dock button{max-width:none;width:100%}
+.dock .plus{margin:0 auto;width:54px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));width:min(420px,calc(100% - 32px));background:var(--bos);color:var(--hemel);border-radius:18px;padding:12px 14px 12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:25;font-size:15px;box-shadow:0 10px 30px var(--shadow)}
+.toast button{font:inherit;font-weight:700;font-size:14px;border:0;border-radius:999px;background:var(--rabarber);color:var(--bos);padding:0 14px;min-height:38px;cursor:pointer;flex:0 0 auto}
+.rows{padding:6px 10px;gap:0}
+.srow{display:flex;align-items:center;gap:12px;width:100%;background:none;border:0;border-top:1px solid var(--line);padding:12px 8px;font:inherit;color:var(--ink);text-align:left;cursor:pointer;border-radius:0}
+.srow:first-child{border-top:0}
+.srow.on{background:var(--field);border-radius:14px}
+.sdot{flex:0 0 14px;height:14px;border-radius:50%;background:var(--biet)}
+.sdot.now{background:var(--limoen);box-shadow:inset 0 0 0 2px var(--bos)}
+.sdot.soon{background:var(--rabarber);box-shadow:inset 0 0 0 2px var(--biet)}
+.sname{flex:1 1 auto;min-width:0;display:flex;flex-direction:column}
+.sname b{font-weight:400;font-size:16px}
+.sname small{font-size:13px;color:var(--muted)}
+.srow .chip{flex:0 0 auto}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.title-svg{width:auto;max-width:100%;display:block;fill:currentColor;overflow:visible;margin-bottom:-8px;position:relative;top:-6px}
+.top-row:has(.title-svg){align-items:flex-start}
+.top-row h1:has(.title-svg){overflow:visible;white-space:normal}
+.top-row h1{color:var(--title)}
+.tile-title{width:auto;max-width:100%;display:block;fill:currentColor;margin:2px 0 0 -2px}
+.more{align-self:flex-start;font:inherit;font-size:15px;font-weight:500;background:none;border:0;color:var(--muted);padding:6px 0;min-height:44px;cursor:pointer}
+.big-chk{font-size:16px;color:var(--ink);min-height:44px}
+.big-chk input{width:22px;height:22px}
+.runbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(80px + env(safe-area-inset-bottom,0px));width:min(420px,calc(100% - 24px));display:flex;align-items:center;gap:12px;background:var(--biet);color:#FFFFFF;border:0;border-radius:20px;padding:10px 16px;font:inherit;text-align:left;cursor:pointer;z-index:19;box-shadow:0 10px 26px var(--shadow)}
+.rb-dot{flex:0 0 10px;height:10px;border-radius:50%;background:var(--rabarber);animation:pulse 1.6s ease-in-out infinite}
+.rb-dot.done{background:var(--limoen)}
+@media (prefers-reduced-motion:reduce){.rb-dot{animation:none}}
+.rb-txt{flex:1 1 auto;min-width:0;display:flex;flex-direction:column}
+.rb-txt b{font-weight:500;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rb-txt small{font-size:13px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rb-time{flex:0 0 auto;font-size:22px;font-weight:300;font-variant-numeric:tabular-nums}
+body.has-run{padding-bottom:190px}
+.toast{z-index:26}
+a.btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+a.btn.ios{background:var(--b2);color:var(--b2-ink)}
+@media (max-width:460px){.edit-row{grid-template-columns:1fr 80px auto}.edit-row .chk{grid-column:1/2}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header class="top" id="top"></header>
+  <nav class="sub" id="sub" role="tablist"></nav>
+  <main id="view"></main>
+  <p class="status" id="status"></p>
+</div>
+
+<nav class="dock" aria-label="Menu">
+  <button data-go="home" aria-label="Overzicht"><svg class="ic" viewBox="47.0 52.0 227.9 227.9" aria-hidden="true"><path d="M235.13,149.3c-1.97-2.43-2.06-5.18-.55-8.34,1.77-3.69,4.98-7.99,6.53-12.22,6.12-14.33,1.37-32.85-13.85-38.85-7.14-2.93-15.4-2.69-22.66-.32-3.05.97-6.01,2.33-8.81,3.85-2.08,1.07-3.96,2.21-6.23,2.53-3.6.52-5.33-3.41-6.73-7.41-11.65-40.87-60.02-35.37-67.85,4.55-.83,4.56-.79,9.18-.21,13.79,1.18,7.9-.06,11.97-8.84,12.59-14.41,1.05-31.73,4.47-39.95,17.65-8.64,14.23-4.31,33.83,6.81,45.42,6.51,6.48,8.44,8.31.05,14.53-9.6,7.35-14.9,19.03-12.41,31.12,2.56,13.98,10.57,27.52,22.07,35.97,9.97,7.04,23.27,8.69,35.13,6.24,10.58-2.2,20.32-7.47,27.42-15.61,2.66-3.04,5.86-7.03,8.95-7.68,5.32-1.13,9.47,4.4,13.56,7.13,3.55,2.65,7.43,4.78,11.64,6.21,12.01,4.16,27.3,2.98,35.64-7.36,4.47-5.41,6.63-13.01,6.72-20.38.09-2.93-.3-6.19.2-9,.77-5.77,7.04-5.7,11.61-6.12,16.14-.64,29.54-14.76,28.7-31.06-.5-10.57-7.47-20.24-15.36-27.28-3.56-3.46-8.27-6.16-11.48-9.8l-.09-.12ZM208.47,207.98c-2.55,3.72-.95,8.86-.09,13.05.85,3.73,1.52,7.55,1.42,11.39-.1,17.31-15.63,22.32-29.69,15.55-4.35-2.04-8.11-5.06-11.61-8.32-4.27-3.81-9.04-9.22-15.19-8.65-10.93,1.61-14.47,19.9-31.23,25.98-15.79,6.16-32.74,2.85-42.23-11.78-4.54-6.71-8.35-14.98-8.37-23.17-.27-12.62,13.5-19.48,23.87-24.7,10.47-5.63,9.2-12.22-1.32-16.1-5.65-2.14-11.49-4.6-15.1-9.59-6.33-8.16-8.58-21.19-1.78-29.7,6.98-8.68,19.88-10.39,30.91-10.8,14.22.19,24.58-1.56,19.91-18.74-2.12-7.83-2.66-16.6.62-24.29,4.75-11.93,16.81-19.34,28.77-14.29,9.44,3.89,13.72,13.91,15.57,23.57,1.17,5.01,1.26,11.11,4.77,15.09,2.87,3.12,7.23,2.66,10.63.61,4.22-2.54,7.25-5.81,11.79-8.41,4.32-2.57,9.59-4.72,14.8-4.89,15.11-.27,20.93,13.64,14.57,26.27-2.87,7.56-13.37,13.58-11.72,22.11,1.42,5.79,7.5,9.04,12.04,12.38,7.11,4.94,15.07,12,18.59,19.07,5.99,10.94-1.43,24.02-13.58,25.65-2.88.51-5.87.55-8.79.34-6.64-.28-13.31-2.65-17.48,2.26l-.08.12Z"/><path d="M155.66,149.49c-15.21-1.04-26.66,18.19-21.21,31.95,8.95,21.1,40.02,20.21,44.84-3.48,2.92-13.8-10.35-27.48-23.47-28.47h-.15ZM165.98,180.27c-3.82,6.39-13.41,6.12-18.02.74-7.24-7.45-.56-22.96,10.46-19.18,6.99,2.38,11.83,11.67,7.66,18.27l-.1.17Z"/></svg>Overzicht</button>
+  <button class="plus" data-sheet="open" aria-label="Snel toevoegen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+  <button data-go="kast" aria-label="Voorraad"><svg class="ic" viewBox="46.6 55.0 225.9 225.9" aria-hidden="true"><path d="M194.62,101.31c11.07-7.93,23.35-14.74,33.32-24.19,6.12-5.76,3.74-16.1-5.98-13.22-4.7,1.47-8.94,4.96-13.1,7.73-10.59,7.89-22.65,13.94-33.39,21.48-9.66,6.42-6.95,18.85-18.2,21.03-23.78,4.94-74.17-4.15-69.14,33.79,1.45,17.28,2.34,35.07,2.75,52.5.78,17.84,3.74,40.78,7.63,59.56,3.88,14.43,21.37,11.12,32.88,12.21,15.53.48,31.84.35,47.44.12,14.63.14,26.25-.14,28.53-17.57,2.26-19.25.88-39.19,1.64-58.46.25-17.79.55-35.72.73-53.46.31-10.15-2-21.06-11.96-25.87-8.57-3.82-11.99-8.53-3.3-15.53l.14-.12ZM195.27,131.18c-.87,2.36-6.45,5.95-9.06,4.72-2.33-1.57-1.87-6.06-1.42-8.35.36-1.49,1.72-2.23,3.22-1.89,2.17.54,7.7,2.73,7.29,5.39l-.03.12ZM195.97,221.96c0,6.51.01,13.03-.26,19.55-.4,11.73-1.55,18.75-14.37,18.77-18.62.32-38.35.45-56.67-.44-14.1-.12-14.4-9.8-16.16-21.15-4.4-25.16-4.13-51.11-5.55-76.82-1.24-14.54,7.3-10.73,17.61-10.14,14.17.91,28.56-1.06,41.98-2.77,5.16-.67,10.3-1.26,15.47-1.99,6-.28,16.64-5.55,18.36,3.22.64,3.46.29,7.5.27,11.1-.27,20.2-.58,40.29-.67,60.48v.2ZM168.1,131.11c.64,8.41-10.66,8.96-16.85,9.67-10.13,1.21-20.05,2.07-30.09,1.49-27.6-1.7-20.19-10.4,1.88-12.42,9.7-.99,19.79-1.32,29.41-2.28,4.88-.07,13.9-2.88,15.62,3.41l.02.13Z"/></svg>Voorraad</button>
+</nav>
+<button class="runbar" id="runbar" data-go="zd" data-to="bake" hidden></button>
+<div class="toast" id="toast" role="status" hidden></div>
+<div class="sheet-bg" id="sheet-bg" data-quick="close" hidden></div>
+<div class="sheet" id="sheet" role="dialog" aria-label="Snel toevoegen" hidden>
+  <h2>Snel toevoegen</h2>
+  <button class="act" data-quick="bake"><i style="background:var(--biet);color:#fff">+</i><span>Brood bakken<small>Start je stappenplan</small></span></button>
+  <button class="act" data-quick="feed"><i style="background:var(--rabarber)">✓</i><span>Scoby gevoed<small>Noteer het voor vandaag</small></span></button>
+  <button class="act" data-quick="kb"><i style="background:var(--hemel)">+</i><span>Nieuwe kombucha<small>Voeg toe aan je logboek</small></span></button>
+  <button class="act" data-quick="sap"><i style="background:var(--limoen)">+</i><span>Nieuw sap<small>Uit de sappan</small></span></button>
+  <button class="act" data-quick="pluk"><i style="background:var(--hemel)">+</i><span>Plukplek<small>Nieuwe plek toevoegen</small></span></button>
+  <button class="act" data-quick="kast"><i style="background:var(--rabarber)">+</i><span>Voorraad<small>Potjes of flessen toevoegen</small></span></button>
+  <button class="btn soft" data-quick="close">Sluiten</button>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+const DEFAULT={id:"standaard",builtin:true,name:"Mijn zuurdesembrood",
+  ingredients:[{n:"Volkoren bloem",g:330,flour:true},{n:"Witte bloem",g:330,flour:true},{n:"Water",g:450},{n:"Zout",g:13},{n:"Zuurdesemstarter",g:130}],
+  steps:[
+  {t:"Starter klaarmaken",min:0,d:"Zorg dat je starter actief is: 4 tot 8 uur na het voeden, verdubbeld en vol bubbels.",tip:"Test: een lepeltje starter in water moet blijven drijven. Zakt het, wacht dan nog wat."},
+  {t:"Autolyse",min:30,d:"Meng de 660 g bloem met 420 g water tot er geen droge bloem meer is. Hou 30 g water apart voor het zout. Afdekken en laten rusten."},
+  {t:"Starter toevoegen",min:0,d:"Voeg 130 g starter toe en meng kort tot hij goed verdeeld is."},
+  {t:"Zout toevoegen",min:0,d:"Strooi 13 g zout over het deeg en giet de achtergehouden 30 g water erbij. Meng tot alles opgenomen is."},
+  {t:"KitchenAid, stand 1",min:10,d:"Kneed op stand 1."},
+  {t:"KitchenAid, stand 2",min:5,d:"Kneed op stand 2.",tip:"Het deeg is goed als je een stukje dun kan uittrekken zonder dat het meteen scheurt."},
+  {t:"Stretch and fold",min:30,reps:5,d:"Zet het deeg in de oven met enkel het lampje aan. Laat 30 minuten rusten, dan rekken en vouwen. Dat doe je 5 keer.",tip:"Met natte handen gaat het makkelijker."},
+  {t:"Laten rijzen",min:180,d:"Laat het deeg verder rijzen in de oven met enkel het lampje aan, met een thermometer erbij: 24 tot 27 °C is ideaal. Wordt het warmer, zet dan de ovendeur op een kier. Na 3 uur kijk je naar het deeg: het is klaar als het 50 tot 75% gegroeid is, bol staat en bubbels heeft. Nog niet zo ver? Geef het extra tijd en kijk elk halfuur.",tip:"Vul bij je notitie in hoe lang het uiteindelijk duurde en hoe warm de oven was."},
+  {t:"Vormen",min:0,d:"Vorm het deeg en leg het met de naad naar boven in het rijsmandje.",tip:"Bloem het mandje goed in, een beetje rijstbloem plakt het minst."},
+  {t:"Nachtje in de frigo",min:720,d:"Dek af en zet in de koelkast. Tussen 12 en 16 uur is goed."},
+  {t:"Oven voorverwarmen",min:45,d:"Zet de dutch oven met deksel in de oven en verwarm voor op 250 °C.",tip:"Haal het deeg pas uit de frigo als de oven klaar is. Koud deeg is makkelijker te scoren."},
+  {t:"Scoren en bakken met deksel",min:30,d:"Kantel het brood op bakpapier, maak een snede en bak 30 minuten met deksel op 250 °C."},
+  {t:"Bakken zonder deksel",min:15,d:"Deksel eraf, zet de oven op 230 °C en bak verder tot de korst diepbruin is. Meestal is dat 15 tot 20 minuten."},
+  {t:"Afkoelen",min:60,d:"Laat het brood minstens een uur afkoelen op een rooster voor je het aansnijdt. Binnenin is het nog aan het garen."}
+]};
+
+const SECS={zd:{name:"Desem",subs:[["bake","Bakken"],["log","Logboek"],["rec","Recepten"]]},
+  kb:{name:"Kombucha",subs:[["scoby","Scoby"],["log","Logboek"],["rec","Recepten"]]},
+  hulp:{name:"Hulp",subs:[["zd","Desem"],["kb","Kombucha"]]},
+  sap:{name:"Sappen",subs:[["log","Logboek"]]},
+  pluk:{name:"Wildpluk",subs:[["plekken","Plekken"],["seizoen","Seizoen"]]},
+  kast:{name:"Voorraad",subs:[["kast","Voorraad"]]}};
+
+/* ---------- kennis ---------- */
+const DESEM_PROBLEMS=[
+ {k:"plat",t:"Brood is plat of loopt uit",why:["Het deeg is te lang of te warm gerezen en heeft zijn kracht verloren.","Te weinig spanning bij het vormen.","Te veel water voor deze bloem.","De starter was niet op zijn piek."],fix:["Laat het deeg rijzen tot 50 à 75% groei, niet langer. Kijk vanaf 3 uur.","Vorm strakker: trek het deeg naar je toe tot de bovenkant gespannen staat.","Probeer eens 20 à 30 g minder water.","Bak alleen als je starter goed bubbelt en drijft."]},
+ {k:"dicht",t:"Kruim is dicht of plakkerig",why:["Het deeg is te kort gerezen.","De starter was te zwak.","Te vroeg aangesneden: binnenin was het nog aan het garen.","Te kort gebakken."],fix:["Geef het deeg meer tijd, tot het bol staat en vol bubbels zit.","Voed je starter een dag op voorhand twee keer.","Wacht minstens een uur voor je aansnijdt.","Bak tot de korst diepbruin is."]},
+ {k:"gaten",t:"Grote gaten bovenaan, dicht onderaan",why:["De gisting was nog niet klaar.","Het deeg was te koud tijdens het rijzen."],fix:["Laat het langer rijzen, of zet het iets warmer (24 à 27 °C).","Kijk naar het deeg, niet naar de klok."]},
+ {k:"zuur",t:"Te zuur",why:["Lange koude rijs in de frigo.","Starter die al te lang niet gevoed was.","Veel volkoren bloem geeft meer zuur."],fix:["Korter in de frigo, bijvoorbeeld 8 à 10 uur.","Gebruik je starter op zijn piek, niet als hij al ingezakt is.","Iets meer witte bloem in verhouding."]},
+ {k:"flauw",t:"Weinig smaak",why:["Te weinig zout.","Te korte rijstijd.","Korst te bleek gebakken."],fix:["Gebruik 2% zout (13 g bij 660 g bloem).","Laat het een nacht in de frigo rijzen.","Bak de korst donkerder, daar zit veel smaak."]},
+ {k:"bleek",t:"Korst is bleek",why:["Oven of dutch oven niet heet genoeg.","Te kort gebakken zonder deksel.","Overgerezen deeg: de suikers zijn op."],fix:["Verwarm de dutch oven minstens 45 minuten voor.","Bak langer zonder deksel, tot diepbruin.","Laat het deeg iets minder lang rijzen."]},
+ {k:"hard",t:"Korst te dik of te hard",why:["Te lang zonder deksel op hoge temperatuur.","Het brood droogt uit tijdens het bewaren."],fix:["Bak zonder deksel op 220 à 230 °C.","Bewaar het afgekoelde brood in een linnen zak of broodtrommel."]},
+ {k:"scheur",t:"Scheurt open aan de zijkant",why:["De snede was niet diep genoeg.","Het deeg was nog niet genoeg gerezen.","Te weinig spanning bij het vormen."],fix:["Snijd 1 cm diep en schuin, met een vlijmscherp mesje.","Laat iets langer rijzen.","Vorm strakker."]},
+ {k:"plakt",t:"Deeg te plakkerig om te vormen",why:["Te veel water voor de bloem.","Te weinig kracht opgebouwd.","Overgerezen deeg wordt slap en plakkerig."],fix:["Werk met natte handen of een beetje bloem.","Doe een extra stretch and fold.","Probeer 20 g minder water."]},
+ {k:"starter",t:"Starter komt niet op",why:["Te koud.","Te lang niet gevoed.","Verhouding bloem en water klopt niet."],fix:["Zet hem op een warmere plek, rond 24 °C.","Voed hem een paar dagen twee keer per dag.","Voed 1:1:1 (starter, bloem, water), met een deel volkoren."]}
+];
+const KB_PROBLEMS=[
+ {k:"schimmel",t:"Schimmel op de scoby",why:["Te weinig zuur bij de start.","Te koud of te weinig lucht."],fix:["Droge, harige plekken in groen, blauw of zwart zijn schimmel: gooi dan alles weg. Bruine slierten onder de scoby zijn wel normaal.","Gebruik minstens 10% kombucha van vorige keer.","Zet de bokaal op 20 à 26 °C."]},
+ {k:"zuur",t:"Te zuur of azijnachtig",why:["Te lange eerste gisting.","Te warm gestaan."],fix:["Proef vanaf dag 5 en stop als het nog licht zoet is.","Meng er wat sap door bij de tweede gisting."]},
+ {k:"bubbels",t:"Geen of weinig bubbels",why:["Flessen sluiten niet goed.","Te weinig suiker of sap bij de tweede gisting.","Te koud bij de tweede gisting."],fix:["Gebruik beugelflessen die goed sluiten.","Doe een klein beetje sap of suiker in elke fles.","Laat de flessen 2 à 4 dagen op kamertemperatuur staan. Open er dagelijks één om de druk te checken."]},
+ {k:"zoet",t:"Te zoet",why:["De eerste gisting was te kort.","Te koud gestaan."],fix:["Laat de eerste gisting een paar dagen langer duren.","Zet de bokaal op een warmere plek."]},
+ {k:"vliegjes",t:"Fruitvliegjes",why:["De doek sluit niet goed."],fix:["Gebruik een dicht geweven doek met een elastiek eromheen."]}
+];
+const PLANTS=[
+ {k:"magnolia",n:"Magnoliabloesem",s:[3,10],e:[4,20],kw:["magnolia","magniolia"]},
+ {k:"daslook",n:"Daslook",s:[3,1],e:[4,30],kw:["daslook","wilde look","beerlook"]},
+ {k:"lookzonderlook",n:"Look-zonder-look",s:[3,15],e:[5,15],kw:["look-zonder-look","look zonder look"]},
+ {k:"brandnetel",n:"Brandnetel",s:[3,15],e:[5,31],kw:["brandnetel","netel"]},
+ {k:"zevenblad",n:"Zevenblad",s:[4,1],e:[5,31],kw:["zevenblad"]},
+ {k:"paardenbloem",n:"Paardenbloem",s:[4,1],e:[5,31],kw:["paardenbloem"]},
+ {k:"meidoorn",n:"Meidoornbloesem",s:[5,1],e:[5,31],kw:["meidoornbloesem","meidoorn"]},
+ {k:"vlierbloesem",n:"Vlierbloesem",s:[5,20],e:[6,30],kw:["vlierbloesem","vlier"]},
+ {k:"linde",n:"Lindebloesem",s:[6,15],e:[7,15],kw:["linde"]},
+ {k:"kers",n:"Wilde kersen",s:[6,15],e:[7,15],kw:["kers"]},
+ {k:"kamille",n:"Kamille",s:[6,1],e:[8,31],kw:["kamille"]},
+ {k:"duizendblad",n:"Duizendblad",s:[6,1],e:[9,15],kw:["duizendblad"]},
+ {k:"framboos",n:"Wilde frambozen",s:[7,1],e:[8,15],kw:["framboos","frambozen"]},
+ {k:"mirabel",n:"Mirabellen en kroosjes",s:[7,15],e:[8,31],kw:["mirabel","kroos","pruim"]},
+ {k:"kerspruim",n:"Kerspruimen",s:[7,1],e:[8,15],kw:["kerspruim","pruimkers"]},
+ {k:"vijg",n:"Vijgen",s:[8,15],e:[10,15],kw:["vijg"]},
+ {k:"braam",n:"Bramen",s:[8,1],e:[9,30],kw:["braam","bramen"]},
+ {k:"vlierbes",n:"Vlierbessen",s:[8,15],e:[9,30],kw:["vlierbes"]},
+ {k:"hazelnoot",n:"Hazelnoten",s:[9,1],e:[10,15],kw:["hazelno","hazelaar"]},
+ {k:"meidoornbes",n:"Meidoornbessen",s:[9,1],e:[10,31],kw:["meidoornbes"]},
+ {k:"lijsterbes",n:"Lijsterbessen",s:[9,1],e:[10,31],kw:["lijsterbes"]},
+ {k:"appel",n:"Wilde appels",s:[9,1],e:[10,31],kw:["appel"]},
+ {k:"peer",n:"Peren",s:[9,1],e:[10,31],kw:["peer","peren"]},
+ {k:"walnoot",n:"Walnoten",s:[9,15],e:[10,31],kw:["walno"]},
+ {k:"rozenbottel",n:"Rozenbottels",s:[9,15],e:[11,30],kw:["rozenbottel","hondsroos","bottel"]},
+ {k:"kastanje",n:"Tamme kastanjes",s:[10,1],e:[10,31],kw:["kastanje"]},
+ {k:"sleedoorn",n:"Sleedoornbessen",s:[10,15],e:[11,30],kw:["slee"]}
+];
+const MY_LIST=[];
+const PLANT=Object.fromEntries(PLANTS.map(p=>[p.k,p]));
+const KW=PLANTS.flatMap(p=>p.kw.map(w=>[w,p.k])).sort((a,b)=>b[0].length-a[0].length);
+const MONTHS=["januari","februari","maart","april","mei","juni","juli","augustus","september","oktober","november","december"];
+const MSHORT=["J","F","M","A","M","J","J","A","S","O","N","D"];
+const KAST_TYPES=["Sap","Kombucha","Confituur","Andere"];
+
+/* ---------- helpers ---------- */
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function fmt(ms){const s=Math.max(0,Math.round(ms/1000));const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return (h?h+":"+String(m).padStart(2,"0"):String(m).padStart(2,"0"))+":"+String(x).padStart(2,"0")}
+function durLabel(min){if(!min)return "";return min>=60?(Math.round(min/6)/10)+" u":min+" min"}
+function dateLabel(ts){return ts?new Date(ts).toLocaleDateString("nl-BE",{weekday:"short",day:"numeric",month:"short"}):""}
+function timeLabel(ts){return new Date(ts).toLocaleTimeString("nl-BE",{hour:"2-digit",minute:"2-digit"})}
+function toInput(ts){const d=new Date(ts||Date.now());return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function fromInput(v){if(!v)return Date.now();const [y,m,d]=v.split("-").map(Number);const n=new Date();return new Date(y,m-1,d,n.getHours(),n.getMinutes()).getTime()}
+function daysAgo(ts){const a=new Date(ts);a.setHours(0,0,0,0);const b=new Date();b.setHours(0,0,0,0);return Math.round((b-a)/864e5)}
+function agoLabel(ts){const d=daysAgo(ts);return d<=0?"vandaag":d===1?"gisteren":d+" dagen geleden"}
+function clone(o){return JSON.parse(JSON.stringify(o))}
+function uid(p){return p+Date.now()+Math.floor(Math.random()*1000)}
+function lsGet(k,f){try{const v=localStorage.getItem(k);return v?JSON.parse(v):f}catch(e){return f}}
+function lsSet(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function setStatus(t){document.getElementById("status").textContent=t}
+const $=id=>document.getElementById(id);
+const val=id=>$(id)?$(id).value:"";
+let writing=Promise.resolve();
+function queue(fn){writing=writing.then(fn).catch(()=>setStatus("Opslaan lukte niet. Probeer opnieuw."));return writing}
+
+/* ---------- list stores (browser first, account when available) ---------- */
+function makeStore(key,sortFn){
+  return {items:lsGet(key,[]).sort(sortFn),col:null,
+    save(it){this.items=[...this.items.filter(x=>x.id!==it.id),it].sort(sortFn);lsSet(key,this.items);if(this.col)queue(()=>this.col.doc(it.id).set(it))},
+    del(id){this.items=this.items.filter(x=>x.id!==id);lsSet(key,this.items);if(this.col)queue(()=>this.col.doc(id).delete())},
+    get(id){return this.items.find(x=>x.id===id)},
+    attach(col){this.col=col;let first=true;
+      col.onSnapshot(s=>{const remote=s.docs.map(x=>clone(x.data())),ids=new Set(remote.map(x=>x.id));
+        if(first){this.items.filter(x=>!ids.has(x.id)).forEach(it=>{remote.push(it);queue(()=>col.doc(it.id).set(it))});first=false}
+        this.items=remote.sort(sortFn);lsSet(key,this.items);safeRender()},()=>{})}};
+}
+const newestFirst=(a,b)=>(b.date||b.startedAt||0)-(a.date||a.startedAt||0);
+const byCreated=(a,b)=>(a.created||0)-(b.created||0);
+const S={
+  bakes:makeStore("kw-bakes",newestFirst),
+  zdRec:makeStore("kw-recipes",byCreated),
+  kbBatch:makeStore("kw-kb-batches",newestFirst),
+  kbRec:makeStore("kw-kb-recipes",byCreated),
+  sap:makeStore("kw-sappen",newestFirst),
+  pluk:makeStore("kw-pluk",byCreated),
+  kast:makeStore("kw-kast",(a,b)=>(a.date||0)-(b.date||0))
+};
+
+/* ---------- state ---------- */
+let sec="home", sub={zd:"bake",kb:"scoby",sap:"log",pluk:"plekken",kast:"kast",hulp:"zd"};
+let lastTips=null,calcFlour=null,calcOpen=false;
+let settings=lsGet("kw-settings",{lead:14}), settingsRef=null, assetsNS=null, importPreview=null, busy="";
+let active=lsGet("kw-active",null), scoby=lsGet("kw-scoby",{feeds:[]}), activeRef=null, scobyRef=null;
+let selId=lsGet("kw-sel","standaard"), recView="standaard", draft=null, confirmDel=null, confirmStop=false, result={score:0}, alerted=new Set(), wake=null;
+if(!scoby.feeds)scoby.feeds=[];
+
+const zdRecipes=()=>[DEFAULT,...S.zdRec.items];
+const getZd=id=>zdRecipes().find(r=>r.id===id)||DEFAULT;
+const steps=()=>active&&active.steps?active.steps:DEFAULT.steps;
+
+function saveActive(){lsSet("kw-active",active);if(activeRef)queue(()=>active?activeRef.set(active):activeRef.delete())}
+function saveScoby(){scoby.feeds=scoby.feeds.sort((a,b)=>b.at-a.at).slice(0,40);lsSet("kw-scoby",scoby);if(scobyRef)queue(()=>scobyRef.set(scoby))}
+
+function remaining(){if(!active||!active.stepStart)return null;return active.stepStart+steps()[active.step].min*60000-Date.now()}
+function beep(){try{const a=new (window.AudioContext||window.webkitAudioContext)();[0,.35,.7].forEach(t=>{const o=a.createOscillator(),g=a.createGain();o.frequency.value=880;o.connect(g);g.connect(a.destination);g.gain.setValueAtTime(.25,a.currentTime+t);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+t+.3);o.start(a.currentTime+t);o.stop(a.currentTime+t+.3)})}catch(e){}}
+async function keepAwake(on){try{if(on&&!wake&&navigator.wakeLock){wake=await navigator.wakeLock.request("screen");wake.addEventListener("release",()=>wake=null)}else if(!on&&wake){await wake.release();wake=null}}catch(e){}}
+
+/* ---------- render ---------- */
+function typing(){const a=document.activeElement;return a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)}
+function safeRender(){if(!typing()&&!draft)render()}
+function render(){
+  syncHash();renderTop();runbar();
+  document.querySelectorAll(".dock [data-go]").forEach(b=>b.dataset.go===sec?b.setAttribute("aria-current","page"):b.removeAttribute("aria-current"));
+  if(sec==="home"){$("sub").hidden=true;$("view").innerHTML=home();return}
+  const subs=SECS[sec].subs;
+  $("sub").hidden=subs.length<2;
+  $("sub").innerHTML=subs.map(([k,l])=>`<button role="tab" data-sub="${k}" aria-selected="${sub[sec]===k}">${l}</button>`).join("");
+  const s=sub[sec];let h="";
+  if(sec==="hulp")h=`<div class="stack">${iosCard()}${basisBlock(s==="kb"?"kb":"zd")}<h3 style="margin-top:10px">Wat ging er mis?</h3>`+(s==="kb"?helpPage(KB_PROBLEMS,S.kbBatch.items,b=>`${esc(b.name||"Kombucha")}, ${dateLabel(b.date)}`):helpPage(DESEM_PROBLEMS,S.bakes.items,b=>`${esc(b.recipeName||DEFAULT.name)}, ${dateLabel(b.startedAt)}`))+`</div>`;
+  if(sec==="zd")h=s==="bake"?(active?(active.finished?zdResult():zdActive()):zdIdle()):s==="log"?(draft?bakeEditor():zdLog()):(draft?zdEditor():zdRecipe());
+  if(sec==="kb")h=s==="scoby"?kbScoby():s==="log"?(draft?kbBatchEditor():kbLog()):(draft?kbRecEditor():kbRecipes());
+  if(sec==="sap")h=draft?sapEditor():sapLog();
+  if(sec==="pluk")h=draft?plukEditor():s==="seizoen"?plukSeizoen():plukPlekken();
+  if(sec==="kast")h=draft?kastEditor():kastPage();
+  $("view").innerHTML=h;tick();placeMap();if(LOCAL)hydratePhotos();
+}
+const stars=(n,act)=>`<div class="stars" role="group" aria-label="Score">${[1,2,3,4,5].map(i=>`<button data-act="${act}" data-n="${i}" class="${i<=n?"on":""}" aria-label="${i} sterren">★</button>`).join("")}</div>`;
+const delBox=(type,id,label)=>confirmDel&&confirmDel.type===type&&confirmDel.id===id?`<div class="confirm"><p>${esc(label)} verwijderen?</p><div class="row"><button class="btn danger" data-act="del-yes">Ja, verwijderen</button><button class="btn soft" data-act="del-no">Nee</button></div></div>`:"";
+
+/* ---------- kop ---------- */
+const QUOTES=["Wie geduldig roert, proeft de magie.", "Een snufje zout, een vleugje maanlicht.", "Zaai bij wassende maan en oogst met een dankbaar hart.", "Elk deeg heeft zijn eigen tijd. Luister ernaar.", "Rozemarijn voor herinnering, tijm voor moed.", "De sterren koken niet mee, maar ze kijken wel toe.", "Wat je met liefde laat gisten, bruist van vreugde.", "Een keuken zonder kruiden is een nacht zonder sterren.", "Vandaag is een goede dag om iets te laten rijzen.", "Volle maan, volle pot.", "Pluk wat de natuur je geeft en laat genoeg voor de vogels.", "Salie op de vensterbank houdt de zorgen buiten.", "Je starter weet meer over geduld dan jij.", "Kook alsof de sterren je recept al kennen.", "Wat in de aarde rust, komt in de lente terug.", "Basilicum groeit het best waar gelachen wordt.", "Een mislukt brood is gewoon een les met een korst.", "De maan trekt aan de zee, en een beetje aan je deeg.", "Elke bubbel in je kombucha is een kleine wens.", "Wie met de seizoenen kookt, kookt met de wind mee.", "Lavendel voor rust, munt voor een frisse start.", "Het beste ingrediënt is nieuwsgierigheid.", "Een heks meet met haar hart, en voor de zekerheid met een weegschaal.", "Hou je oven warm en je hart nog warmer.", "Venus lacht naar wie zoet kookt.", "Mercurius retrograde? Lees je recept twee keer.", "Wat je zaait in stilte, groeit in de zon.", "Bramen aan de struik, magie in de pot.", "Elk fornuis is een klein altaar.", "Gember voor vuur, kaneel voor geluk.", "De aarde draait, het deeg rijst, alles op zijn tijd.", "Een kruid dat je zelf plukt, smaakt naar het bos.", "Waterteken of vuurteken: iedereen houdt van vers brood.", "Roer vandaag eens tegen de klok in en kijk wat er gebeurt.", "Zon in je moestuin, sterren in je keuken.", "Wie voedt, wordt gevoed. Ook je scoby.", "Een theepot vol kruiden is een spreuk in een kopje.", "De eerste nachtvorst maakt de pastinaak zoet.", "Oogstmaan, volle manden.", "Laat de korst knisperen en de zorgen verkruimelen.", "Tijm, peterselie en een flinke snuf lef.", "Wie naar de sterren kijkt, vergeet de timer niet.", "Elke vlier is een oude vriendin met bloemen in het haar.", "Zuur maakt lekker, en geduld maakt zuur.", "Een stille keuken is een plek waar wonderen rijzen.", "Nieuwe maan, nieuw recept.", "Brandnetels prikken alleen wie ze niet kent.", "Uit één zaadje kan een hele zomer groeien.", "Kook met wat er is, en het wordt wat het moet zijn.", "Een vol glas sap is een zomer in een fles.", "Laat je intuïtie proeven voor je zout bijdoet.", "Ram, Stier of Vissen: wie bakt, is vandaag een ster.", "Honing onthoudt elke bloem waar de bij langskwam.", "Wat in de pot pruttelt, vertelt de keuken een verhaal.", "De herfst geeft wortels, de lente geeft bloesem.", "Vandaag mag het rommelig zijn. Dat hoort bij toveren.", "Een kaars, een kruid en een kom deeg: meer is niet nodig.", "Appels vallen niet ver van de boom, maar wel in de sappan.", "De sterren staan goed voor een tweede snee.", "Eerst luisteren naar het seizoen, dan pas naar het recept."];
+function quoteOfDay(){const d=new Date(),start=new Date(d.getFullYear(),0,0);const day=Math.floor((d-start)/864e5);return QUOTES[(day+d.getFullYear()*7)%QUOTES.length]}
+const LOGO_LT="logo.svg",LOGO_DK="logo-donker.svg";
+const TITLE_SVG={"pluk": "<svg class=\"title-svg\" viewBox=\"434 21 633 289\" style=\"height:63.6px;margin-top:2.0px\" aria-hidden=\"true\"><path d=\"M616.94,175.46c-2.06-.81-5.42-.29-8.21-.21-6.96.79-6.36-6.35-5.35-11.19,2.49-11.47,9.18-42.7.41-51.25-2.56-2.6-6.99-2.71-10.64-1.13-7.05,2.68-12.37,9.58-19.05,12.78-6.58,1.88-9.27-5.41-15.13-8.45-6.69-4.39-15.28-3.72-21.79.74-3.68,2.13-6.64,5.44-10.65,6.45-4.13.37-3.55-8.16-8.03-9.48-6.82-2.6-20.65,5.37-25.73,10.08-2.48,2.4-2.81,5.9-1.14,8.87,3.53,5.78,6.2,11.26,3.17,18.31-1.81,5.84-9.61,17.64-12.14,6.72-1.92-9.31-2.7-18.91-3.21-28.45-.05-11.31-4.65-21.91-16.97-14.19-4.41,2.77-8.29,6.54-12.3,9.86-4.11,3.61-15.29,12.21-8.04,17.21,5.94,2.17,12.52.64,14.22,8.7,2.6,12.38,1.18,25.52,1.78,38.07.29,6.48-1.6,13.31.86,19.21,2.43,5.64,9.44,6.26,14.09,2.53,3.46-2.59,5.84-6.46,8.08-10.52,2.6-4.55,16.11-35.06,18.11-16.22,1.21,8.44-2.27,20.62,2.67,27.51,13.01,11.29,28.49-9.64,37.21-17.97,5.42-5.52,10.27-11.75,14.87-17.84,3.84-5.06,7.42-10.2,9.91-16.06,3.12-6.26,3.76-15.13,10.9-17.7,12.85-1.25,6.37,14.99,4.91,22.07-1.99,10.3-3.35,22.09-2.98,32.34.15,11.18,9.83,23.31,20.49,13.01,4.27-4.1,7.45-9.69,11.28-14.29,3.06-4.55,16.12-14.82,8.52-19.48l-.11-.04ZM522.86,158.95c-1.02-7.46-1.25-17.27,6.53-20.6,4.93-2.2,9.99,1.37,12.06,5.88,4.64,9.97,1.47,22.22-5.98,30.35-2.32,2.55-6.88,6.09-9.69,2.75-2-2.7-1.94-6.27-2.25-9.68-.18-2.84-.38-5.67-.67-8.48l-.02-.21Z\"/><path d=\"M731.66,214.11c5.67-3.9,10.21-9.12,14.3-14.8,2.95-4.73,17.32-24.49,8.75-27.42-4.38-.33-8.3,4-12.48,4.44-6.5-.59-3.02-14.82-3.02-19.5,1.16-11.9,2.41-23.77,5.26-35.43,2.09-11.14,4.88-22.21,8.67-32.94,2.37-6.66,3.7-14.26,7.97-19.96,4.3-5.65,11.56-4.9,17.72-8.23,7.96-4.21,11.45-15.98,7.88-23.83-3.72-8.05-14.47-8.54-22.17-6.84-15.28,4.27-24.97,20.74-29.78,34.72-2.48,8.12-4.07,16.32-5.64,24.71-2.57,12.92-1.66,24.2-15.93,29.75-10.4,4.94-20.65,12.12-26.12,22.57-2.85,5.05-3.9,11.23-6.1,16.42-2.22,5.15-8.08,6.14-12.59,8.61-3.55,1.83-6.98,4.92-10.25,7.81-9.46,8.97-14.1,7.17-12.31-5.13,5.22-27.56,5.58-56.36,13.57-83.33,1.69-6.02,3.86-12.92,9.66-16.05,5.33-2.9,12.63-2.16,18.33-4.98,9.49-4.24,15.51-17.67,11.58-27.25-4.54-10.39-20.24-8.65-29.25-6.28-16.75,5.52-29.61,29.94-34.69,45.97-2.91,10.6-3.73,21.64-5.13,32.5-1.35,12.26-3.42,23.97-3.74,36.29-.47,10.51-1.13,21.26-2.45,31.58-1.1,6.98-2.05,14.54-2.27,21.81-.16,5.1.15,10.46,2.25,13.39,4.22,5.67,12.61,2.51,17.87-.17,14.11-7.36,21.98-23.26,33.71-33.3,1.26-.46.95,2.2.41,6.74-.78,6.51-1.46,13.39.58,19.71,2.09,7.32,8.97,11.95,15.9,7.85,6.61-3.58,10.83-11.98,17.23-15.82,1.72-1.01,3.26.02,3.72,1.76,1,2.74.7,8.68,2.26,12.6,2.27,7.46,11.05,5.93,16.12,2.12l.16-.11ZM720.75,140.69c2.76,8.97-5.56,33.29-15.92,35.42-2.7.48-4.69-1.46-5.47-3.96-2.06-7.13-.09-15.53,3.15-22.14,2.56-5.26,8.79-12.89,14.62-12.4,1.7.18,2.95,1.33,3.57,2.94l.06.14Z\"/><path d=\"M825.67,126.17c-2.25-7.69-8.24-12.33-15.77-7.48-7.46,4.52-12.58,12.29-19.71,16.99-5.23,2.47,2.47-9.64,3.16-11.05,3.52-6.79,8.43-14.73,8.54-22.36.06-8.05-9.41-12.66-15.52-7.01-2.8,2.37-4.95,5.83-7.03,8.93-5.13,9.4-36.32,40.82-30.56,49.75,3.92,4.31,12.23-5.16,14.96,1.02,1.42,5.33-1.1,12.12-2.01,17.59-1.31,5.97-1.61,12.17-2.84,18.09-2.1,9.37-4.45,18.36-6.16,27.92-1.76,7.94-2.38,16.03-3.79,23.96-1.11,5.77-3.03,11.66-4.29,17.69-1.15,5.42-2.12,10.91-3.53,16.26-.92,3.27-2.08,6.16-4.35,8.57-3.24,3.57-8.9,4.77-12.14,8-4.43,4.22-1.25,10.93,4.53,11.9,4.16.95,8.81.03,13.05-.62,9.61-1.68,19.69-1.42,29.06-3.92,6.38-1.38,14.69-7.95,8.92-14.58-5.21-5.03-13.18-5.13-13.66-13.84-.31-3.64.34-7.51.83-11.15,1.7-11.06,3.15-22.58,4.61-33.74.95-8.91,5.26-14.28,12.17-19.54,8.75-7.6,18.66-14.79,26.3-23.36,3.45-4.1,6.14-8.69,8.43-13.54,5.71-12.06,10.72-31.48,6.87-44.28l-.06-.18ZM802.18,159.56c.99,8.72-1.66,14.57-7.87,20.76-3,3.02-6.16,6.74-10.13,7.9-5.31.76-5.13-5.53-4.04-10.87,1.74-7.06,4.23-14.09,8.12-20.25,6.3-9.36,13.31-11.45,13.9,2.25l.02.21Z\"/><path d=\"M883.36,164.9c-6.73-3.42-15.53,6.92-20.52,10.81-8.8,7.82-11.69,3.65-10.37-5.66,4.11-22.21,5.79-44.87,9.6-67.09.96-4.84,2.32-9.58,3.63-14.33,2.04-7,3.49-15.07,10.39-18.66,9.12-3.79,17.5-.44,25.22-9.36,6.28-6.59,9-19.09,2.8-25.95-3.59-3.75-10-4.14-15.04-4.21-20.75-1.06-31.63,15.27-40.56,31.38-7.87,12.96-9.51,28.19-11.21,42.96-1.32,12.49-3.53,24.43-4.22,36.91-.55,14.68-1.42,28.91-3.85,43.4-.66,7.5-3.07,22.33,1.54,27.82,6.51,6.39,19.95-1.77,25.68-6.45,5.34-4.46,9.39-10.41,14.15-15.41,4.8-5.4,18.87-18.74,12.84-26.09l-.09-.07Z\"/><path d=\"M975.26,183.95c2.06-5.55-.91-9-6.37-7.11-4.21,1.18-12.06,6.93-11.54-1.41.28-3.8,1.92-7.92,3.35-11.54,4.74-10.66,9.76-21.24,11.64-32.83,1.11-5.88,2.25-13.16-2.28-17.71-2.35-2.36-6.29-3.59-10.01-3.01-7.93,1.01-10.73,9.23-12.15,16.06-3.38,13.55-9.32,26.87-15.73,39.01-6.08,11.18-21.27,22.98-17.31.55,2.32-11.85,6.05-23.28,9.22-34.99,1.41-5.41,3.48-13.1-1.47-17.14-10.95-6.57-25.21,12.44-33.4,18.62-4.6,3.75-14.08,11.67-7.52,17.31,3.21,2.35,9.51,1.05,11.6,4.01,2.31,4.41-.82,10.58-1.83,15.2-1.36,4.62-2.29,9.5-3.05,14.45-1.03,9.09-3.39,19.12.71,27.68,2.03,3.97,6.08,5.69,10.44,4.21,7.85-3.02,14.91-11.35,20.9-17.38,2.83-3.06,5.64-6.03,7.33-6.71,2.3-.83,2.16,1.29,1.89,4.42-.63,4.67-1.59,11.02,1.07,15.4,2.33,4.34,7.65,6.28,12.32,4.93,9.26-2.28,28.78-22.92,32.14-31.88l.06-.16Z\"/><path d=\"M1059.64,173.42c-7.45-2.39-12.48,11.83-20.23,7.37-5.01-3.08-8.19-12.27-7.14-18.65,1.03-8.3,7.83-15,8.7-23.25,1.09-9.19-6.81-20.19-16.43-19.39-5.27.23-10.46,4.96-14.34,7.01-.85.43-1.68.79-2.58.84-4.76-.03-.81-11.89-.3-14.83,2.3-9.84,4.83-19.76,8.84-29.09,2.77-7.05,7.21-13.45,14.11-17,3.61-2.01,7.65-3.63,11.15-5.86,7.38-4.52,12.25-12.51,11.38-21.05-2.53-16.76-23.63-14.72-34.35-6.77-5.6,3.74-9.23,9.8-12.13,15.79-5.19,11.23-10.51,22.4-13.56,34.33-3.09,14.22-5.9,28.4-7.91,42.76-.6,4.5-1.31,8.52-1.71,12.93-.54,6.99-.55,14.58-1.6,21.4-.81,5.83-1.62,11.41-2.54,17.23-.57,3.45-1.55,6.85-3.23,9.92-2.9,6.32-12.59,12.44-9.1,20.05,4.25,7.06,18.83,3.71,26.24,5.23,8.09,1.13,21,4.26,22.82-5.87.84-7.31-7.53-10.6-11.8-14.71-3.03-2.81-4.39-7.13-3.64-11.18.47-2.85,2.2-6.31,5.48-5.57,6.69,2.42,9.27,12.75,12.08,18.96,7.33,19.16,20.31,29.81,34.01,7.76,3.58-5.66,16.19-23.36,7.88-28.3l-.1-.04ZM1017.36,144.64c1.07,5.09-8.43,17.17-12.98,10.81-2.6-5.21,1.79-12.64,6.93-14,2.48-.81,5.64.15,6.03,3.02l.03.16Z\"/><path d=\"M608,81.96c-1.05,1.75-.25,3.84.74,5.62,1.36,2.52,3.53,5.53,2.24,8.43-.78,1.82-2.87,2.7-4.78,2.35-5.05-.62-8.54-9.58-13.52-4.62-2.35,2.24-4.24,5.71-7.74,6.17-3.35.54-7-1.97-5.86-5.61.9-3.07,4.34-5.94,3.47-9.16-.54-1.65-2.06-2.55-3.57-3.41-2.81-1.56-7.62-3.46-6.68-7.31.54-1.85,2.54-2.82,4.37-2.95,4.2-.59,11.35,3.71,11.56-3.26.13-2.57-.66-5.52.37-7.99,1.35-3.42,6.51-4.59,9.09-2.08,3.01,2.86.56,9.03,3.18,11.52,2.86,2.42,8.69-3.28,13.4-.28,1.69,1.03,2.38,3.24,1.56,5.05-1.5,3.31-6.16,4.63-7.82,7.54v.02Z\"/></svg>", "sap": "<svg class=\"title-svg\" viewBox=\"529 54 443 223\" style=\"height:49.1px;margin-top:16.3px\" aria-hidden=\"true\"><path d=\"M612.03,85.73c.27-8.21-11.94-10.49-18.62-8.45-6.06,1.52-11.04,5.45-15.74,9.38-8.76,7.1-19.07,17.03-18.03,29.04.68,10.62,11.33,20.25,14.06,31.09,1.53,5.71-1.59,11.31-7.88,11.36-4.47.23-9.58-1.53-14.09-1.07-7.94.34-17.61,9.8-17.03,17.07,1.67,9.26,14.11,6.82,21.61,6.51,7.13-.56,14.4-1.35,20.95-4.4,8.84-4.2,17.55-11.1,20.88-20.3,3.26-8.9,1.3-18.75-2.14-27.31-7.21-16.19-15.9-26.32,6.31-34.06,3.98-1.74,8.96-4.02,9.71-8.71l.02-.14Z\"/><path d=\"M625.45,175.28c6.57-6,12.91-17.88,18.67-23.68.55-.41,1.06-.76,1.71-.71,3.77.93-.51,19.69.39,24.13.04,4.78,2.85,12.08,8.69,9.72,3.01-1.21,5.8-4.94,8.3-8.59,3.36-5.09,7.32-9.77,11.33-14.35,4.11-5.13,9.41-10.64,9.86-17.47.04-2.43-1.08-3.87-3.07-3.83-2.33-.06-5.82,2.35-8.2,3.63-.85.45-1.81.89-2.74.72-3-.88-2.41-6.49-2.58-9.27-.32-15.19,4.99-28.62,7.86-43.41,3.26-19.47-13.09-18.57-26.59-13.45-8.01,2.84-16.24,6.08-22.54,12.24-8.37,8.68-16.88,18.39-20.23,29.98-3.35,14.19-6.52,39.23-.69,52.62,4.42,9.36,13.31,8.31,19.68,1.87l.14-.14ZM625.41,139.3c-2.41-11.74,3.7-23.5,10.7-32.69,5.2-6.99,11.12-8.1,10.61,2.96.91,5.24-16.1,47.11-21.27,29.9l-.04-.17Z\"/><path d=\"M773.39,180.3c14.26-14.59,34.02-25.07,41.53-45.07,4.73-11.32,7.47-22.91,7.02-35.05-.28-8.55-5.99-20.68-16.2-14.92-5.78,2.15-18.03,18.02-21.44,16.9-.42-.35-.12-1.4,0-1.89,1.69-5.06,6.69-12.63,9.02-18.19,2.3-4.86,4.43-10.96,3.1-15.56-.99-4.22-5.23-7.41-9.58-6.68-8.74,1.8-13.01,14.01-18.96,20.46-3.53,3.72-11.11,16.52-15.04,14.45-2.97-2.14-4.13-6.55-7-8.92-9.59-7.31-19.55,7.5-26.42,13.07-12.9,11.24-.23-8.94,1.8-13.36,3.02-6.23,6.93-14.05,4.3-20.4-1.68-4.22-6.56-6.48-10.75-4.9-4.96,1.85-7.87,6.84-10.81,11.06-9.02,13.55-21.16,25.45-28.67,40.06-1.39,3.08-3.46,8.88.99,9.97,7.37.07,13.86-5.59,12.65,6.85-2.37,12.46-3.87,25.14-6.73,37.42-1.71,7.09-3.23,14.07-4.57,21.53-1.44,7.44-2.18,14.95-3.52,22.38-1.37,7.17-3.65,14.51-5,21.84-1.82,7.55-2.26,16.52-8.53,21.82-3.57,3.11-8.71,4.69-11.15,8.49-2.95,4.71,1.12,9.72,6.24,10.37,3.11.59,6.67.24,9.91-.24,11.09-2.15,23.1-1.34,33.75-5.5,5.08-1.93,9.84-7.97,5.69-12.92-2.03-2.52-5.73-4.17-8.36-6.19-5.57-3.7-5.42-10.8-4.51-16.8,1.19-9.45,2.77-19.01,3.86-28.63.87-7.67,1.78-15.91,7.27-21.81,11.95-12.45,28.24-21.28,37.04-36.49,4.1-6.8,6.71-15.74,12.3-21.35,1.96-1.95,3.87-2.51,5.17-1.64,4.24,3.93-.39,15.87-.87,21.22-1.88,15.55-6.02,30-8.86,45.45-1.52,7.81-2.24,15.7-3.74,23.49-1.38,6.74-3.5,13.81-4.79,20.73-1.54,6.5-2.13,13.83-6.12,19.29-3.2,4.54-9.88,6.35-13.06,10.31-3.32,4.12-.68,9.42,4.3,10.73,4.91,1.44,10.56.19,15.61-.53,10.28-1.69,21.48-.95,30.98-5.59,7.15-3.76,7.85-11.24.53-15.28-6.3-3.48-10.37-7.56-9.64-14.93.87-10.9,3.01-21.63,4.2-32.63.95-7.78,1.55-16.16,6.94-22.29l.12-.14ZM796.92,126.51c.99,8.72-1.66,14.57-7.87,20.76-3,3.02-6.16,6.74-10.13,7.9-5.31.76-5.13-5.53-4.04-10.87,1.74-7.06,4.23-14.09,8.12-20.25,6.3-9.36,13.31-11.45,13.9,2.25l.02.21ZM727.92,126.51c.99,8.72-1.66,14.57-7.87,20.76-3,3.02-6.16,6.74-10.13,7.9-5.31.76-5.13-5.53-4.04-10.87,1.74-7.06,4.23-14.09,8.12-20.25,6.3-9.36,13.31-11.45,13.9,2.25l.02.21Z\"/><path d=\"M843.54,144.59c-3.15-20.71,17.9-23.57,29.82-34.39,9.95-8.38,8.48-25.63-3.96-30.71-13-4.72-27.57,4.96-35.66,14.73-8.39,11.09-11.58,24.76-13.49,38.27-1.59,12.43-4.41,25.67.47,37.7,5.02,11.52,16.65,12.26,26.28,5.57,7.61-5.37,16.95-12.23,20.67-20.92,1.15-2.86,1.15-6.98-2.09-8.35-5.68-2.17-11.2,3.3-16.67,3.37-2.96.12-4.75-2.39-5.33-5.11l-.04-.16ZM858.39,98.31c3.94,4.58-2.68,11.21-7.5,11.71-1.19.09-1.98-.72-1.95-1.98.04-3.85,4.49-13.42,9.33-9.84l.12.11Z\"/><path d=\"M929.33,129.42c-2.35,13.3-10.19,26.58-8.06,40.45,1.47,8.99,10.14,14.43,18.41,9.57,7.78-4.81,12.78-13.35,19.3-19.66,3.76-4.26,10.52-9.99,8.14-15.83-5.28-7.5-18.81,8.04-19.91,1.49-.18-5.39,2.14-10.86,3.24-16.18,2.87-13.73,10.13-32.81,4.07-45.99-1.8-3.65-5.23-5.99-9.29-4.67-3.67,1.08-7.35,4.79-10.76,8.34-3.16,2.48-17.2,22.35-18.4,12.02-.42-4.12.39-8.74-.95-12.64-1.2-3.76-4.39-6.01-8.3-6.02-3.37-.05-6.82,1.37-9.72,3.13-7.05,4.52-13.15,10.74-17.8,17.73-2.32,3.57-5.16,10.56.6,12.13,7.37,1.16,11.53.77,10.08,10.57-.52,3.08-1.3,5.97-1.95,8.99-1.36,5.79-1.37,11.64-2.8,17.36-1.31,5.49-4.46,10.81-5.11,16.64-.38,3.3.27,6.83,2.54,9.33,3.89,4.42,11.82,5.38,15.89.77,3.87-4.4,4.7-10.89,6.74-16.4,4.33-12.17,5.59-25.08,12.32-36.04,5.93-9.55,14.16-7.32,11.73,4.71l-.04.2Z\"/></svg>", "kb": "<svg class=\"title-svg\" viewBox=\"420 64 661 203\" style=\"height:44.7px;margin-top:2.0px\" aria-hidden=\"true\"><path d=\"M437.48,255.25c4.83.26,9.69.09,14.51.73,5.94.81,14.15,2.48,18.64-.76,3.57-2.29,4.16-7.28,1.91-10.71-2.59-4.29-7.9-6.73-10.76-10.44-4.11-3.76-4.02-17.81,3.87-14.7,9.65,7.46,9.88,22.56,17.88,31.65,9,11.65,19.37,5.31,25.67-5.25,3.27-4.65,5.85-10.03,9.04-14.6.41-.56,1.25-1.52,1.89-1.5,1.68.02,1.86,5.44,2.38,8.58.58,4.28,1.69,8.63,4,11.85,9.94,14.29,28.95,4.45,37.92-5.96,4.6-4.92,7.67-10.86,10.87-16.63,3.14-5.89,6.63-11.66,9.16-17.86,2.31-5.44,2.47-11.06,6.1-15.16,2.99-3.22,8.05-5.32,12.12-4.09,5.88,2.08-.78,20.1-1.7,25.43-2.27,10.33-8.03,20.01-6.89,30.48,1.12,8.52,9.76,12.23,15.99,5.71,4.97-4.82,7.34-12.16,9.58-18.66,2.2-6.76,4.91-13.4,8.33-19.91,2.86-5.27,5.84-11.16,10.56-14.94,2.55-2.05,5.33-2.31,5.55,1.29-.71,10.34-4.43,20.16-7.37,30.14-1.89,5.81-4.55,12.17-3.22,18.31,2.01,9.71,13.76,10.8,18.63,2.52,9.43-14.9,9.8-39.67,22.06-52.28,4.11-2.94,5.76,2.33,5.64,5.78,0,7.33-2.65,14.24-5.13,21.2-4.13,10.31-12.15,32.78,4.85,34.84,8.04-.57,13.34-7.44,18.83-12.91,4.11-4.39,10.62-10.72,11.72-16.08,1.07-6.14-6.8-3.58-10.21-3.88-8.03-.56,5.91-30.7,6.08-36.64,1.39-7.38,3.65-15.04,2.57-22.53-1.8-10.66-13.8-8.82-20.19-2.7-2.93,1.34-12.88,15.74-14.72,9.42-.98-2.4-1.63-7.65-4.28-11.27-4.03-6.25-12.36-6.4-17.37-1.07-5.98,5.46-10.04,13.96-16.32,18.96-2.92,2.36-5.42.85-5.83-2.59-.95-5,.8-12.24-2.06-16.88-8.02-10.35-25.89,12.18-33.21,15.45-4.12,2.62-6.14-2.57-8.06-7.16-4.83-13.73-20.67-19.71-33.01-11.74-8.15,5.33-13.66,13.06-18.91,21.7-3.85,6.62-7.27,13.6-9.94,20.77-2.22,7.39-6.54,12.51-13.01,16.79-5.07,3.75-10.33,10.14-15.87,4.73-5.19-5.38-6.68-14.23-4.31-21.23,1.97-6.38,6.58-12.37,7.22-18.97.93-7.68-3.88-16.19-11.22-18.8-6.3-2.51-13.28,2.88-18.1,5.71-9.04,4.7-3.93-10.44-3.18-14.69,1.87-7.8,3.72-15.71,6.61-23.25,8.53-28.8,28.65-19.45,36.67-40.58,2.71-7.62-.34-17.05-8.53-19.76-11.85-3.62-25.22,3.06-31.76,13.13-6.65,11.13-11.52,23.58-15.73,35.66-3.34,10.82-4.93,22.56-7.15,33.53-3.42,17.17-4.18,34.84-5.95,52.06-1.38,8.38-1.53,17.12-5.41,24.84-2.16,4.34-5.73,7.88-7.94,12.1-4.44,7.83,2.27,12.88,10.31,12.79h.18ZM463.98,195.75c.05-3.83,2.52-7.98,5.92-9.82,2.83-1.74,7.32-1.34,7.81,2.38.41,3.37-1.57,6.73-3.89,9.3-3.95,4.62-9.85,4.72-9.84-1.65v-.2ZM566.71,207.15c-2.38,7.82-5.88,15.73-12.89,20.2-8.99,5.76-14.46-1.4-13.9-10.63.53-9.41,4.24-18.65,9.84-26.32,15.48-21.16,22.61,1.66,17.01,16.54l-.06.21Z\"/><path d=\"M741.01,158.58c6.78-15.2,6.08-38.15,21.25-47.55,5.62-3.24,12.7-4.45,17.87-8.63,6.77-5.28,11.38-15.93,6.22-23.68-6.08-8.42-23.86-7.79-32.18-3.23-20.87,12.99-24.87,27.48-28.38,50.48-1.42,8.46-3.8,16.87-5.04,25.36-1.83,14.83-2.45,28.11-5.03,43.03-1.5,8.47-2.36,17.08-3,25.65-.66,7.4-2.14,14.08-.69,21.22,1.81,8.17,4.64,18.8,14.06,19.67,7.86.21,15.03-4.32,20.18-10,13.91-13.92,18.06-33.87,27.34-50.5,2.98-4.46,11.5-6.38,12.73.19-.03,9.43-4.59,18.46-5.27,28.05-5.37,35.63,9.18,38.47,31.17,12.59,3.19-3.23,5.08-5.7,7.5-6.04,4.15,1.38-5.4,22.92,11.62,23.89,10.09-.99,18.08-11.47,24.96-18.47,3.03-3.21,6.98-8.44,8.42-.69,2.39,16.66,12.85,22.73,28.22,13.95,9.15-5.11,28.1-19.55,23.94-31.37-7.11-7.51-16.75,8.13-24.48,6.41-9.83-3.66-4.47-19.43-2.77-27.21,1.4-6.11,3.67-13.27,10.05-15.38,8.46-2.48,20.95-.95,24.14-11.59,3.61-10.69-7.48-19.12-17.49-18.48-11.73.3-23.94,5.87-29.66,16.57-5.1,9.78-7.18,21.14-9.84,31.69-1.38,5.83-4.14,11.39-8.8,15.22-18.35,12.92-6.29-14.62-2.9-21.64,3.33-7.64,5.88-15.87,7.21-24.03.92-5.45,1.17-12.49-3.44-16.24-4.4-3.77-11.85-2.91-15.45,1.74-3.14,3.71-4.22,8.91-5.47,13.56-3.27,12.21-8.35,24.14-14.09,35.22-5.27,10.62-20.47,23.44-17.08,1.56,2.17-14.23,8.55-28.26,10.08-42.7.59-9.08-7.43-12.04-15.02-7.19-7.08,4.05-12.91,11.06-19.22,16.2-11.57,9.43-8.34-5.29-13.64-11.45-16.66-16.08-37.85,24.68-28.06-5.99l.06-.19ZM752.35,192.14c1.24,11.6-.6,22.9-9.46,31.15-8.74,8.41-11.1-.59-9.7-9.42,1.33-8.54,4.27-17.21,8.74-24.66,4.67-6.99,9.55-5.65,10.4,2.73l.02.2Z\"/><path d=\"M934.8,136.02c-.37,5.2-.45,10.34-1.27,15.37-.77,5.29-2.15,10.17-3.16,15.32-1.99,11.02-3.56,22.01-6.21,33.01-2.1,9.53-5.27,18.3-5.47,28.18-.1,6.26-.53,13.42,1.32,19.6,1.81,6.37,8.77,9.79,14.17,5.3,8.54-7.25,7.42-24.99,11.38-35.44,2.62-8.27,7.11-15.63,13.17-21.82,3.71-4.13,11.77-9.29,14.46-1.69,1.96,5.68.47,11.83-1.49,17.37-3.42,10.29-10.39,18.63-18.16,25.97-6.01,5.88-13.44,17.51-2.38,21.91,6.91,2.57,15.82,1.08,20.92-4.55,5.79-6.37,9.61-14.35,13.82-21.8,6.84-11.79,9.47-23.83,9.67-37.45-.09-11.47,2.24-32.28-12.02-35.85-9.39-1.35-16.59,6.52-23.67,11.75-12.65,10.18-8.41-4.56-6.81-12.51,1.58-7.18,3.31-14.21,5.11-21.32,2.26-8.76,4.9-18.86,13.2-23.71,3.6-2.15,7.68-3.55,11.39-5.52,7.77-4.14,16.77-12.48,16.6-21.83-.29-8.27-7.31-16.61-15.98-16.2-4.83.06-9.41,2.32-13.84,4.47-3.46,1.7-6.82,3.18-9.99,5.37-5.34,3.58-8.73,8.97-11.77,14.56-7.82,12.36-11.55,26.82-12.98,41.3l-.02.2Z\"/><path d=\"M1073.98,217.23c-2.72-.19-5.94,2.26-8.49,3.62-.88.47-1.88.96-2.85.78-4.68-.93-1.88-20.61-1.27-24.38.96-5.92,2.55-11.47,4.07-17.3,3.36-12.25,7.24-28.7-11.36-27.59-9.55,1.27-18.54,4.95-27.06,9.29-4.49,2.42-8.59,6.14-12.11,10.14-7.04,8.03-14.01,16.57-16.58,26.84-3.09,14.28-6.38,38.9-.19,52.2,4.53,8.99,13.43,7.57,19.63,1.16,5.21-5.17,9.28-11.36,13.67-17.55,1.44-1.76,4.6-7.39,6.99-6.65,3.17,2.53-.84,18.96.05,24.22,0,4.98,3.34,12.32,9.19,9.28,3.33-1.61,6.47-6.46,9.02-10.14,5.62-8.56,13.88-15.28,18.51-24.48,1.29-2.82,3.05-8.56-1.12-9.42h-.1ZM1039.03,184.14c0,9.39-4.68,17.91-8.79,26.15-2.12,3.49-5.64,11.11-10,9.86-5.25-3.76-2.85-16-.72-21.43,1.5-5.39,17.36-32.6,19.51-14.76v.18Z\"/></svg>", "zd": "<svg class=\"title-svg\" viewBox=\"559 66 383 199\" style=\"height:43.8px;margin-top:2.6px\" aria-hidden=\"true\"><path d=\"M570.47,255c9.78,9.04,19-4.59,25.55-11.37,3.12-3.29,7.5-6.33,8.25.73.58,16.09,6.88,21,20.64,10.65,7.88-6.27,13.47-15.29,18.76-23.75,2.61-3.77,2.32.53,2.88,4.6,2.19,23.74,18.95,26,35.18,10.99,5.49-4.75,11.84-10.06,13.63-17.28,1.1-5.04-2.34-8.04-7.56-6.71-3.98.8-9.51,4.78-13.31,3.01-5.62-3.63-3.56-14.02-.51-18.96,6.81-10.83,23.39-13.49,30.09-24.42,8.64-14.14-3.48-31.59-19.97-26.69-21.45,5.96-30.57,25.51-34.45,45.48-1.79,7.88-8.03,14.93-15.6,17.78-7.52,1.77-4.51-12.44-4.44-16.76.81-7.65,1.47-15.29,2.56-22.91,1.27-8.36,3.43-16.7,5.03-25,1.53-7.79,4.2-15.67,6.7-23.23,1.73-5.18,3.12-10.64,5.35-15.6,4.15-10.23,12.39-8.2,20.82-12.6,9.16-5.28,12.58-21.47,3.72-28.22-5.21-3.73-13.11-3.55-19.23-2.1-13.5,4.05-22.34,18.02-27.59,30.16-3.59,9.54-5.33,19.46-7.26,29.49-2.14,9.54-1.51,21.96-11.48,27.08-25.03,11.93-32.64,21.08-37.81,48.44-2.42,13.9-10,35.06-.07,47.08l.12.12ZM611.86,183.8c2.76,8.97-5.56,33.29-15.92,35.42-2.7.48-4.69-1.46-5.47-3.96-2.06-7.13-.09-15.53,3.15-22.14,2.56-5.26,8.79-12.88,14.62-12.4,1.7.18,2.95,1.33,3.57,2.94l.06.14ZM685.76,174.47c3.94,4.58-2.68,11.21-7.5,11.71-1.19.09-1.98-.72-1.95-1.98.04-3.85,4.49-13.42,9.33-9.84l.12.11Z\"/><path d=\"M694.92,236.75c-4.6,4.77-7.93,11.44-3.35,16.2,5.2,4.37,12.85,2.8,19.61,2.46,11.67-.74,22.82-4.57,32.15-11.74,8.78-6.31,12.99-15.9,9.6-26.21-1.48-5.14-3.93-10.27-5.97-15.18-3.35-7.48-5.43-15.14,3.41-19.71,3.37-1.98,7.38-3.73,10.6-6.38,7.63-5.82,9.99-17.97-1.96-19.74-9.82-.94-17.8,6.72-25.61,11.59-13.96,8.86-25.49,19.58-13.99,35.74,3.45,5.58,7.87,10.39,10.05,16.43,2.25,5.74-.68,12.3-6.96,12.66-4.57.44-9.86-2.33-14.82-2.27-4.86-.03-9.25,2.65-12.63,6.01l-.14.14Z\"/><path d=\"M762.81,187.34c-2.86,8.42-4.15,17.01-5.32,25.88-1.24,9.34-2.5,18.86-.53,28.17,1.63,8.25,7.42,15.56,15.95,15.2,6.94-.21,13.48-5.2,18.86-9.65,4.88-4.14,10.07-8.78,12.78-14.57,2.38-4.7,1.07-10.73-5.23-9.91-5.26.22-12.92,7.1-16.89,1.16-2.82-5.26-1.38-12.33,1.63-17.3,3.61-5.97,10.72-9.47,17.08-13.33,3.29-1.89,6.79-4.56,10.47-5.13,3.41-.42,6.62.92,10.12.96,3.65.44,7.25-.87,9.12,1.87,2.77,7.16-6.01,32.64-8.49,41.02-1.5,4.84-2.76,10.09-1.79,14.91,1.05,6.69,7.97,11.32,13.98,6.75,6.46-4.69,8.98-13.21,11.53-20.54,2.05-6.36,4.39-12.33,7.52-18.54,2.89-5.26,8.78-18.5,15.5-18.24,3.88,2.13-.67,13.48-1.29,17.22-1.99,9.98-6.72,19.46-8.18,29.57-1.07,15.8,15.43,18.17,21.08,3.92,6.59-13.41,9.68-39.51,19.98-49.29,6.13-3.73,6.03,6.48,5.38,10.24-1.56,11.4-7.81,22.08-9.95,33.38-2.19,8.93,1.83,22.04,13.21,18.51,6.47-2.26,10.88-7.74,15.71-12.69,3.33-3.77,17.35-17.09,9.48-20.3-2.27-.45-4.82.24-7.11.36-5.26.59-3.54-6.12-2.83-9.53,2.73-11.24,7.43-22.5,9.19-33.97,1.05-7.04,3.71-15.69-1.03-21.77-9.15-8.45-20.43,4.67-26.79,11.11-1.37,1.13-3.91,4.12-5.4,1.9-1.53-2.92-1.64-7.88-4.49-12.13-2.55-4.03-7.59-6.63-12.25-4.84-9.42,3.97-13.59,15.85-21.03,22.18-10.57,8.11-4.73-14.58-8.34-18.88-5.76-8.85-17.57,3-23.41,7.49-17.04,15.48-10-1.92-19.51-10.3-13.28-11.25-32.64,1.59-41.06,13.22-3.35,4.78-5.79,10.2-7.61,15.7l-.06.18ZM797.56,174.47c3.94,4.58-2.68,11.21-7.5,11.71-1.19.09-1.98-.72-1.95-1.98.04-3.85,4.49-13.42,9.33-9.84l.12.11Z\"/></svg>", "kast": "<svg class=\"title-svg\" viewBox=\"433 65 635 201\" style=\"height:44.2px;margin-top:2.2px\" aria-hidden=\"true\"><path d=\"M525.42,185.65c.78-9.91-.72-30.52-13.45-31.63-4.66-.09-8.93,4.98-11.99,10.04-4.05,6.33-4.45,13.34-2.19,20.73,1.96,6.11,3.09,12.73.72,18.87-.95,3.12-6.36,13.5-9.86,8.01-1.85-3.47-1.88-7.81-2.58-11.68-1.21-9.38-4.35-18.2-6.93-27.28-3.26-14.62-6.53-26.02-23.19-13.43-4.2,3.38-8.47,6.67-12.32,10.43-3.94,3.88-7.57,10.05-1.95,12.94,7.51,2.65,12.84-.11,16.82,9.18,2.76,6.94,4.53,15.1,6.24,22.54,2.18,10.65,1.8,22.24,2.03,33.24-.08,13.57,8.12,17.54,17.82,7.23,4.71-5.35,8.31-11.75,12.92-17.17,7.23-8.33,13.77-16.8,18.87-26.48,4.43-7.82,8.43-16.26,9.03-25.34l.02-.2Z\"/><path d=\"M590.19,176.74c-3.19-18.74-20.51-29.06-36.96-17.39-10.49,8.16-17.57,20.51-23.21,32.37-7.94,16.88-8.07,24.34-6.25,42.44.41,9.62,3.92,20.03,14.26,22.35,12.43,2.25,24.73-7.99,31.76-17.51,4.29-6.17,7.36-12.89,11.13-19.49,3.94-6.77,7.23-14.12,8.27-21.87.92-6.86,1.88-13.87,1.04-20.7l-.03-.19ZM568.08,206.76c-2.38,7.81-5.89,15.74-12.89,20.21-8.99,5.76-14.47-1.4-13.9-10.63.53-9.41,4.24-18.65,9.84-26.31,15.47-21.15,22.61,1.65,17.02,16.53l-.06.21Z\"/><path d=\"M653.67,169.52c-5.87-14.61-21.61-19.67-34.56-10.39-12.18,9.41-19.82,23.98-25.85,37.89-5.74,13.3-5.42,21.59-4.05,35.6.38,4.56.79,9.61,2.61,13.73,5.73,12.84,19.21,12.74,29.72,5.73,12.74-7.7,18.24-20.3,25.06-32.75,4.34-7.34,7.56-15.25,8.46-23.69.99-8.61,2.32-17.86-1.33-25.95l-.07-.17ZM633.68,206.77c-2.38,7.82-5.88,15.73-12.89,20.2-8.99,5.76-14.47-1.4-13.9-10.63.53-9.41,4.24-18.65,9.84-26.31,15.48-21.16,22.61,1.66,17.01,16.54l-.06.21Z\"/><path d=\"M804.03,183.94c6.28-4.34,9.38-13.26,7.2-20.66-1.75-6.64-9.42-10.74-15.74-7.62-4.81,2.05-8.49,7.26-11.28,12.21-1.93,3.01-3.65,6.91-6.74,8.63-3.25.96-2.67-7.72-3.44-10.05-1.66-11.14-12.74-16.64-21.63-8.68-3.02,2.56-5.66,6.43-8.14,9.32-2.43,2.75-4.31,4.56-5.9.57-1.16-2.95-2.33-7.55-4.95-9.89-3.18-3.17-8.19-4.03-12.27-2.17-7.07,2.83-10.71,11.84-15.07,17.99-6.15,8.27-5.59-2.58-6.62-7.5-.49-2.48-1.36-4.77-2.69-6.71-3.87-6.26-12.77-6.97-18.14-2.21-3.7,2.9-6.51,7.24-9.74,11.02-3.38,4.2-7.77,7.83-10.41,12.53-2.44,3.83-2,10.21,3.11,10.55,3.55.35,7.73-2.52,10.68-2.58,5.64.36,5.64,7.81,5.5,12.19-.22,4.65-.97,9-2.19,13.34-3.09,12.67-15.16,33.3-4.27,44.2,5.72,4.86,14.57,2.09,18.14-4.27,4.13-7.09,3.77-16,5.08-23.93,1.11-8.12,4.82-14.82,7.8-22.27,2.55-6.11,4.71-13.26,10.46-17.13,12.05-8.04,15.63,2.27,26.15.18,2.74-.62,5.67-2.3,7.83-2.3,5.96.39,5.67,8.68,5.45,13.21-.35,17.29-14.37,34.82-9.83,51.31,1.69,5.75,8.02,9.05,13.72,7.22,5.69-1.66,9.27-7.27,10.49-13,1.3-5.68,1.61-11.64,2.46-17.41,1.13-7.98,4.76-14.57,7.7-21.9,1.73-4.1,3.15-8.41,5.6-12.16,5.22-8.59,14.01-7.48,21.52-11.91l.15-.1Z\"/><path d=\"M1063.05,81.56c-2.21-10.14-14.3-11.69-22.99-9.56-6.92,1.62-12.65,6.49-17.12,11.93-14.9,17.2-16.4,40.09-20.67,61.39-1.38,9.42-7.6,13.79-15.89,17.42-14.81,7.24-25.39,19.22-28.55,35.61-1.33,5.71-3.05,11.44-6.74,15.71-2.21,2.5-8.93,10.37-11.71,5.9-2.39-9.31-.18-19.51,1.53-28.69,1.4-9.68,11.02-28.99.69-35.92-6.73-3.86-15.12-.71-21.98,1.53-7.47,2.68-15.02,5.94-20.91,11.65-6.95,7.03-13.84,15.42-17.71,24.08-2.75,6.35-3.29,13.64-6.67,19.68-1.9,3.53-8.21,12.41-11.51,7.66-2.07-7.06-.59-15.32.3-22.37.61-11.33,15.29-39.43-1.32-43.57-5.95-1.54-12.9.92-18.74,2.86-11.52,3.64-21.3,10.23-28.61,20.21-5.96,7.26-11.13,15.31-12.82,24.47-2.23,13.48-7.41,44.49,4.73,53.4,16.78,11.48,37.38-49.08,35.57-18.72-.41,5.79-1.6,12.38-.44,17.98,1.21,6.31,6.06,8.8,10.62,4.47,4.71-4.49,7.74-10.77,12.12-15.66,9.72-11.93,10.21-8.27,13.16,3.91,4.57,14.16,16.49,10.3,23.84.24,2.43-2.97,4.65-6.09,6.86-9.23,3.31-4.6,10.32-16.69,10.57-5.92.06,6.86-1.88,14.68-.75,21.49,1.16,7.59,6.91,9.95,12.09,3.87,4.65-5.48,8.72-12.73,13.91-17.88,8.2-8.81,5.78,6.03,9.18,11.66,8.81,15.87,20.6.96,28.14-7.34,4.08-4.06,7.13-5.1,8.04.92.75,12.41,4.71,20.59,17.59,12.68,5.64-3.77,10.18-8.93,14.21-14.44,3.03-4.64,17.99-25.71,8.92-28.08-6.13-.22-15.22,10.65-15.97-1.89.41-19.67,3.77-39.55,8.08-58.82,1.73-8.6,4.77-17.49,7.47-25.9,1.85-5.47,3.17-11.46,6.41-16.29,4.35-6.9,13.02-5.77,19.52-10.07,6.32-4.28,9.12-12.9,7.61-20.21l-.04-.17ZM996.31,184.04c2.76,8.97-5.56,33.29-15.92,35.42-2.7.48-4.69-1.46-5.47-3.96-2.06-7.13-.09-15.53,3.15-22.14,2.56-5.26,8.79-12.89,14.62-12.4,1.7.18,2.95,1.33,3.57,2.94l.06.14ZM918.2,183.76c0,9.39-4.68,17.91-8.79,26.15-2.12,3.49-5.64,11.11-10,9.86-5.25-3.76-2.85-16-.72-21.43,1.5-5.39,17.36-32.6,19.51-14.76v.18ZM842,183.76c0,9.39-4.68,17.91-8.79,26.15-2.12,3.49-5.64,11.11-10,9.86-5.25-3.76-2.85-16-.72-21.43,1.5-5.39,17.36-32.6,19.51-14.76v.18Z\"/></svg>", "hulp": "<svg class=\"title-svg\" viewBox=\"595 20 311 291\" style=\"height:64.0px;margin-top:1.3px\" aria-hidden=\"true\"><path d=\"M603.34,206.98c2.71,5,8.82,6.31,13.11,2.43,8.65-8.63,6.98-23.7,11.08-34.71,2.34-7.56,6.12-14.41,11.36-20.3,3.61-4.53,12.55-11.79,15.99-3.7,3.68,12.61-4.7,27.3-12.71,36.63-5.69,6.89-19.03,16.48-12.56,26.23,4.44,4.68,12.9,4.71,18.59,2.1,7.03-3.18,11.25-10.99,15.36-18.18,4.74-8.39,9.48-16.96,11.7-26.38,1.35-5.07,1.07-9.84,3.81-13.96,2.54-4.09,10.02-5.96,12.47-1.23,1.5,4.03-.52,8.95-1.45,13.06-2.7,11.32-7.9,32.77-1.86,43.08,12.08,17.96,39.52-33.75,38.38-15.85-1.13,8.09-.66,20.08,10.29,20.22,10.02.44,31.75-23.46,33.77-32.8,2.1-19.81-31.99,20.08-9.01-30.46,3.85-10.11,7.82-21.07,6.72-31.96-1.16-9.35-13.37-12.29-19.12-5.11-3.19,3.69-4.26,8.93-5.5,13.61-2.6,10.27-6.98,20.56-11.34,30.01-2.8,6.08-6.34,12.26-11.38,16.67-8.94,7.44-10.08-2.23-8.58-9.48,2.04-11.25,5.68-22.66,8.62-33.88,1.44-5.73,3.56-14.66-2.69-18.02-13.52-4.41-25.92,18.58-36.6,22.21-4.46.51-4.53-5.36-5.78-8.83-1.69-8.03-8.85-14.68-17.29-11.58-6.24,1.94-11.75,7.1-17.15,11.16-14.16,11.05-6.25-12.01-5.28-18.28,3.48-12.34,4.41-26.95,13.38-36.75,4.99-4.8,12.03-6.64,17.76-10.41,6.93-4.45,14.11-12.31,13.49-20.95-.59-9.22-9.33-17.22-18.76-15.05-7.32,1.74-14.27,5.36-20.54,9.46-8.26,5.93-12.53,15.64-17.03,24.48-6.76,14.91-7.51,31.38-9.09,47.35-1.61,9.71-3.97,19-5.33,28.65-2.06,16.46-8.6,32.66-9.39,49.35-.09,6.93-.56,15.26,2.48,21.05l.08.14Z\"/><path d=\"M778.92,214.31c4.03,3.08,10.09,1.05,14.47-.77,9.96-3.9,16.58-12.58,23.31-20.42,5.66-6.45,13.13-12.89,15.36-21.41,2.03-8.96-6.13-8.2-12.03-3.59-4.62,3.17-9.12,8.22-13.59,11.05-6.47,4.14-7.36-2.38-6.66-7.53,1.18-9.23,3.29-18.36,4.17-27.59,2.57-19.29,4.07-39.44,10.05-57.95,1.61-5.81,3.67-12.47,9.36-15.41,4.24-2.28,9.79-1.84,14.65-3.03,7.09-1.54,12.92-7.33,15.49-14.11,3.14-8.44,1.81-19.3-7.92-21.47-6.74-1.53-14.35-1.25-20.93.47-7.5,2.23-13.88,7.9-18.58,14.08-15.22,20.71-18.81,33.28-21.3,58.42-1.49,14.07-4.12,27.63-4.44,41.76-.37,9.39-1.16,19.07-2.09,28.3-1.01,8.55-6.15,33.45.57,39.13l.11.09Z\"/><path d=\"M844.86,116.72c-4.18,5.62-28.62,32.97-20.98,38.44,3.34,2.15,9.24-2.97,12.78-1.42,4.57,2.83-.2,15.89-.78,20.74-1.1,5.51-1.41,11.14-2.54,16.57-1.21,6.17-3.01,12.01-4.24,18.3-1.21,6.26-2.68,12.86-3.66,19.33-.76,5.13-1.25,10.24-2.22,15.07-1.48,7.02-3.74,14.15-4.99,21.15-1.65,6.79-2.08,14.66-6.6,20.22-4.25,5.5-16.24,6.15-14.47,14.9,3.68,9.78,16.97,4.66,24.77,4.13,10.34-1.68,26.13-.24,33.2-8.96,2.05-2.81,1.74-6.5-.64-8.92-3.63-3.77-10.29-4.69-12.43-9.48-2.17-4.61-.91-10.27-.32-15.2.94-6.38,1.93-12.91,2.74-19.47,1.62-8.75.87-18.52,6.02-26.14,2.19-3.12,5.29-5.54,8.2-7.99,4.87-3.99,9.66-8.1,14.42-12.17,6.3-5.16,12.48-10.8,16.48-17.73,6.55-10.81,10.33-23.42,11.59-35.72,2.02-12.81-3.96-33.93-19.78-21.08-6.01,4.51-10.64,10.94-16.82,14.99-4.99,2.35,1.85-8.63,2.6-10.06,1.99-3.49,3.86-7.04,5.52-10.7,2.2-4.76,4.34-10.22,3.35-14.67-1.71-8.2-11.56-9.99-16.82-3.54-4.94,5.88-9.05,13.32-14.26,19.23l-.13.16ZM876.58,160.17c.99,8.72-1.66,14.57-7.87,20.76-3,3.02-6.16,6.74-10.13,7.9-5.31.76-5.13-5.53-4.04-10.86,1.74-7.06,4.23-14.09,8.12-20.26,6.3-9.36,13.31-11.45,13.9,2.25l.02.21Z\"/></svg>"};
+const TILE_TITLES=["zd","kb","sap","pluk"];
+const HELP_BTN=`<button class="round" data-go="hulp" aria-label="Hulp"><svg class="help-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.8"/><circle cx="12" cy="17.2" r=".6" fill="currentColor"/></svg></button>`;
+function renderTop(){
+  const today=new Date().toLocaleDateString("nl-BE",{weekday:"long",day:"numeric",month:"long"});
+  $("top").classList.toggle("home",sec==="home");
+  $("top").innerHTML=sec==="home"
+    ?`${HELP_BTN.replace('class="round"','class="round help-home"')}<img class="logo lt" src="${LOGO_LT}" alt="Kitchen Witch"><img class="logo dk" src="${LOGO_DK}" alt="Kitchen Witch"><p class="eyebrow">${esc(today)}</p><p class="quote">${esc(quoteOfDay())}</p>`
+    :`<div class="top-row"><button class="round" data-back="1" aria-label="${draft?"Terug naar de lijst":"Terug naar het overzicht"}">←</button><h1>${TITLE_SVG[sec]?`<span class="sr">${SECS[sec].name}</span>${TITLE_SVG[sec]}`:SECS[sec].name}</h1>${sec==="hulp"?"":HELP_BTN}</div>`;
+}
+
+const TILE_IC={"zd": "<svg class=\"t-ic\" viewBox=\"13.0 66.0 295.7 199.3\" aria-hidden=\"true\"><path d=\"M291.83,164.69c-37-41.02-92.98-49.63-145.56-46.2-15.76.9-32.58,2.81-47.2,5.3-12.51,2.11-25.58,5.06-37.19,9.96-11.2,4.73-22.09,11.23-30.45,20.38-18.69,20.38-10.14,45.37,15.17,53.7,15.71,4.48,32.36,4.11,48.62,4.96,9.94.26,20.23.45,29.95.59,5.41-.19,12.38.75,16.61-3.11,1.57-1.67,1.46-4.02-.37-5.99-6.63-6.8-23.79-4.54-33.08-5.13-10.87-.09-21.8-.2-32.46-.24-8.05-.05-16.05-.37-23.79-2.98-35.67-11.62-5.7-41.45,14.93-50.29,5.23-2.14,10.92-1.98,16.05.3,8.17,3.48,16.86,10.63,24.72,16.17,4.27,2.96,9.41,6.34,14.76,5.61,8.36-1.25,8.66-11.09,4.85-17.19-1.88-3.54-5-6.94-6.41-9.63-3.95-8.18,9.52-6.03,13.61-4.36,10.88,4.12,17.37,14.41,26.51,21.14,5.58,4.54,15.35,6.71,18.74-1.41,4.41-9.35-8.01-21.27-1.33-21.91,13.8,1.46,26.66,17.93,37.76,25.39,6.56,5.13,18.99,7.24,20.45-3.68.73-3.25-2.13-10.77,2.13-10.5,11.48,2.8,32.84,17.01,41.17,25.88,9.24,10.29,6.86,23.19-8.23,24.71-22.96,2.06-46.15,2.44-69.54,3.02-8.12.09-15.81.1-23.83.02-5.83.11-13.2-.9-18.14,2.47-2.41,1.75-2.98,4.6-1.26,6.91,4.92,5.87,15.29,4.61,22.43,4.84,27.34.16,56.02-.78,83.22-3.56,9.68-1.06,20.32-1.65,28.05-8.22,11.54-10.1,8.92-26.26-.75-36.79l-.13-.15ZM218.76,145.3c-.35.21-5.17-4.07-6.98-5.62-1.27-1.15-4.69-3.86-4.51-4.17,2.23.93,4.39,2.76,6.35,4.33,1.45,1.28,4.66,4.14,5.16,5.45h-.02Z\"/></svg>", "kb": "<svg class=\"t-ic\" viewBox=\"46.6 55.0 225.9 225.9\" aria-hidden=\"true\"><path d=\"M194.62,101.31c11.07-7.93,23.35-14.74,33.32-24.19,6.12-5.76,3.74-16.1-5.98-13.22-4.7,1.47-8.94,4.96-13.1,7.73-10.59,7.89-22.65,13.94-33.39,21.48-9.66,6.42-6.95,18.85-18.2,21.03-23.78,4.94-74.17-4.15-69.14,33.79,1.45,17.28,2.34,35.07,2.75,52.5.78,17.84,3.74,40.78,7.63,59.56,3.88,14.43,21.37,11.12,32.88,12.21,15.53.48,31.84.35,47.44.12,14.63.14,26.25-.14,28.53-17.57,2.26-19.25.88-39.19,1.64-58.46.25-17.79.55-35.72.73-53.46.31-10.15-2-21.06-11.96-25.87-8.57-3.82-11.99-8.53-3.3-15.53l.14-.12ZM195.27,131.18c-.87,2.36-6.45,5.95-9.06,4.72-2.33-1.57-1.87-6.06-1.42-8.35.36-1.49,1.72-2.23,3.22-1.89,2.17.54,7.7,2.73,7.29,5.39l-.03.12ZM195.97,221.96c0,6.51.01,13.03-.26,19.55-.4,11.73-1.55,18.75-14.37,18.77-18.62.32-38.35.45-56.67-.44-14.1-.12-14.4-9.8-16.16-21.15-4.4-25.16-4.13-51.11-5.55-76.82-1.24-14.54,7.3-10.73,17.61-10.14,14.17.91,28.56-1.06,41.98-2.77,5.16-.67,10.3-1.26,15.47-1.99,6-.28,16.64-5.55,18.36,3.22.64,3.46.29,7.5.27,11.1-.27,20.2-.58,40.29-.67,60.48v.2ZM168.1,131.11c.64,8.41-10.66,8.96-16.85,9.67-10.13,1.21-20.05,2.07-30.09,1.49-27.6-1.7-20.19-10.4,1.88-12.42,9.7-.99,19.79-1.32,29.41-2.28,4.88-.07,13.9-2.88,15.62,3.41l.02.13Z\"/></svg>", "sap": "<svg class=\"t-ic\" viewBox=\"43.5 49.3 233.3 233.3\" aria-hidden=\"true\"><path d=\"M84.09,142.7c.65,17.96,1.41,36.19,1.02,53.73-.21,14.37,1.2,29.08,2.32,43.34.85,8.02.34,16.62,4.11,23.95,5.87,10.87,19.23,9.75,29.96,9.94,3.23.06,6.44.14,9.69.2,10.75.26,21.92.1,32.35-.49,7.4-.21,14.61-2.61,20.13-7.67,7.72-7.02,15.94-14.32,21.23-23.22,4.93-7.92,4.96-17.48,4.42-26.51-.66-14.03-.78-28.02-2.38-42.11-2.03-17.87-2.99-35.65-4.11-53.49-.34-5.13-.63-10.7-2.71-15.38-.71-1.56-1.64-3-2.83-4.22-3.12-3.27-8.39-4.26-10.65-6.7-3.03-3.19-.19-7.19,4.01-8.61,2.66-.92,5.53-.93,8.33-.88,9.7-.03,20.7,1.55,29.86-2,10.05-4.09,9.82-18.18-.69-21.73-9.99-3.51-22.05-2.98-32.62-2.65-8.14.52-18.01.46-24.52,5.4-10.09,7.27-7.23,25.25-17.36,30.88-3.66,1.86-8.04,1.55-12.15,1.65-7.11,0-14.48.67-20.87,4.02-7.38,3.92-13.29,10-20.13,14.76-11.07,7.59-16.96,13.51-16.41,27.61v.19ZM183.77,71.67c.97-2.95,38.26-2.92,38.48.29-1.92,3.04-19.72,1.37-24.29,1.72-2.69-.1-13.06.25-14.19-1.96v-.04ZM165.01,121.61c-11.9,2.4-24.32,2.82-36.53,2.66-5.16-.24-14.06-.23-17.91-1.58-4.22-1.75,4.22-6.66,6.19-8.31,5.03-3.7,11.02-6.06,17.4-6.4,4.48-.24,9.11-.53,13.53.38,4.87.97,7.71,4.44,11.42,7.24,4.04,3.25,10.37,3.56,15.16,1.54,4.27-1.57,7.75-5.19,11.39-7.39-3.9,5.44-13.17,10.49-20.44,11.81l-.21.04ZM121.87,135.89c8.73.04,17.74-.19,26.77-.41,3.68-.05,7.82-.25,11.13,1.36,6.57,3.56,4.81,12.49,5.49,18.96,1.09,17.73.73,35.51,1.46,53.03.57,10.88,1.48,21.47,2.18,32.32.12,5.23,1.3,11.58-1.3,15.95-2.4,3.68-7.73,3.77-11.86,3.86-9.16.11-18.54-.49-27.73-.42-3.68,0-7.37.12-11.05.09-3.82-.09-8,.01-11.19-2.11-5-3.69-4.19-11.62-4.82-17.33-.6-8.79-.57-17.63-1.28-26-1.89-17.17-2-34.72-2.23-52.01-.09-5.05-.31-10.11-.28-15.16.01-4.32.79-9.38,4.94-11.16,5.09-2.16,13.47-.67,19.59-.97h.19ZM172.55,89.7c-1.68,5.17-3.24,10.84-5.45,15.67.15-2.86,3.52-11.8,4.77-16.45,3.61-13.04,3.1-7.61.76.52l-.08.26ZM191.96,136.55c1.5,23.42,2.82,46.61,4.08,70.08.24,6.21.43,12.47.48,18.67.03,4.79-.14,9.66-1.74,14.15-2.38,7.19-13.16,20.37-13.9,4.96-.72-10.56-1.7-21.3-2.25-31.9-.59-12.15-.13-24.43-.77-36.72-.66-13.83-2.15-27.89-2.17-41.7.17-3.95,1.13-7.56,3.19-10.8,2.61-3.89,6.86-8.63,10.02-7.6,2.9,2.07,2.03,8.6,2.58,13.77.13,2.29.3,4.59.46,6.88v.21Z\"/></svg>", "pluk": "<svg class=\"t-ic\" viewBox=\"47.0 52.0 227.9 227.9\" aria-hidden=\"true\"><path d=\"M235.13,149.3c-1.97-2.43-2.06-5.18-.55-8.34,1.77-3.69,4.98-7.99,6.53-12.22,6.12-14.33,1.37-32.85-13.85-38.85-7.14-2.93-15.4-2.69-22.66-.32-3.05.97-6.01,2.33-8.81,3.85-2.08,1.07-3.96,2.21-6.23,2.53-3.6.52-5.33-3.41-6.73-7.41-11.65-40.87-60.02-35.37-67.85,4.55-.83,4.56-.79,9.18-.21,13.79,1.18,7.9-.06,11.97-8.84,12.59-14.41,1.05-31.73,4.47-39.95,17.65-8.64,14.23-4.31,33.83,6.81,45.42,6.51,6.48,8.44,8.31.05,14.53-9.6,7.35-14.9,19.03-12.41,31.12,2.56,13.98,10.57,27.52,22.07,35.97,9.97,7.04,23.27,8.69,35.13,6.24,10.58-2.2,20.32-7.47,27.42-15.61,2.66-3.04,5.86-7.03,8.95-7.68,5.32-1.13,9.47,4.4,13.56,7.13,3.55,2.65,7.43,4.78,11.64,6.21,12.01,4.16,27.3,2.98,35.64-7.36,4.47-5.41,6.63-13.01,6.72-20.38.09-2.93-.3-6.19.2-9,.77-5.77,7.04-5.7,11.61-6.12,16.14-.64,29.54-14.76,28.7-31.06-.5-10.57-7.47-20.24-15.36-27.28-3.56-3.46-8.27-6.16-11.48-9.8l-.09-.12ZM208.47,207.98c-2.55,3.72-.95,8.86-.09,13.05.85,3.73,1.52,7.55,1.42,11.39-.1,17.31-15.63,22.32-29.69,15.55-4.35-2.04-8.11-5.06-11.61-8.32-4.27-3.81-9.04-9.22-15.19-8.65-10.93,1.61-14.47,19.9-31.23,25.98-15.79,6.16-32.74,2.85-42.23-11.78-4.54-6.71-8.35-14.98-8.37-23.17-.27-12.62,13.5-19.48,23.87-24.7,10.47-5.63,9.2-12.22-1.32-16.1-5.65-2.14-11.49-4.6-15.1-9.59-6.33-8.16-8.58-21.19-1.78-29.7,6.98-8.68,19.88-10.39,30.91-10.8,14.22.19,24.58-1.56,19.91-18.74-2.12-7.83-2.66-16.6.62-24.29,4.75-11.93,16.81-19.34,28.77-14.29,9.44,3.89,13.72,13.91,15.57,23.57,1.17,5.01,1.26,11.11,4.77,15.09,2.87,3.12,7.23,2.66,10.63.61,4.22-2.54,7.25-5.81,11.79-8.41,4.32-2.57,9.59-4.72,14.8-4.89,15.11-.27,20.93,13.64,14.57,26.27-2.87,7.56-13.37,13.58-11.72,22.11,1.42,5.79,7.5,9.04,12.04,12.38,7.11,4.94,15.07,12,18.59,19.07,5.99,10.94-1.43,24.02-13.58,25.65-2.88.51-5.87.55-8.79.34-6.64-.28-13.31-2.65-17.48,2.26l-.08.12Z\"/><path d=\"M155.66,149.49c-15.21-1.04-26.66,18.19-21.21,31.95,8.95,21.1,40.02,20.21,44.84-3.48,2.92-13.8-10.35-27.48-23.47-28.47h-.15ZM165.98,180.27c-3.82,6.39-13.41,6.12-18.02.74-7.24-7.45-.56-22.96,10.46-19.18,6.99,2.38,11.83,11.67,7.66,18.27l-.1.17Z\"/></svg>"};
+/* ---------- overzicht ---------- */
+function home(){
+  const lastBake=S.bakes.items[0], feed=scoby.feeds[0], open=S.kbBatch.items.filter(b=>!b.evaluated).length, lastSap=S.sap.items[0], left=scobyLeft();
+  const q=[];
+  if(active)q.push(`<button class="qcard b" data-go="zd"><span class="lbl">Brood bezig</span><span class="big">${active.finished?"Klaar":"Stap "+(active.step+1)}</span><span class="sub">${active.finished?"Geef het een score":esc(steps()[active.step].t)}</span></button>`);
+  if(left!=null)q.push(`<button class="qcard r" data-go="kb" data-to="scoby"><span class="lbl">Scoby voeden</span><span class="big">${left>1?left+" dagen":left===1?"Morgen":left===0?"Vandaag":"Te laat"}</span><span class="sub">${left>1?"tot de volgende keer":left===1?"is het weer tijd":left===0?"is het tijd":-left+(left===-1?" dag":" dagen")+" over tijd"}</span></button>`);
+  plukGroups().forEach(g=>q.push(`<button class="qcard ${g.st==="now"?"l":"h"}" data-go="pluk"><span class="lbl">${g.st==="now"?"Nu plukken":"Bijna plukken"}</span><span class="big">${esc(g.name)}</span><span class="sub">${g.st==="now"?(g.n>1?g.n+" plekken":"1 plek"):"over "+g.days+(g.days===1?" dag":" dagen")}</span></button>`));
+  const exp=S.kast.items.filter(i=>(+i.count||0)>0&&i.best&&daysUntil(i.best)<=14);
+  if(exp.length)q.push(`<button class="qcard r" data-go="kast"><span class="lbl">Voorraad</span><span class="big">${exp.length}</span><span class="sub">${exp.length===1?"bijna over datum":"bijna over datum"}</span></button>`);
+  if(open)q.push(`<button class="qcard l" data-go="kb" data-to="log"><span class="lbl">Kombucha</span><span class="big">${open}</span><span class="sub">${open===1?"nog te proeven":"nog te proeven"}</span></button>`);
+  const zd=active?`${esc(active.recipeName||DEFAULT.name)} is bezig`:lastBake?`Laatst gebakken ${dateLabel(lastBake.startedAt)}`:"Bak je eerste brood";
+  const kb=feed?`Scoby gevoed ${agoLabel(feed.at)}`:"Hou je scoby en batches bij";
+  const sp=lastSap?`Laatste: ${esc(lastSap.name)}`:"Hou bij wat je met de sappan maakt";
+  const nowN=S.pluk.items.filter(x=>spotStatus(x).st==="now").length, inKast=S.kast.items.filter(i=>(+i.count||0)>0);
+  const pl=S.pluk.items.length?(nowN?`${nowN} ${nowN===1?"plek":"plekken"} om nu te plukken`:`${S.pluk.items.length} plukplekken`):"Zet je plukplekken erin";
+  const kn=inKast.reduce((a,i)=>a+(+i.count||0),0),ka=inKast.length?(kn===1?"1 potje of fles":`${kn} potjes en flessen`):"Hou je potjes en flessen bij";
+  const tile=(c,label,name,info)=>`<button class="tile ${c}" data-go="${c}"><span class="t-top"><span class="t-lead"><span class="t-label">${label}</span></span><span class="t-arrow" aria-hidden="true">→</span></span><span class="t-name">${TILE_TITLES.includes(c)?`<span class="sr">${name}</span>${TITLE_SVG[c].replace('class="title-svg"','class="tile-title"').replace(/margin-top:[^;"]*/,"margin-top:0")}`:name}</span><span class="t-info">${info}</span></button>`;
+  return `<div class="stack">
+    ${q.length?`<div class="stack" style="gap:10px"><div class="section-title"><h2>Vandaag</h2></div><div class="quick">${q.join("")}</div></div>`:""}
+    <div class="wallet">${tile("zd","Bakken","Desem",zd)}${tile("kb","Fermenteren","Kombucha",kb)}${tile("sap","Sappan","Sappen",sp)}${tile("pluk","Buiten","Wildpluk",pl)}</div>
+    <div class="row tight" style="justify-content:center"><button class="btn soft sm" data-act="backup">Reservekopie maken</button><label class="btn soft sm file" for="restore-file">Reservekopie terugzetten<input id="restore-file" type="file" accept=".json,application/json" hidden></label></div>
+  </div>`;
+}
+
+/* ---------- zuurdesem ---------- */
+function zdSelect(cur,id){return `<label for="${id}">Recept<select id="${id}">${zdRecipes().map(r=>`<option value="${esc(r.id)}" ${r.id===cur?"selected":""}>${esc(r.name)}</option>`).join("")}</select></label>`}
+function stepList(list,cur){
+  return `<ol class="steps">${list.map((s,i)=>{const cls=cur==null?"":i<cur?"done":i===cur?"now":"";
+    return `<li class="${cls}"><span class="n">${cur!=null&&i<cur?"✓":String(i+1).padStart(2,"0")}</span><span>${esc(s.t)}${s.reps>1?" ×"+s.reps:""}</span><span class="dur">${durLabel(s.min)}</span></li>`}).join("")}</ol>`;
+}
+function zdIdle(){
+  const r=getZd(selId), last=S.bakes.items.find(b=>(b.recipeId||"standaard")===r.id),{flour}=hydration(r);
+  return `<div class="stack"><section class="card">
+    ${zdSelect(r.id,"zd-sel")}
+    <p>${esc(r.ingredients.map(i=>i.g+" g "+i.n.toLowerCase()).join(", "))}.</p>
+    ${last?`<p class="status">Vorige keer: ${dateLabel(last.startedAt)}${last.score?" · "+"★".repeat(last.score):""}${last.next?" · Volgende keer: "+esc(last.next):""}</p>`:""}
+    <button class="btn primary big" data-act="start">Start met bakken</button>
+  </section>
+  ${flour?(calcOpen?calcCard(r):`<button class="btn soft" data-act="calc-open">Groter of kleiner brood? Reken het om</button>`):""}
+  <section class="card"><h3>De stappen</h3>${stepList(r.steps,null)}</section></div>`;
+}
+function calcCard(r){const {flour}=hydration(r);return `<section class="card"><div class="row between"><h3>Rekenhulp</h3><button class="x" data-act="calc-close" aria-label="Rekenhulp sluiten">×</button></div>
+    <label for="calc-flour">Hoeveel bloem wil je gebruiken?<span class="row" style="gap:8px;flex-wrap:nowrap"><input id="calc-flour" type="number" inputmode="numeric" min="50" step="10" value="${calcFlour||flour}" style="max-width:140px"><span class="small">gram</span></span></label>
+    <div class="chips">${[0.5,1,1.5,2].map(f=>`<button data-act="calc" data-n="${Math.round(flour*f)}" aria-pressed="${(calcFlour||flour)===Math.round(flour*f)}">${f===1?"Gewoon":f===0.5?"Half":"×"+String(f).replace(".",",")}</button>`).join("")}</div>
+    <div class="recipe">${r.ingredients.map(i=>`<span>${esc(i.n)}</span><span>${Math.round(i.g*(calcFlour||flour)/flour)} g</span><span>${i.g?Math.round(i.g/flour*100)+"%":""}</span>`).join("")}
+    <span class="sum">Totaal deeg</span><span class="sum">${Math.round(r.ingredients.reduce((a,i)=>a+(+i.g||0),0)*(calcFlour||flour)/flour)} g</span><span class="sum"></span></div>
+    <p class="small">De verhoudingen blijven hetzelfde. Hou er rekening mee dat een groter brood ook iets langer moet bakken.</p></section>`}
+function zdActive(){
+  const list=steps(), s=list[active.step], i=active.step, pct=Math.round(i/list.length*100);
+  const r=remaining(), running=active.stepStart!=null, done=active.reps||0, reps=s.reps>1?s.reps:0;
+  const C=2*Math.PI*100, frac=running?Math.max(0,r)/(s.min*60000):1;
+  const timer=s.min?`<div class="ring"><svg viewBox="0 0 220 220" aria-hidden="true"><circle class="track" cx="110" cy="110" r="100" fill="none" stroke-width="12"/><circle class="prog" id="ring-p" cx="110" cy="110" r="100" fill="none" stroke-width="12" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-frac)}" style="${running?"":"opacity:.35"}"/></svg>
+      <div class="rt"><div class="timer${running&&r<=0?" done":""}" id="timer">${running?fmt(r):fmt(s.min*60000)}</div>
+      <p class="timer-sub" id="timer-sub">${running?(r<=0?"Tijd is om!":"Klaar om "+timeLabel(active.stepStart+s.min*60000)):"Nog niet gestart"}</p></div></div>`:"";
+  let actions;
+  if(reps&&s.min)actions=running?`<div class="row"><button class="btn primary" data-act="fold">Ronde ${done+1} gedaan</button></div>${settings.ios&&r>0?`<div class="row tight"><a class="btn sm ios" href="${sc("KW Timer",String(Math.max(1,Math.ceil(r/60000))))}">Timer op iPhone</a></div>`:""}`
+    :`<div class="row"><button class="btn primary" data-act="timer">Start ronde ${done+1} van ${reps}</button><button class="btn soft" data-act="next">Stap overslaan</button></div>`;
+  else if(s.min&&!running)actions=`<div class="row"><button class="btn primary" data-act="timer">Start timer</button><button class="btn soft" data-act="next">Klaar, volgende stap</button></div>`;
+  else actions=`<div class="row"><button class="btn primary" data-act="next">${i===list.length-1?"Klaar!":"Klaar, volgende stap"}</button></div>${s.min&&running?`<div class="row tight">${settings.ios&&r>0?`<a class="btn sm ios" href="${sc("KW Timer",String(Math.max(1,Math.ceil(r/60000))))}">Timer op iPhone</a>`:""}<button class="btn soft sm" data-act="timer">↻ Timer opnieuw starten</button></div>`:""}`;
+  return `<div class="stack"><section class="card">
+    <div><span class="chip">${esc(active.recipeName||DEFAULT.name)} · stap ${i+1}/${list.length}</span></div>
+    <div class="progress"><i style="width:${pct}%"></i></div>
+    <h2>${esc(s.t)}${reps?` <span class="chip ok">${done} / ${reps}</span>`:""}</h2>
+    ${s.d?`<p class="step-d">${esc(s.d)}</p>`:""}${timer}${actions}
+    ${s.tip?`<div class="tip"><b>Tip</b><span>${esc(s.tip)}</span></div>`:""}
+    <label for="note">Notitie bij deze stap<textarea id="note" placeholder="Bijvoorbeeld: deeg voelde plakkerig, oven was 29 °C">${esc((active.notes||{})[i]||"")}</textarea></label>
+    ${i>0?`<div class="row tight"><button class="btn soft sm" data-act="prev">← Vorige stap</button></div>`:""}
+  </section>
+  <section class="card"><h3>Overzicht</h3>${stepList(list,i)}</section>
+  ${confirmStop?`<div class="confirm"><p>Stoppen zonder op te slaan?</p><div class="row"><button class="btn danger" data-act="stop-yes">Ja, stoppen</button><button class="btn soft" data-act="stop-no">Nee, verder bakken</button></div></div>`
+   :`<button class="btn soft" data-act="stop">Stoppen met bakken</button>`}</div>`;
+}
+function zdResult(){
+  const more=result.more||result.bad;
+  return `<section class="card"><span class="chip ok">${esc(active.recipeName||DEFAULT.name)} is klaar</span>
+    <h2>Hoe is het geworden?</h2>
+    <div>${stars(result.score,"score")}</div>
+    <div class="stack" style="gap:8px"><p style="font-weight:500;font-size:15px">Was er iets mis? Tik aan wat past</p>${probChips(DESEM_PROBLEMS,result.problems||[],"prob")}</div>
+    <div class="stack" style="gap:8px"><p style="font-weight:500;font-size:15px">Foto van je brood</p><p class="small">Een snee van de binnenkant helpt het meest.</p>${photoBlock(result.photos||[],"photo-res")}</div>
+    ${moreToggle(more,"res-more")}
+    ${more?`<label for="bad">Uitleg (mag leeg)<textarea id="bad" placeholder="Bijvoorbeeld: zakte in na het scoren">${esc(result.bad||"")}</textarea></label>`:""}
+    <button class="btn primary big" data-act="save-bake">Opslaan in logboek</button></section>`;
+}
+function zdLog(){
+  const B=S.bakes.items;
+  const tips=lastTips&&lastTips.sec==="zd"?adviceCard():"";
+  if(!B.length)return `<section class="log"><div class="entry"><p class="empty">Nog niets gebakken. Na je eerste bakbeurt verschijnt hier wat je deed, je score en je notities.</p></div></section>`;
+  return `${tips?`<div style="margin-bottom:16px">${tips}</div>`:""}<section class="log">${B.map((b,k)=>{
+    const list=b.steps||DEFAULT.steps, a=list.findIndex(s=>/starter toevoegen/i.test(s.t)), z=list.findIndex(s=>/laten rijzen/i.test(s.t));
+    const bulk=a>=0&&z>=0&&b.stepDone&&b.stepDone[a]&&b.stepDone[z]?Math.round((b.stepDone[z]-b.stepDone[a])/36e5*10)/10:null;
+    const notes=Object.entries(b.notes||{}).filter(([,v])=>v).map(([i,v])=>`<li><b>${esc(list[i]?.t)}:</b> ${esc(v)}</li>`).join("");
+    return `<div class="entry"><div class="row between"><strong>#${B.length-k} · ${esc(b.recipeName||DEFAULT.name)}</strong><span class="score">${"★".repeat(b.score||0)}</span></div>
+    <div class="meta"><span>${dateLabel(b.startedAt)}</span>${b.temp?`<span>Keuken ${esc(b.temp)} °C</span>`:""}${bulk?`<span>Rijzen ${bulk} u</span>`:""}</div>
+    ${(b.problems||[]).length?`<div class="chip-row">${b.problems.map(k=>`<span class="chip">${esc((DESEM_PROBLEMS.find(p=>p.k===k)||{}).t||k)}</span>`).join("")}</div>`:""}
+    ${b.bad?`<p><b>Mis:</b> ${esc(b.bad)}</p>`:""}${b.next?`<p><b>Volgende keer:</b> ${esc(b.next)}</p>`:""}${b.advice&&b.advice.tips&&b.advice.tips.length?`<ul class="notes">${b.advice.tips.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}
+    ${notes?`<ul class="notes">${notes}</ul>`:""}
+    ${photoBlock(b.photos||[],"photo-bake-"+b.id)}
+    <div class="row tight">${!sampleFn&&!(b.advice&&b.advice.tips&&b.advice.tips.length)?`<button class="btn sm soft" data-act="ask-claude" data-id="${esc(b.id)}">Vraag advies</button>`:""}<button class="btn sm" data-act="bk-edit" data-id="${esc(b.id)}">Bewerken</button><button class="btn sm danger" data-act="del" data-type="bakes" data-id="${esc(b.id)}">Verwijderen</button></div>
+    ${delBox("bakes",b.id,"Dit brood")}</div>`}).join("")}</section>`;
+}
+function bakeEditor(){
+  const d=draft;
+  return `<section class="card"><h2>${esc(d.recipeName||DEFAULT.name)}</h2><p class="small">${dateLabel(d.startedAt)}</p>
+    <div><p style="font-weight:500;font-size:15px">Score</p>${stars(d.score||0,"bk-score")}</div>
+    <div class="stack" style="gap:8px"><p style="font-weight:500;font-size:15px">Wat was er mis?</p>${probChips(DESEM_PROBLEMS,d.problems||[],"bkprob")}</div>
+    <label for="bk-bad">Uitleg (mag leeg)<textarea id="bk-bad">${esc(d.bad||"")}</textarea></label>
+    <label for="bk-next">Wat doe ik volgende keer anders?<textarea id="bk-next">${esc(d.next||"")}</textarea></label>
+    <div class="row"><button class="btn primary" data-act="bk-save">Opslaan</button><button class="btn soft" data-act="cancel">Annuleren</button></div></section>`;
+}
+function readBakeDraft(){if(!$("bk-bad"))return;draft.bad=val("bk-bad");draft.next=val("bk-next")}
+let sampleFn=null;const photoBlobs={},photoURLs={};
+const LOCAL=!window.claude;
+function idb(){return new Promise((res,rej)=>{try{const r=indexedDB.open("kw-fotos",1);r.onupgradeneeded=()=>r.result.createObjectStore("f");r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}catch(e){rej(e)}})}
+async function idbPut(k,v){const d=await idb();return new Promise((res,rej)=>{const t=d.transaction("f","readwrite");t.objectStore("f").put(v,k);t.oncomplete=()=>res();t.onerror=()=>rej(t.error)})}
+async function idbGet(k){const d=await idb();return new Promise(res=>{const q=d.transaction("f").objectStore("f").get(k);q.onsuccess=()=>res(q.result||null);q.onerror=()=>res(null)})}
+async function hydratePhotos(){for(const im of document.querySelectorAll("img[data-local]")){const id=im.dataset.local;if(!photoURLs[id]){const b=photoBlobs[id]||await idbGet(id).catch(()=>null);if(b)photoURLs[id]=URL.createObjectURL(b)}if(photoURLs[id])im.src=photoURLs[id]}}
+const blobToDataURL=b=>new Promise(r=>{const f=new FileReader();f.onload=()=>r(f.result);f.onerror=()=>r(null);f.readAsDataURL(b)});
+async function dataURLToBlob(u){const r=await fetch(u);return await r.blob()}
+function adviceCard(){
+  const b=S.bakes.get(lastTips.bakeId)||{};
+  if(lastTips.loading)return `<section class="card" style="background:var(--hemel);color:var(--bos)"><h2>Je advies voor de volgende keer</h2><p>Even kijken naar je brood… dit duurt een halve minuut.</p></section>`;
+  if(b.advice&&b.advice.tips&&b.advice.tips.length)return `<section class="card" style="background:var(--hemel);color:var(--bos)"><h2>Je advies voor de volgende keer</h2>
+    ${b.advice.next?`<p style="font-size:18px;line-height:1.4">${esc(b.advice.next)}</p>`:""}
+    <ul style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:15px">${b.advice.tips.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
+    <button class="btn primary" data-act="tips-close">Begrepen</button></section>`;
+  return tipsCard(lastTips.keys,DESEM_PROBLEMS,`<button class="btn soft" data-act="ask-claude" data-id="${esc(lastTips.bakeId)}">Vraag advies aan Claude</button><p class="small">Je foto en wat je aantikte gaan mee naar de Claude-app. Zet zijn antwoord daarna bij "Volgende keer" via Bewerken.</p>`);
+}
+async function photoBlob(id){if(photoBlobs[id])return photoBlobs[id];if(LOCAL){return await idbGet(id).catch(()=>null)}try{const r=await fetch("/_blob/"+id);if(r.ok)return await r.blob()}catch(e){}return null}
+function bakePrompt(b,share){
+  const list=b.steps||DEFAULT.steps,a=list.findIndex(s=>/starter toevoegen/i.test(s.t)),z=list.findIndex(s=>/laten rijzen/i.test(s.t));
+  const bulk=a>=0&&z>=0&&b.stepDone&&b.stepDone[a]&&b.stepDone[z]?Math.round((b.stepDone[z]-b.stepDone[a])/36e5*10)/10:null;
+  const rec=getZd(b.recipeId||"standaard");
+  const notes=Object.entries(b.notes||{}).filter(([,v])=>v).map(([i,v])=>"- "+(list[i]?.t||"")+": "+v).join("\n");
+  const probs=(b.problems||[]).map(k=>(DESEM_PROBLEMS.find(p=>p.k===k)||{}).t).filter(Boolean);
+  const head=share?"Hoi Claude! Ik leer zuurdesembrood bakken. Kan je me in eenvoudig Nederlands zeggen wat ik de volgende keer anders moet doen? Kort graag: één zin met het belangrijkste, en maximaal 3 tips. Verander liefst maar één ding tegelijk.":"Je helpt een thuisbakker die leert zuurdesembrood bakken. Geef advies in eenvoudig Nederlands (Vlaams), kort en concreet, zonder moeilijke woorden.";
+  return `${head}
+Recept: ${rec.ingredients.map(i=>i.g+" g "+i.n).join(", ")}.
+Werkwijze: ${list.map(s=>s.t+(s.min?" ("+s.min+" min)":"")).join("; ")}.
+${bulk?"De bulkrijs (van starter toevoegen tot einde rijzen) duurde ongeveer "+bulk+" uur.\n":""}Score: ${b.score||"geen"} op 5.
+Wat ${share?"ik":"ze"} zag dat mis was: ${probs.length?probs.join(", "):"niets aangeduid"}.
+${b.bad?(share?"Mijn uitleg: ":"Haar uitleg: ")+b.bad+"\n":""}${notes?"Notities tijdens het bakken:\n"+notes+"\n":""}${(b.photos||[]).length?(share?"Ik stuur een foto van mijn brood mee.":"Er is een foto van het brood bijgevoegd. Kijk naar de korst, de vorm en (als je die ziet) de kruim.")+"\n":""}${share?"":`
+Geef wat ze de volgende keer anders moet doen. Verander bij voorkeur maar één ding tegelijk.
+Antwoord met alleen JSON zoals: {"next":"Eén zin met het belangrijkste wat je anders doet.","tips":["korte tip","korte tip"]}. Maximaal 3 tips.`}`;
+}
+async function shareAdvice(id){
+  const b=S.bakes.get(id);if(!b)return;const text=bakePrompt(b,true);
+  const files=[];for(const ph of (b.photos||[]).slice(0,2)){const bl=await photoBlob(ph.id);if(bl)files.push(new File([bl],"brood.jpg",{type:"image/jpeg"}))}
+  try{
+    if(navigator.share){const d={text};if(files.length&&navigator.canShare&&navigator.canShare({files}))d.files=files;await navigator.share(d);return}
+  }catch(e){if(e&&e.name==="AbortError")return}
+  try{await navigator.clipboard.writeText(text);toast("Vraag gekopieerd. Plak hem in de Claude-app.")}catch(e){toast("Delen lukt hier niet.")}
+}
+async function adviseBake(id){
+  try{if(!sampleFn&&window.claude?.use)sampleFn=await claude.use("sample")}catch(e){}
+  if(!sampleFn)return;
+  const b=S.bakes.get(id);if(!b)return;
+  lastTips={...lastTips,loading:true};render();
+  const prompt=bakePrompt(b,false);
+  
+  try{
+    const imgs=[];for(const ph of (b.photos||[]).slice(0,2)){const bl=await photoBlob(ph.id);if(bl)imgs.push(bl)}
+    let lim=null;try{lim=await sampleFn.limits()}catch(e){}
+    const opts={modelTier:"default"};if(imgs.length&&lim&&lim.images)opts.images=imgs;
+    const res=await sampleFn.json(prompt,opts);
+    const tips=Array.isArray(res&&res.tips)?res.tips.filter(x=>typeof x==="string").slice(0,3):[];
+    const cur=S.bakes.get(id);if(cur)S.bakes.save({...cur,advice:{next:String(res&&res.next||""),tips},next:String(res&&res.next||cur.next||"")});
+  }catch(e){}
+  if(lastTips&&lastTips.bakeId===id){lastTips={...lastTips,loading:false}}render();
+}
+function tipsCard(keys,list,extra){
+  const ps=keys.map(k=>list.find(p=>p.k===k)).filter(Boolean);if(!ps.length&&!extra)return "";
+  return `<section class="card" style="background:var(--hemel);color:var(--bos)"><h2>Tips voor de volgende keer</h2>
+    ${ps.map(p=>`<div class="stack" style="gap:6px"><strong style="font-weight:500">${esc(p.t)}</strong><ul style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px;font-size:15px">${p.fix.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`).join("")}
+    ${extra||""}<button class="btn primary" data-act="tips-close">Begrepen</button></section>`;
+}
+function hydration(r){
+  const sum=f=>r.ingredients.filter(f).reduce((a,i)=>a+(+i.g||0),0);
+  const flour=sum(i=>i.flour),water=sum(i=>/water/i.test(i.n)),st=sum(i=>/starter|desem/i.test(i.n));
+  return {flour,h:flour&&water?Math.round((water+st/2)/(flour+st/2)*100):null};
+}
+function zdRecipe(){
+  const r=getZd(recView),{flour,h}=hydration(r);
+  return `<div class="stack"><section class="card">
+    ${zdSelect(r.id,"zd-view")}
+    <button class="btn primary" data-act="zd-new">+ Nieuw recept</button></section>
+  <section class="card"><h2>${esc(r.name)}</h2>
+    <div class="recipe">${r.ingredients.map(i=>`<span>${esc(i.n)}</span><span>${esc(i.g)} g</span><span>${flour?Math.round(i.g/flour*100)+"%":""}</span>`).join("")}
+    <span class="sum">Totaal deeg</span><span class="sum">${r.ingredients.reduce((a,i)=>a+(+i.g||0),0)} g</span><span class="sum"></span></div>
+    ${flour?`<p class="status">Percentages zijn ten opzichte van de bloem (bakkerspercentage).${h?` Met het water uit de starter erbij zit je deeg rond ${h}% hydratatie.`:""}</p>`:""}
+    <div class="row">${r.builtin?"":`<button class="btn" data-act="zd-edit">Bewerken</button>`}<button class="btn soft" data-act="zd-copy">Kopiëren als nieuw recept</button>${r.builtin?"":`<button class="btn danger" data-act="del" data-type="zdRec" data-id="${esc(r.id)}">Verwijderen</button>`}</div>
+    ${delBox("zdRec",r.id,r.name)}</section>
+  <section class="card"><h3>Werkwijze</h3>
+    <ol class="steps">${r.steps.map((s,i)=>`<li><span class="n">${String(i+1).padStart(2,"0")}</span><span><strong>${esc(s.t)}${s.reps>1?" ×"+s.reps:""}</strong>${s.d?`<br><span style="color:var(--muted)">${esc(s.d)}</span>`:""}</span><span class="dur">${durLabel(s.min)}</span></li>`).join("")}</ol>
+  </section></div>`;
+}
+function zdEditor(){
+  const d=draft;
+  return `<section class="card"><h2>${d.isNew?"Nieuw recept":"Recept bewerken"}</h2>
+    <label for="r-name">Naam<input id="r-name" value="${esc(d.name)}" placeholder="Bijvoorbeeld: Spelt zuurdesem"></label>
+    <h3>Ingrediënten</h3>
+    <div class="stack" style="gap:8px">${d.ingredients.map((i,k)=>`<div class="edit-row">
+      <input id="ing-n-${k}" value="${esc(i.n)}" placeholder="Ingrediënt" aria-label="Ingrediënt ${k+1}">
+      <input id="ing-g-${k}" type="number" inputmode="decimal" value="${esc(i.g)}" placeholder="gram" aria-label="Gram">
+      <label class="chk" for="ing-f-${k}"><input id="ing-f-${k}" type="checkbox" ${i.flour?"checked":""}>bloem</label>
+      <button class="x" data-act="ing-del" data-k="${k}" aria-label="Verwijder ingrediënt">×</button></div>`).join("")}</div>
+    <button class="btn soft" data-act="ing-add">+ Ingrediënt</button>
+    <p class="small">Vink "bloem" aan bij elke soort bloem. Daarmee rekent de app je percentages uit.</p>
+    <h3>Stappen</h3>
+    <div>${d.steps.map((s,k)=>`<div class="edit-step">
+      <div class="row between"><strong>Stap ${k+1}</strong><span class="row tight" style="gap:6px">
+        ${k>0?`<button class="x" data-act="st-up" data-k="${k}" aria-label="Omhoog">↑</button>`:""}<button class="x" data-act="st-del" data-k="${k}" aria-label="Verwijder stap">×</button></span></div>
+      <label for="st-t-${k}">Titel<input id="st-t-${k}" value="${esc(s.t)}" placeholder="Bijvoorbeeld: Autolyse"></label>
+      <div class="nums"><label for="st-m-${k}">Timer (minuten)<input id="st-m-${k}" type="number" inputmode="numeric" value="${esc(s.min||"")}" placeholder="geen"></label>
+        <label for="st-r-${k}">Herhalen<input id="st-r-${k}" type="number" inputmode="numeric" value="${esc(s.reps||"")}" placeholder="1"></label></div>
+      <label for="st-d-${k}">Uitleg<textarea id="st-d-${k}" placeholder="Wat doe je in deze stap?">${esc(s.d||"")}</textarea></label>
+      <label for="st-p-${k}">Tip (mag leeg)<input id="st-p-${k}" value="${esc(s.tip||"")}"></label></div>`).join("")}</div>
+    <button class="btn soft" data-act="st-add">+ Stap</button>
+    <p class="err" id="err"></p>
+    <div class="row"><button class="btn primary" data-act="zd-save">Recept opslaan</button><button class="btn soft" data-act="cancel">Annuleren</button></div></section>`;
+}
+function readZdDraft(){
+  if(!$("r-name"))return;
+  draft.name=val("r-name");
+  draft.ingredients.forEach((i,k)=>{if($("ing-n-"+k)){i.n=val("ing-n-"+k);i.g=val("ing-g-"+k);i.flour=$("ing-f-"+k).checked}});
+  draft.steps.forEach((s,k)=>{if($("st-t-"+k)){s.t=val("st-t-"+k);s.min=+val("st-m-"+k)||0;s.reps=+val("st-r-"+k)||0;s.d=val("st-d-"+k);s.tip=val("st-p-"+k)}});
+}
+
+/* ---------- kombucha ---------- */
+function scobyLeft(){const last=scoby.feeds[0];if(!last)return null;return (+scoby.every||7)-daysAgo(last.at)}
+function weekStrip(){
+  const t=new Date();t.setHours(0,0,0,0);const mon=new Date(t);mon.setDate(t.getDate()-((t.getDay()+6)%7));
+  const key=d=>d.getFullYear()+"-"+d.getMonth()+"-"+d.getDate();
+  const fed=new Set(scoby.feeds.map(f=>key(new Date(f.at))));
+  const last=scoby.feeds[0];let due=null;if(last){due=new Date(last.at);due.setHours(0,0,0,0);due.setDate(due.getDate()+(+scoby.every||7))}
+  const names=["Ma","Di","Wo","Do","Vr","Za","Zo"];
+  return `<div class="week">${names.map((n,i)=>{const d=new Date(mon);d.setDate(mon.getDate()+i);
+    const cls=[fed.has(key(d))?"fed":"",due&&key(due)===key(d)?"due":"",key(d)===key(t)?"today":""].join(" ");
+    return `<div><div class="d">${n}</div><div class="c ${cls}">${d.getDate()}</div></div>`}).join("")}</div>`;
+}
+function kbScoby(){
+  const last=scoby.feeds[0], every=+scoby.every||7, left=scobyLeft();
+  const due=left==null?"":left>1?`<span class="chip ok">Over ${left} dagen voeden</span>`:left===1?`<span class="chip wait">Morgen voeden</span>`:left===0?`<span class="chip bad">Vandaag voeden</span>`:`<span class="chip bad">${-left} ${left===-1?"dag":"dagen"} te laat</span>`;
+  return `<div class="stack"><section class="card">
+    <h3>Laatst gevoed</h3>
+    ${last?`<p class="scoby-big">${agoLabel(last.at)}</p><p class="small">${dateLabel(last.at)}${last.note?" · "+esc(last.note):""}</p><div>${due}</div>`:`<p class="small">Nog niet bijgehouden. Vul hieronder in wanneer je je scoby voedde.</p>`}
+    <label for="feed-every" style="flex-direction:row;align-items:center;gap:10px;font-weight:400">Voeden om de<input id="feed-every" type="number" inputmode="numeric" min="1" value="${every}" style="width:72px;text-align:center">dagen</label>
+  </section>
+  ${last?`<section class="card"><h3>Deze week</h3>${weekStrip()}<div class="legend"><span>Gevoed</span><span class="due">Volgende keer</span></div></section>`:""}
+  <section class="card"><h3>Scoby gevoed</h3>
+    <label for="feed-date">Wanneer<input id="feed-date" type="date" value="${toInput()}"></label>
+    <label for="feed-note">Notitie (mag leeg)<input id="feed-note" placeholder="Bijvoorbeeld: 1 liter zoete thee, 80 g suiker"></label>
+    <button class="btn primary big" data-act="feed">Scoby gevoed</button>
+    ${last?remindLink("Scoby voeden",last.at+(+scoby.every||7)*864e5,"Herinnering op iPhone voor de volgende keer"):""}</section>
+  ${scoby.feeds.length>1?`<section class="card"><h3>Eerder</h3><div>${scoby.feeds.slice(1,15).map(f=>`<div class="entry"><div class="meta"><span>${dateLabel(f.at)}</span>${f.note?`<span>${esc(f.note)}</span>`:""}</div></div>`).join("")}</div></section>`:""}</div>`;
+}
+function kbStatus(b){
+  if(!b.evaluated)return `<span class="chip wait">Nog te evalueren</span>`;
+  return b.wrong?`<span class="chip bad">Iets mis</span>`:`<span class="chip ok">Goed gelukt</span>`;
+}
+function kbLog(){
+  const B=S.kbBatch.items;
+  const tips=lastTips&&lastTips.sec==="kb"?tipsCard(lastTips.keys,KB_PROBLEMS):"";
+  return `<div class="stack">${tips}<button class="btn primary big" data-act="kb-new">+ Nieuwe kombucha</button>
+  <section class="log">${B.length?`${B.map(b=>{const rec=S.kbRec.get(b.recipeId),sap=S.sap.get(b.sapId);
+    return `<div class="entry"><div class="row between"><strong>${esc(b.name||"Kombucha")}</strong>${kbStatus(b)}</div>
+    <div class="meta"><span>Gestart ${dateLabel(b.date)}</span>${rec?`<span>Recept: ${esc(rec.name)}</span>`:""}${sap?`<span>Sap: ${esc(sap.name)}</span>`:""}${b.amount?`<span>${esc(b.amount)}</span>`:""}${b.score?`<span class="score">${"★".repeat(b.score)}</span>`:""}</div>
+    ${b.notes?`<p class="pre">${esc(b.notes)}</p>`:""}
+    ${b.wrong&&(b.problems||[]).length?`<div class="chip-row">${b.problems.map(k=>`<span class="chip">${esc((KB_PROBLEMS.find(p=>p.k===k)||{}).t||k)}</span>`).join("")}</div>`:""}
+    ${b.wrong&&b.wrongWhat?`<p><b>Wat was er mis:</b> ${esc(b.wrongWhat)}</p>`:""}${b.evalNotes?`<p><b>Evaluatie:</b> ${esc(b.evalNotes)}</p>`:""}
+    <div class="row tight"><button class="btn sm" data-act="kb-edit" data-id="${esc(b.id)}">${b.evaluated?"Bewerken":"Evalueren"}</button><button class="btn sm soft" data-act="to-kast" data-from="kb" data-id="${esc(b.id)}">In voorraad</button><button class="btn sm danger" data-act="del" data-type="kbBatch" data-id="${esc(b.id)}">Verwijderen</button></div>
+    ${delBox("kbBatch",b.id,b.name||"Deze kombucha")}</div>`}).join("")}`
+    :`<div class="entry"><p class="empty">Nog geen kombucha bijgehouden. Start er een met de knop hierboven.</p></div>`}</section></div>`;
+}
+function kbBatchEditor(){
+  const d=draft, more=d.more||d.amount||d.notes;
+  return `<section class="card"><h2>${d.isNew?"Nieuwe kombucha":esc(d.name||"Kombucha")}</h2>
+    <label for="kb-name">Naam of smaak<input id="kb-name" value="${esc(d.name)}" placeholder="Bijvoorbeeld: Appel-gember"></label>
+    <div class="nums"><label for="kb-date">Gestart op<input id="kb-date" type="date" value="${toInput(d.date)}"></label>
+    <label for="kb-stock">Flessen in voorraad<input id="kb-stock" type="number" inputmode="numeric" min="0" value="${esc(d.stock??"")}" placeholder="0"></label></div>
+    ${moreToggle(more,"kb-more")}
+    ${more?`<label for="kb-sap">Sap gebruikt<select id="kb-sap"><option value="">Geen sap</option>${S.sap.items.map(s=>`<option value="${esc(s.id)}" ${s.id===d.sapId?"selected":""}>${esc(s.name)} (${dateLabel(s.date)})</option>`).join("")}</select></label>
+    <label for="kb-amount">Hoeveelheid<input id="kb-amount" value="${esc(d.amount||"")}" placeholder="Bijvoorbeeld: 4 liter"></label>
+    <label for="kb-notes">Notities<textarea id="kb-notes" placeholder="Bijvoorbeeld: 7 dagen eerste gisting, 3 dagen in fles">${esc(d.notes||"")}</textarea></label>`:""}
+    ${d.isNew?`<label class="chk big-chk" for="kb-saverec"><input id="kb-saverec" type="checkbox" ${d.saveRec?"checked":""}>Ook als recept opslaan</label>`:""}
+    ${d.isNew?"":`<h3>Hoe is het gelukt?</h3>
+    <div class="seg" role="radiogroup" aria-label="Hoe is het gelukt">
+      <button role="radio" data-act="kb-eval" data-v="ok" aria-checked="${!!d.evaluated&&!d.wrong}">Goed gelukt</button>
+      <button role="radio" data-act="kb-eval" data-v="bad" aria-checked="${!!d.evaluated&&!!d.wrong}">Er was iets mis</button></div>
+    ${d.evaluated?`<div>${stars(d.score||0,"kb-score")}</div>
+      ${d.wrong?`<div class="stack" style="gap:8px"><p style="font-weight:500;font-size:15px">Tik aan wat past</p>${probChips(KB_PROBLEMS,d.problems||[],"kbprob")}</div>
+      <label for="kb-wrong">Uitleg (mag leeg)<input id="kb-wrong" value="${esc(d.wrongWhat||"")}" placeholder="Bijvoorbeeld: te zuur na 10 dagen"></label>`:""}`:""}`}
+    <p class="err" id="err"></p>
+    <div class="row"><button class="btn primary" data-act="kb-save">Opslaan</button><button class="btn soft" data-act="cancel">Annuleren</button></div></section>`;
+}
+function readKbDraft(){
+  if(!$("kb-name"))return;
+  draft.name=val("kb-name");draft.date=fromInput(val("kb-date"));rv("kb-sap","sapId");rv("kb-amount","amount");rv("kb-notes","notes");rv("kb-stock","stock");rv("kb-wrong","wrongWhat");
+  if($("kb-saverec"))draft.saveRec=$("kb-saverec").checked;
+}
+function kbRecipes(){
+  const R=S.kbRec.items;
+  return `<div class="stack"><button class="btn primary big" data-act="kbr-new">+ Nieuw recept</button>
+  ${R.length?R.map(r=>`<section class="card"><h2>${esc(r.name)}</h2>
+    ${r.ingredients?`<div><h3>Ingrediënten</h3><p class="pre">${esc(r.ingredients)}</p></div>`:""}
+    ${r.method?`<div><h3>Werkwijze</h3><p class="pre">${esc(r.method)}</p></div>`:""}
+    ${r.notes?`<div class="tip"><b>Notitie</b><span class="pre">${esc(r.notes)}</span></div>`:""}
+    <div class="row tight"><button class="btn sm" data-act="kbr-edit" data-id="${esc(r.id)}">Bewerken</button><button class="btn sm danger" data-act="del" data-type="kbRec" data-id="${esc(r.id)}">Verwijderen</button></div>
+    ${delBox("kbRec",r.id,r.name)}</section>`).join("")
+  :`<section class="card"><p class="empty">Nog geen kombucharecepten. Voeg je eerste toe met de knop hierboven.</p></section>`}</div>`;
+}
+function kbRecEditor(){
+  const d=draft;
+  return `<section class="card"><h2>${d.isNew?"Nieuw recept":"Recept bewerken"}</h2>
+    <label for="kr-name">Naam<input id="kr-name" value="${esc(d.name)}" placeholder="Bijvoorbeeld: Basis groene thee"></label>
+    <label for="kr-ing">Ingrediënten (één per lijn)<textarea id="kr-ing" rows="5" placeholder="1 liter water&#10;80 g suiker&#10;2 theezakjes groene thee&#10;150 ml kombucha van vorige keer">${esc(d.ingredients||"")}</textarea></label>
+    <label for="kr-method">Werkwijze<textarea id="kr-method" rows="5">${esc(d.method||"")}</textarea></label>
+    <label for="kr-notes">Notities<textarea id="kr-notes">${esc(d.notes||"")}</textarea></label>
+    <p class="err" id="err"></p>
+    <div class="row"><button class="btn primary" data-act="kbr-save">Recept opslaan</button><button class="btn soft" data-act="cancel">Annuleren</button></div></section>`;
+}
+
+/* ---------- sappen ---------- */
+function sapLog(){
+  const L=S.sap.items;
+  return `<div class="stack"><button class="btn primary big" data-act="sap-new">+ Nieuw sap</button>
+  <section class="log">${L.length?`${L.map(s=>{const used=S.kbBatch.items.filter(b=>b.sapId===s.id);
+    return `<div class="entry"><div class="row between"><strong>${esc(s.name)}</strong>${s.score?`<span class="score">${"★".repeat(s.score)}</span>`:""}</div>
+    <div class="meta"><span>${dateLabel(s.date)}</span>${s.amount?`<span>${esc(s.amount)}</span>`:""}</div>
+    ${s.ingredients?`<p class="pre">${esc(s.ingredients)}</p>`:""}${s.notes?`<p class="small pre">${esc(s.notes)}</p>`:""}
+    ${used.length?`<p class="small">Gebruikt in kombucha: ${used.map(b=>esc(b.name||"Kombucha")).join(", ")}</p>`:""}
+    <div class="row tight"><button class="btn sm" data-act="sap-edit" data-id="${esc(s.id)}">Bewerken</button><button class="btn sm soft" data-act="to-kast" data-from="sap" data-id="${esc(s.id)}">In voorraad</button><button class="btn sm danger" data-act="del" data-type="sap" data-id="${esc(s.id)}">Verwijderen</button></div>
+    ${delBox("sap",s.id,s.name)}</div>`}).join("")}`
+  :`<div class="entry"><p class="empty">Nog geen sappen. Hou hier bij wat je met de sappan maakt, dan kan je het later kiezen bij je kombucha.</p></div>`}</section></div>`;
+}
+function sapEditor(){
+  const d=draft, more=d.more||d.ingredients||d.amount||d.notes||d.score;
+  return `<section class="card"><h2>${d.isNew?"Nieuw sap":"Sap bewerken"}</h2>
+    <label for="sp-name">Naam<input id="sp-name" value="${esc(d.name)}" placeholder="Bijvoorbeeld: Bramensap"></label>
+    <div class="nums"><label for="sp-date">Gemaakt op<input id="sp-date" type="date" value="${toInput(d.date)}"></label>
+    <label for="sp-stock">Flessen in voorraad<input id="sp-stock" type="number" inputmode="numeric" min="0" value="${esc(d.stock??"")}" placeholder="0"></label></div>
+    ${moreToggle(more,"sap-more")}
+    ${more?`<label for="sp-ing">Wat ging erin (één per lijn)<textarea id="sp-ing" placeholder="2 kg bramen&#10;200 g suiker">${esc(d.ingredients||"")}</textarea></label>
+    <label for="sp-amount">Opbrengst<input id="sp-amount" value="${esc(d.amount||"")}" placeholder="Bijvoorbeeld: 1,5 liter"></label>
+    <div>${stars(d.score||0,"sap-score")}</div>
+    <label for="sp-notes">Notities<textarea id="sp-notes" placeholder="Smaak, hoe lang in de sappan">${esc(d.notes||"")}</textarea></label>`:""}
+    <p class="err" id="err"></p>
+    <div class="row"><button class="btn primary" data-act="sap-save">Opslaan</button><button class="btn soft" data-act="cancel">Annuleren</button></div></section>`;
+}
+
+function moreToggle(open,act){return `<button class="more" data-act="${act}" aria-expanded="${!!open}">${open?"Minder":"Meer details"} <span aria-hidden="true">${open?"▴":"▾"}</span></button>`}
+function rv(id,key){if($(id))draft[key]=val(id)}
+function sc(name,text){return "shortcuts://run-shortcut?name="+encodeURIComponent(name)+"&input=text&text="+encodeURIComponent(text)}
+function remindLink(title,date,label){if(!settings.ios)return "";const d=new Date(date);d.setHours(9,0,0,0);const iso=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")+" 09:00";
+  return `<a class="btn soft sm ios" href="${sc("KW Herinnering",title+"|"+iso)}">${label||"Herinnering op iPhone"}</a>`}
+function iosCard(){return `<section class="card"><h3>iPhone-koppeling</h3>
+  <p class="small">Met de app Opdrachten zet Kitchen Witch timers in je Klok-app en herinneringen in je Herinneringen-app. Die gaan ook af als je gsm op slot is. Je maakt daarvoor eerst twee opdrachten: <b>KW Timer</b> en <b>KW Herinnering</b>.</p>
+  <label class="chk big-chk" for="ios-on"><input id="ios-on" type="checkbox" ${settings.ios?"checked":""}>Knoppen voor iPhone tonen</label></section>`}
+/* ---------- hulp ---------- */
+const BASIS={
+ zd:[
+  {t:"Wat is een starter?",x:["Een starter is bloem en water waarin wilde gisten en melkzuurbacteriën leven. De gisten maken je deeg luchtig, de bacteriën geven de lichtzure smaak.","Je voedt hem met verse bloem en water. Na het voeden groeit hij, bereikt een piek en zakt dan weer in. Op de piek is hij het sterkst."]},
+  {t:"Hydratatie",x:["Hydratatie is hoeveel water er in je deeg zit, vergeleken met de bloem. 450 g water op 660 g bloem is ongeveer 68%.","Meer water geeft een open, luchtige kruim, maar het deeg is moeilijker te vormen. Volkoren bloem neemt meer water op dan witte."]},
+  {t:"Autolyse",x:["Je mengt eerst alleen bloem en water en laat het rusten. De bloem neemt het water op en het deeg wordt vanzelf soepeler.","Daarna hoef je minder te kneden."]},
+  {t:"Kneden en stretch and fold",x:["Door te kneden en te vouwen bouw je een netwerk van gluten op. Dat houdt de gasbelletjes vast.","Bij stretch and fold trek je een kant van het deeg omhoog en vouw je die over het deeg. Rondom, vier keer."]},
+  {t:"Bulkrijs",x:["Dit is de eerste, lange rijs van het hele deeg. Hier ontstaat de meeste smaak en lucht.","Kijk naar het deeg, niet naar de klok: het is klaar als het 50 à 75% groter is, bol staat en bubbels heeft. Hoe warmer, hoe sneller."]},
+  {t:"Vormen en koude rijs",x:["Bij het vormen maak je spanning aan de buitenkant, zodat het brood in de oven omhoog groeit in plaats van uit te lopen.","In de frigo rijst het deeg heel traag verder. Dat geeft meer smaak, en koud deeg is makkelijker te scoren."]},
+  {t:"Scoren en bakken",x:["Met een snede geef je het brood een plek om open te gaan. Zonder snede scheurt het waar het zelf wil.","Met het deksel blijft de stoom bij het brood, waardoor het groot kan worden. Zonder deksel krijg je een bruine, krokante korst."]}
+ ],
+ kb:[
+  {t:"Wat is een scoby?",x:["Scoby is een samenwerking van gisten en bacteriën. Je ziet het als een rubberachtige schijf op je kombucha.","Het echte werk gebeurt in de vloeistof. Daarom gebruik je altijd wat kombucha van vorige keer als starter."]},
+  {t:"Eerste gisting",x:["Zoete thee met scoby en starter in een bokaal, afgedekt met een doek. Meestal 7 à 12 dagen op kamertemperatuur.","De gisten eten de suiker op en de bacteriën maken zuur. Hoe langer, hoe zuurder en minder zoet."]},
+  {t:"Tweede gisting",x:["Je doet de kombucha in flessen met wat sap of fruit, en sluit ze goed. Na 2 à 4 dagen heb je bubbels.","Zet de flessen daarna in de frigo, dan stopt de gisting."]},
+  {t:"Thee en suiker",x:["Gebruik echte thee (zwart of groen), geen kruidenthee met olie. Gewone witte suiker werkt het best.","Ongeveer 70 à 100 g suiker per liter is een goede basis."]},
+  {t:"Veilig werken",x:["Werk met propere bokalen en flessen, en altijd met genoeg starter van vorige keer. Het zuur beschermt je kombucha.","Twijfel je aan schimmel, gooi het dan weg en begin opnieuw met een gezonde scoby."]}
+ ]
+};
+function basisBlock(k){return `<h3 style="margin-top:4px">De basis</h3>${BASIS[k].map(b=>`<details class="help"><summary><span>${esc(b.t)}</span></summary><div class="hb">${b.x.map(p=>`<p>${esc(p)}</p>`).join("")}</div></details>`).join("")}`}
+async function backup(){
+  toast("Reservekopie wordt gemaakt…");
+  const fotos={};for(const b of S.bakes.items)for(const ph of (b.photos||[])){const bl=await photoBlob(ph.id);if(bl){const u=await blobToDataURL(bl);if(u)fotos[ph.id]=u}}
+  const data={app:"Kitchen Witch",versie:1,gemaakt:new Date().toISOString(),broden:S.bakes.items,desemRecepten:S.zdRec.items,kombucha:S.kbBatch.items,kombuchaRecepten:S.kbRec.items,sappen:S.sap.items,plukplekken:S.pluk.items,voorraad:S.kast.items,scoby,instellingen:settings,bezig:active,fotos};
+  const name="kitchen-witch-reservekopie-"+toInput()+".json",text=JSON.stringify(data);
+  try{
+    const dl=window.claude?.use?await claude.use("downloads"):null;
+    if(dl){await dl.save({filename:name,data:text});toast("Reservekopie bewaard.");return}
+    const file=new File([text],name,{type:"application/json"});
+    if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:"Kitchen Witch reservekopie"});toast("Kies 'Bewaar in Bestanden' om hem te bewaren.");return}
+    const a=document.createElement("a");a.href=URL.createObjectURL(file);a.download=name;document.body.appendChild(a);a.click();a.remove();toast("Reservekopie gedownload.");
+  }catch(e){if(e&&e.code!=="declined"&&e.name!=="AbortError")toast("De reservekopie lukte niet. Probeer opnieuw.")}
+}
+async function restore(file){
+  try{const d=JSON.parse(await file.text());if(d.app!=="Kitchen Witch")throw 0;
+    let n=0;const put=(st,arr)=>(arr||[]).forEach(it=>{if(it&&it.id){st.save(it);n++}});
+    put(S.bakes,d.broden);put(S.zdRec,d.desemRecepten);put(S.kbBatch,d.kombucha);put(S.kbRec,d.kombuchaRecepten);put(S.sap,d.sappen);put(S.pluk,d.plukplekken);put(S.kast,d.voorraad);
+    if(d.scoby&&d.scoby.feeds){const have=new Set(scoby.feeds.map(f=>f.at));scoby.feeds=[...scoby.feeds,...d.scoby.feeds.filter(f=>!have.has(f.at))];if(d.scoby.every)scoby.every=d.scoby.every;saveScoby()}
+    if(d.instellingen){settings={...settings,...d.instellingen,seeded:true};lsSet("kw-settings",settings);if(settingsRef)queue(()=>settingsRef.set(settings))}
+    if(d.fotos&&LOCAL)for(const [id,u] of Object.entries(d.fotos)){try{await idbPut(id,await dataURLToBlob(u))}catch(e){}}
+    render();toast(n+" dingen teruggezet.");
+  }catch(e){toast("Dit is geen reservekopie van Kitchen Witch.")}
+}
+function probChips(list,sel,act){return `<div class="chips">${list.map(p=>`<button aria-pressed="${sel.includes(p.k)}" data-act="${act}" data-k="${p.k}">${esc(p.t)}</button>`).join("")}</div>`}
+function helpPage(list,items,label){
+  return `<div class="stack"><p class="small">Tik op wat je zag. Je krijgt de meest waarschijnlijke oorzaken en wat je volgende keer kan proberen.</p>
+  ${list.map(p=>{const mine=items.filter(b=>(b.problems||[]).includes(p.k));
+    return `<details class="help"><summary><span>${esc(p.t)}</span>${mine.length?`<span class="chip">Bij jou ${mine.length}×</span>`:""}</summary><div class="hb">
+      <div><h3>Waarom</h3><ul>${p.why.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+      <div class="tip"><b>Probeer volgende keer</b><ul>${p.fix.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+      ${mine.length?`<div><h3>Jouw keren</h3><ul>${mine.map(b=>`<li>${label(b)}${b.bad||b.wrongWhat?": "+esc(b.bad||b.wrongWhat):""}</li>`).join("")}</ul></div>`:""}
+    </div></details>`}).join("")}</div>`;
+}
+
+/* ---------- foto's ---------- */
+function photoBlock(photos,id){
+  const can=assetsNS||LOCAL;if(!can&&!photos.length)return "";
+  return `<div class="stack" style="gap:8px">${photos.length?`<div class="photos">${photos.map(ph=>LOCAL?`<img data-local="${esc(ph.id)}" alt="Foto van je brood">`:`<img src="/_blob/${esc(ph.id)}" alt="Foto van je brood" loading="lazy">`).join("")}</div>`:""}
+    ${can&&photos.length<6?`<label class="btn soft sm file" for="${id}">${busy===id?"Foto opladen…":"+ Foto toevoegen"}<input id="${id}" type="file" accept="image/*" hidden></label>`:""}</div>`;
+}
+async function shrink(file){
+  try{const bmp=await createImageBitmap(file);const m=1600,sc=Math.min(1,m/Math.max(bmp.width,bmp.height));
+    const c=document.createElement("canvas");c.width=Math.round(bmp.width*sc);c.height=Math.round(bmp.height*sc);
+    c.getContext("2d").drawImage(bmp,0,0,c.width,c.height);return await new Promise(r=>c.toBlob(b=>r(b||file),"image/jpeg",.82));}
+  catch(e){return file}
+}
+async function addPhoto(input){
+  const f=input.files&&input.files[0];if(!f||!(assetsNS||LOCAL))return;const id=input.id;busy=id;render();
+  try{const blob=await shrink(f);let ph;
+    if(LOCAL){const pid="l"+Date.now().toString(36)+Math.floor(Math.random()*1e4);await idbPut(pid,blob);photoBlobs[pid]=blob;ph={id:pid}}
+    else{const up=await assetsNS.upload(blob,{contentType:"image/jpeg"});ph={id:up.id};photoBlobs[up.id]=blob}
+    if(id==="photo-res"){result.photos=[...(result.photos||[]),ph]}
+    else{const b=S.bakes.get(id.replace("photo-bake-",""));if(b)S.bakes.save({...b,photos:[...(b.photos||[]),ph]})}
+  }catch(e){busy="";render();setStatus("De foto kon niet opgeladen worden. Probeer opnieuw.");return}
+  busy="";setStatus("");render();
+}
+
+/* ---------- wildpluk ---------- */
+function daysUntil(ts){const a=new Date();a.setHours(0,0,0,0);const b=new Date(ts);b.setHours(0,0,0,0);return Math.round((b-a)/864e5)}
+function matchPlant(t){t=(t||"").toLowerCase();const m=KW.find(([w])=>t.includes(w));return m?m[1]:""}
+function spotWin(sp){const P=PLANT[sp.plant];const s=sp.s||(P&&P.s),e=sp.e||(P&&P.e);return s&&e?{s,e}:null}
+function spotStatus(sp){
+  const w=spotWin(sp);if(!w)return {st:"none"};
+  const t=new Date();t.setHours(0,0,0,0);const Y=t.getFullYear(),lead=+settings.lead||14;
+  for(const y of [Y-1,Y]){const a=new Date(y,w.s[0]-1,w.s[1]),z=new Date(y,w.e[0]-1,w.e[1]);if(z<a)z.setFullYear(y+1);if(t>=a&&t<=z)return {st:"now",days:Math.round((z-t)/864e5)}}
+  for(const y of [Y,Y+1]){const a=new Date(y,w.s[0]-1,w.s[1]);if(a>t){const d=Math.round((a-t)/864e5);return {st:d<=lead?"soon":"later",days:d,start:a}}}
+  return {st:"none"};
+}
+function plantName(sp){return sp.plant&&PLANT[sp.plant]?PLANT[sp.plant].n:(sp.plantName||"")}
+function plukGroups(){
+  const g={};S.pluk.items.forEach(sp=>{const st=spotStatus(sp);if(st.st!=="now"&&st.st!=="soon")return;const n=plantName(sp)||sp.name;
+    const k=st.st+n;if(!g[k])g[k]={name:n,st:st.st,days:st.days,n:0};g[k].n++;g[k].days=Math.min(g[k].days,st.days)});
+  return Object.values(g).sort((a,b)=>(a.st==="now"?0:1)-(b.st==="now"?0:1)||a.days-b.days);
+}
+function spotChip(st){
+  if(st.st==="now")return `<span class="chip ok">Nu plukken</span>`;
+  if(st.st==="soon")return `<span class="chip">Over ${st.days} ${st.days===1?"dag":"dagen"}</span>`;
+  if(st.st==="later")return `<span class="chip wait">Vanaf ${MONTHS[st.start.getMonth()]}</span>`;
+  return `<span class="chip wait">Kies een plant</span>`;
+}
+function mapsLink(sp){return sp.lat!=null&&sp.lng!=null?`https://www.google.com/maps/search/?api=1&query=${sp.lat},${sp.lng}`:(sp.url||"")}
+const MAP={url:"kaart.jpg",w:2400,h:1800,x0:2135981.854222222*2,y0:1405833.377337881*2,n:256*Math.pow(2,15),sc:.5};
+let selPin=null,mapScroll=null;
+function mapXY(lat,lng){const s=Math.sin(lat*Math.PI/180);return {x:(lng+180)/360*MAP.n-MAP.x0,y:(.5-Math.log((1+s)/(1-s))/(4*Math.PI))*MAP.n-MAP.y0}}
+function onMap(sp){if(sp.lat==null||sp.lng==null)return null;const p=mapXY(sp.lat,sp.lng);return p.x>=0&&p.y>=0&&p.x<=MAP.w&&p.y<=MAP.h?p:null}
+function plukMap(){
+  const pins=S.pluk.items.map(sp=>({sp,p:onMap(sp),st:spotStatus(sp).st})).filter(x=>x.p).map(x=>({...x,p:{x:x.p.x*MAP.sc,y:x.p.y*MAP.sc}}));
+  const groups=[];pins.forEach(pn=>{const g=groups.find(g=>Math.hypot(g.x-pn.p.x,g.y-pn.p.y)<24);if(g){g.m.push(pn)}else groups.push({x:pn.p.x,y:pn.p.y,m:[pn]})});
+  groups.forEach(g=>{if(g.m.length<2)return;const r=14+g.m.length*3;g.m.forEach((pn,i)=>{const a=-Math.PI/2+i*2*Math.PI/g.m.length;pn.p={x:g.x+r*Math.cos(a),y:g.y+r*Math.sin(a)}})});
+  const off=S.pluk.items.filter(sp=>!onMap(sp)).length;
+  const sel=selPin&&S.pluk.get(selPin);
+  return `<section class="card map-card"><div class="map-wrap"><div class="map" id="map"><div class="map-inner" style="width:${MAP.w*MAP.sc}px;height:${MAP.h*MAP.sc}px">
+    <img src="${MAP.url}" alt="Kaart van Waregem en omgeving" width="${MAP.w*MAP.sc}" height="${MAP.h*MAP.sc}" draggable="false">
+    ${pins.map(({sp,p,st})=>`<button class="pin ${st} ${sp.id===selPin?"sel":""}" style="left:${p.x.toFixed(1)}px;top:${p.y.toFixed(1)}px" data-act="pin" data-id="${esc(sp.id)}" aria-label="${esc(sp.name)}"></button>`).join("")}
+    </div></div><span class="attr">© OpenStreetMap-bijdragers</span></div>
+    <div class="legend map-legend"><span class="now">Nu plukken</span><span class="soon">Binnenkort</span><span class="later">Later</span></div>
+    ${sel?(()=>{const st=spotStatus(sel),ml=mapsLink(sel);return `<div class="pin-info"><div class="row between"><strong style="font-weight:400;font-size:18px">${esc(sel.name)}</strong>${spotChip(st)}</div>
+      <div class="meta">${plantName(sel)?`<span>${esc(plantName(sel))}</span>`:""}${spotWin(sel)?`<span>${MONTHS[spotWin(sel).s[0]-1]} tot ${MONTHS[spotWin(sel).e[0]-1]}</span>`:""}</div>
+      ${sel.note?`<p class="small pre">${esc(sel.note)}</p>`:""}
+      <div class="row tight">${ml?`<a class="btn sm soft" href="${esc(ml)}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;text-decoration:none">Route in Google Maps</a>`:""}<button class="btn sm" data-act="pl-edit" data-id="${esc(sel.id)}">Bewerken</button><button class="btn sm danger" data-act="del" data-type="pluk" data-id="${esc(sel.id)}">Verwijderen</button></div>
+      ${delBox("pluk",sel.id,sel.name)}</div>`})():`<p class="small">Tik op een speldje om te zien wat er groeit.${off?` ${off} ${off===1?"plek ligt":"plekken liggen"} buiten deze kaart.`:""}</p>`}
+  </section>`;
+}
+function placeMap(){
+  const m=$("map");if(!m)return;
+  if(mapScroll){m.scrollLeft=mapScroll[0];m.scrollTop=mapScroll[1]}
+  else{const ps=S.pluk.items.map(onMap).filter(Boolean);let cx=1100,cy=900;
+    if(ps.length){const xs=ps.map(p=>p.x).sort((a,b)=>a-b),ys=ps.map(p=>p.y).sort((a,b)=>a-b);cx=xs[Math.floor(xs.length/2)];cy=ys[Math.floor(ys.length/2)]}
+    m.scrollLeft=cx*MAP.sc-m.clientWidth/2;m.scrollTop=cy*MAP.sc-m.clientHeight/2}
+  m.onscroll=()=>{mapScroll=[m.scrollLeft,m.scrollTop]};
+}
+function seedList(){
+  if(settings.seeded)return;
+  MY_LIST.forEach((x,i)=>{const id="ml-"+i;if(S.pluk.get(id))return;const pk=matchPlant(x.name),P=PLANT[pk];
+    if(S.pluk.items.some(y=>y.name===x.name&&y.lat===x.lat&&y.lng===x.lng))return;
+    S.pluk.save({id,name:x.name,plant:pk,s:P?P.s:null,e:P?P.e:null,note:x.note||"",lat:x.lat,lng:x.lng,url:"",created:1700000000000+i})});
+  settings.seeded=true;lsSet("kw-settings",settings);if(settingsRef)queue(()=>settingsRef.set(settings));
+}
+function listTodo(){const have=new Set(S.pluk.items.map(x=>x.name+"|"+x.lat+"|"+x.lng));return MY_LIST.filter(x=>!have.has(x.name+"|"+x.lat+"|"+x.lng))}
+function plukPlekken(){
+  const order={now:0,soon:1,later:2,none:3};
+  const L=[...S.pluk.items].map(sp=>({sp,st:spotStatus(sp)})).sort((a,b)=>order[a.st.st]-order[b.st.st]||(a.st.days||0)-(b.st.days||0));
+  return `<div class="stack">
+    ${importPreview?`<section class="card"><h2>${importPreview.length} plekken gevonden</h2>
+      <p class="small">De app herkent de plant uit de naam. Niet herkend? Kies de plant achteraf bij Bewerken.</p>
+      <div class="preview">${importPreview.map(x=>`<div><span>${esc(x.name)}</span><span class="small">${x.plant?esc(PLANT[x.plant].n):"Niet herkend"}</span></div>`).join("")}</div>
+      <div class="row"><button class="btn primary" data-act="imp-yes">Importeer</button><button class="btn soft" data-act="imp-no">Annuleren</button></div></section>`
+    :`
+    ${plukMap()}
+    <div class="row tight"><button class="btn sm" data-act="pl-new">+ Plek toevoegen</button><label class="btn sm soft file" for="imp-file">${busy==="imp"?"Bezig met lezen…":"Bestand inladen"}<input id="imp-file" type="file" accept=".kml,.kmz,.json,.geojson,.csv" hidden></label></div>
+    <p class="err" id="err"></p>`}
+    <section class="card rows">${L.length?L.map(({sp,st})=>`<button class="srow ${sp.id===selPin?"on":""}" data-act="pin" data-id="${esc(sp.id)}" data-scroll="1">
+      <span class="sdot ${st.st}"></span><span class="sname"><b>${esc(sp.name)}</b><small>${esc(plantName(sp)||"Plant kiezen")}${spotWin(sp)?" · "+MONTHS[spotWin(sp).s[0]-1]+" tot "+MONTHS[spotWin(sp).e[0]-1]:""}</small></span>${spotChip(st)}</button>`).join(""):`<p class="empty">Nog geen plukplekken. Voeg een plek toe.</p>`}</section>
+    ${L.length?`<p class="small">Bij elke plant staat een gewone plukperiode voor Vlaanderen. Die kan een paar weken verschuiven door het weer. Pas ze gerust aan bij Bewerken. Pluk alleen wat je zeker herkent.</p>`:""}
+  </div>`;
+}
+function monthSel(id,v){return `<select id="${id}">${MONTHS.map((m,i)=>`<option value="${i+1}" ${i+1===v?"selected":""}>${m}</option>`).join("")}</select>`}
+function plukEditor(){
+  const d=draft,w=spotWin(d)||{s:[4,1],e:[5,31]};
+  return `<section class="card"><h2>${d.isNew?"Nieuwe plukplek":"Plek bewerken"}</h2>
+    <label for="pl-name">Naam<input id="pl-name" value="${esc(d.name)}" placeholder="Bijvoorbeeld: Vlier aan het fietspad"></label>
+    <label for="pl-plant">Plant<select id="pl-plant"><option value="">Andere plant</option>${PLANTS.map(p=>`<option value="${p.k}" ${p.k===d.plant?"selected":""}>${p.n}</option>`).join("")}</select></label>
+    ${d.plant?"":`<label for="pl-pname">Naam van de plant<input id="pl-pname" value="${esc(d.plantName||"")}" placeholder="Bijvoorbeeld: Wilde marjolein"></label>`}
+    <div class="nums"><label for="pl-from">Plukken vanaf${monthSel("pl-from",w.s[0])}</label><label for="pl-to">Tot en met${monthSel("pl-to",w.e[0])}</label></div>
+    <label for="pl-link">Link naar Google Maps (mag leeg)<input id="pl-link" value="${esc(d.lat!=null?mapsLink(d):(d.url||""))}" placeholder="Plak hier de link van de plek"></label>
+    <label for="pl-note">Notitie<textarea id="pl-note" placeholder="Bijvoorbeeld: achter het bankje, veel bessen in 2025">${esc(d.note||"")}</textarea></label>
+    <p class="err" id="err"></p>
+    <div class="row"><button class="btn primary" data-act="pl-save">Opslaan</button><button class="btn soft" data-act="cancel">Annuleren</button></div></section>`;
+}
+function readPlukDraft(){
+  if(!$("pl-name"))return;const lastDay=m=>new Date(2025,m,0).getDate();
+  draft.name=val("pl-name");draft.plant=val("pl-plant");if($("pl-pname"))draft.plantName=val("pl-pname");draft.note=val("pl-note");
+  const P=PLANT[draft.plant],f=+val("pl-from"),t=+val("pl-to");
+  draft.s=[f,P&&P.s[0]===f?P.s[1]:1];draft.e=[t,P&&P.e[0]===t?P.e[1]:lastDay(t)];
+  const link=val("pl-link").trim(),m=link.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/)||link.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/)||link.match(/query=(-?\d+\.\d+),(-?\d+\.\d+)/);
+  if(m){draft.lat=+m[1];draft.lng=+m[2];draft.url=""}else if(link&&link!==mapsLink(draft)){draft.url=link;draft.lat=null;draft.lng=null}else if(!link){draft.url="";draft.lat=null;draft.lng=null}
+}
+function gcalLink(name,start){
+  const d=new Date(start);d.setDate(d.getDate()-(+settings.lead||14));const n=new Date(d);n.setDate(n.getDate()+1);
+  const f=x=>x.getFullYear()+String(x.getMonth()+1).padStart(2,"0")+String(x.getDate()).padStart(2,"0");
+  return "https://calendar.google.com/calendar/render?action=TEMPLATE&text="+encodeURIComponent("Bijna plukken: "+name)+"&dates="+f(d)+"/"+f(n)+"&recur="+encodeURIComponent("RRULE:FREQ=YEARLY")+"&details="+encodeURIComponent("Over "+(+settings.lead||14)+" dagen begint het plukseizoen. Kijk in Kitchen Witch welke plekken je hebt.");
+}
+function plukSeizoen(){
+  const mine={};S.pluk.items.forEach(sp=>{const n=plantName(sp)||sp.name,w=spotWin(sp);if(w&&!mine[n])mine[n]=w});
+  const rows=(Object.keys(mine).length?Object.entries(mine):PLANTS.map(p=>[p.n,{s:p.s,e:p.e}])).sort((a,b)=>a[1].s[0]-b[1].s[0]||a[1].s[1]-b[1].s[1]);
+  const cur=new Date().getMonth()+1;
+  const inM=(w,m)=>w.s[0]<=w.e[0]?(m>=w.s[0]&&m<=w.e[0]):(m>=w.s[0]||m<=w.e[0]);
+  return `<div class="stack">
+    <section class="card"><h3>Seintje vooraf</h3>
+      <label for="lead" style="flex-direction:row;align-items:center;gap:10px;font-weight:400">Laat het me<input id="lead" type="number" inputmode="numeric" min="1" value="${+settings.lead||14}" style="width:72px;text-align:center">dagen op voorhand weten</label>
+      <p class="small">Je ziet het seintje op het overzicht bij "Vandaag". Wil je ook een melding op je gsm, zet de plant dan in je Google Agenda. Die herinnert je elk jaar.</p></section>
+    <section class="card"><h3>${Object.keys(mine).length?"Jouw planten":"Plukkalender"}</h3>
+      <div class="cal">${MSHORT.map((m,i)=>`<span style="${i+1===cur?"color:var(--accent);font-weight:700":""}">${m}</span>`).join("")}</div>
+      ${rows.map(([n,w])=>{const st=spotStatus({s:w.s,e:w.e});const start=st.start||new Date(new Date().getFullYear()+1,w.s[0]-1,w.s[1]);
+        return `<div class="stack" style="gap:6px;padding-top:10px;border-top:1px solid var(--line)">
+        <div class="row between"><strong style="font-weight:500">${esc(n)}</strong>${spotChip(st)}</div>
+        <div class="cal">${MSHORT.map((m,i)=>`<i class="${inM(w,i+1)?"on":""} ${i+1===cur?"cur":""}"></i>`).join("")}</div>
+        ${Object.keys(mine).length?(settings.ios?remindLink("Bijna plukken: "+n,start.getTime()-(+settings.lead||14)*864e5,"Herinnering op iPhone"):`<a class="small link" href="${gcalLink(n,start)}" target="_blank" rel="noopener">In Google Agenda zetten</a>`):""}</div>`}).join("")}
+    </section></div>`;
+}
+async function readImport(file){
+  const name=file.name.toLowerCase();let out=[];
+  const pmFromKml=text=>{const doc=new DOMParser().parseFromString(text,"text/xml");
+    return [...doc.getElementsByTagName("Placemark")].map(pm=>{
+      const nm=(pm.getElementsByTagName("name")[0]||{}).textContent||"Plek";
+      const ds=((pm.getElementsByTagName("description")[0]||{}).textContent||"").replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
+      const c=((pm.getElementsByTagName("coordinates")[0]||{}).textContent||"").trim().split(/\s+/)[0].split(",");
+      let folder="",n=pm.parentNode;while(n&&n.nodeName!=="#document"){if(n.nodeName==="Folder"){const f=[...n.children].find(x=>x.nodeName==="name");folder=f?f.textContent:"";break}n=n.parentNode}
+      return {name:nm.trim(),note:ds,lat:c.length>1?+c[1]:null,lng:c.length>1?+c[0]:null,hint:folder}})};
+  if(name.endsWith(".kmz")){if(!window.JSZip)throw new Error("zip");const z=await JSZip.loadAsync(file);const k=Object.values(z.files).find(f=>f.name.toLowerCase().endsWith(".kml"));if(!k)throw new Error("kml");out=pmFromKml(await k.async("text"))}
+  else if(name.endsWith(".kml"))out=pmFromKml(await file.text());
+  else if(name.endsWith(".json")||name.endsWith(".geojson")){const j=JSON.parse(await file.text());
+    out=(j.features||[]).map(f=>{const p=f.properties||{},c=(f.geometry||{}).coordinates||[];
+      return {name:(p.name||p.Title||p.title||(p.location&&p.location.name)||"Plek").trim(),note:p.description||p.Comment||p.comment||"",lat:c.length>1?+c[1]:null,lng:c.length>1?+c[0]:null,url:p.google_maps_url||p["Google Maps URL"]||"",hint:""}})}
+  else if(name.endsWith(".csv")){const rows=(await file.text()).split(/\r?\n/).filter(Boolean).map(l=>{const r=[];let cur="",q=false;for(const ch of l){if(ch==='"')q=!q;else if(ch===","&&!q){r.push(cur);cur=""}else cur+=ch}r.push(cur);return r});
+    const h=rows.shift().map(x=>x.trim().toLowerCase()),ti=h.indexOf("title"),no=h.indexOf("note"),ur=h.indexOf("url");
+    out=rows.map(r=>{const u=r[ur]||"",m=u.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/)||u.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/);
+      return {name:(r[ti]||"Plek").trim(),note:r[no]||"",lat:m?+m[1]:null,lng:m?+m[2]:null,url:m?"":u,hint:""}}).filter(x=>x.name)}
+  else throw new Error("type");
+  return out.filter(x=>x.name).map(x=>({...x,plant:matchPlant(x.name+" "+x.hint+" "+x.note)}));
+}
+
+/* ---------- voorraad ---------- */
+function kastChip(i){
+  if(!(+i.count>0))return `<span class="chip wait">Op</span>`;
+  if(i.best){const d=daysUntil(i.best);if(d<0)return `<span class="chip bad">Over datum</span>`;if(d<=14)return `<span class="chip">Nog ${d} ${d===1?"dag":"dagen"}</span>`}
+  return "";
+}
+function kastPage(){
+  const has=S.kast.items.filter(i=>+i.count>0),gone=S.kast.items.filter(i=>!(+i.count>0));
+  const oldest={};has.forEach(i=>{const t=i.type||"Andere";if(!oldest[t])oldest[t]=i.id});
+  const card=i=>`<div class="entry"><div class="row between"><strong>${esc(i.name)}</strong><span class="chip-row">${oldest[i.type||"Andere"]===i.id&&has.filter(x=>(x.type||"Andere")===(i.type||"Andere")).length>1?`<span class="chip ok">Eerst op</span>`:""}${kastChip(i)}</span></div>
+    <div class="meta"><span>${esc(i.type||"Andere")}</span>${i.date?`<span>Gemaakt ${dateLabel(i.date)}</span>`:""}${i.best?`<span>Houdbaar tot ${dateLabel(i.best)}</span>`:""}</div>
+    ${i.note?`<p class="small pre">${esc(i.note)}</p>`:""}
+    <div class="row between"><div class="counter"><button class="x" data-act="k-min" data-id="${esc(i.id)}" aria-label="Eén minder">−</button><b>${+i.count||0}</b><button class="x" data-act="k-plus" data-id="${esc(i.id)}" aria-label="Eén meer">+</button><span class="small">${esc(i.unit||"stuks")}</span></div>
+    <div class="row tight"><button class="btn sm" data-act="k-edit" data-id="${esc(i.id)}">Bewerken</button><button class="btn sm danger" data-act="del" data-type="kast" data-id="${esc(i.id)}">Verwijderen</button></div></div>
+    ${delBox("kast",i.id,i.name)}</div>`;
+  return `<div class="stack"><button class="btn primary big" data-act="k-new">+ Toevoegen</button>
+    <section class="log">${has.length?has.map(card).join(""):`<div class="entry"><p class="empty">De kast is leeg. Voeg je sap, kombucha of confituur toe.</p></div>`}</section>
+    ${gone.length?`<h3 style="margin-top:6px">Op</h3><section class="log">${gone.map(card).join("")}</section>`:""}</div>`;
+}
+function kastEditor(){
+  const d=draft;
+  return `<section class="card"><h2>${d.isNew?"In de voorraad":"Voorraad bewerken"}</h2>
+    <label for="ks-name">Naam<input id="ks-name" value="${esc(d.name)}" placeholder="Bijvoorbeeld: Bramensap"></label>
+    <div class="nums"><label for="ks-type">Soort<select id="ks-type">${KAST_TYPES.map(t=>`<option ${t===d.type?"selected":""}>${t}</option>`).join("")}</select></label>
+    <label for="ks-count">Aantal<input id="ks-count" type="number" inputmode="numeric" min="0" value="${esc(d.count)}"></label></div>
+    <label for="ks-unit">Eenheid<input id="ks-unit" value="${esc(d.unit||"")}" placeholder="flessen, potten…"></label>
+    <div class="nums"><label for="ks-date">Gemaakt op<input id="ks-date" type="date" value="${toInput(d.date)}"></label>
+    <label for="ks-best">Houdbaar tot (mag leeg)<input id="ks-best" type="date" value="${d.best?toInput(d.best):""}"></label></div>
+    <label for="ks-note">Notitie<textarea id="ks-note">${esc(d.note||"")}</textarea></label>
+    <p class="err" id="err"></p>
+    <div class="row"><button class="btn primary" data-act="k-save">Opslaan</button><button class="btn soft" data-act="cancel">Annuleren</button></div></section>`;
+}
+function readKastDraft(){
+  if(!$("ks-name"))return;draft.name=val("ks-name");draft.type=val("ks-type");draft.count=Math.max(0,+val("ks-count")||0);draft.unit=val("ks-unit");
+  draft.date=fromInput(val("ks-date"));draft.best=val("ks-best")?fromInput(val("ks-best")):null;draft.note=val("ks-note");
+}
+
+/* ---------- timer ---------- */
+function runbar(){
+  const rb=$("runbar");if(!rb)return;const show=!!active&&!(sec==="zd"&&sub.zd==="bake");rb.hidden=!show;document.body.classList.toggle("has-run",show);if(!show)return;
+  if(active.finished){rb.innerHTML=`<span class="rb-dot"></span><span class="rb-txt"><b>Je brood is klaar</b><small>Tik om een score te geven</small></span><span class="rb-time">→</span>`;return}
+  const s=steps()[active.step],r=remaining();
+  rb.innerHTML=`<span class="rb-dot ${r!=null&&r<=0?"done":""}"></span><span class="rb-txt"><b>Stap ${active.step+1}: ${esc(s.t)}</b><small>${esc(active.recipeName||DEFAULT.name)}${r!=null&&r>0?" · klaar om "+timeLabel(active.stepStart+s.min*60000):r!=null?" · tijd is om!":""}</small></span><span class="rb-time" id="rb-time">${r!=null?fmt(r):"→"}</span>`;
+}
+function tick(){
+  if(active&&!active.finished&&!$("runbar").hidden){const el=$("rb-time"),r=remaining();if(el&&r!=null){el.textContent=fmt(r);if(r<=0&&!el.dataset.done){el.dataset.done=1;runbar()}}
+    const key=active.step+"-"+active.stepStart;if(r!=null&&r<=0&&!alerted.has(key)){alerted.add(key);beep()}}
+  const el=$("timer");if(!el||!active||!active.stepStart)return;
+  const r=remaining();el.textContent=fmt(r);
+  const rp=$("ring-p");if(rp){const C=2*Math.PI*100,tot=steps()[active.step].min*60000;rp.setAttribute("stroke-dashoffset",C*(1-Math.max(0,r)/tot))}
+  const key=active.step+"-"+active.stepStart;
+  if(r<=0){el.classList.add("done");$("timer-sub").textContent="Tijd is om!";
+    if(!alerted.has(key)){alerted.add(key);beep();document.title="⏰ Tijd is om! · Kitchen Witch"}}
+}
+setInterval(tick,1000);
+
+/* ---------- input reading ---------- */
+function readInputs(){
+  if(draft){
+    if(sec==="zd")readZdDraft();
+    if(sec==="kb"&&sub.kb==="log")readKbDraft();
+    if(sec==="kb"&&sub.kb==="rec"&&$("kr-name")){draft.name=val("kr-name");draft.ingredients=val("kr-ing");draft.method=val("kr-method");draft.notes=val("kr-notes")}
+    if(sec==="pluk")readPlukDraft();
+    if(sec==="zd")readBakeDraft();
+    if(sec==="kast")readKastDraft();
+    if(sec==="sap"&&$("sp-name")){draft.name=val("sp-name");draft.date=fromInput(val("sp-date"));rv("sp-ing","ingredients");rv("sp-amount","amount");rv("sp-stock","stock");rv("sp-notes","notes")}
+  }
+  if(active&&sec==="zd"){if($("note")){active.notes=active.notes||{};active.notes[active.step]=val("note")}if($("temp"))active.temp=val("temp")}
+  ["good","bad","next"].forEach(k=>{if($(k))result[k]=val(k)});
+}
+function fail(msg){render();$("err").textContent=msg}
+
+document.addEventListener("click",e=>{
+  const tu=e.target.closest("[data-toast]");if(tu){if(toastUndo)toastUndo();toastUndo=null;$("toast").hidden=true;return}
+  const nav=e.target.closest("[data-go],#sub button,[data-quick]");if(nav)setStatus("");
+  const bk=e.target.closest("[data-back]");if(bk&&navDepth>0){history.back();return}if(bk){readInputs();if(active&&sec==="zd")saveActive();if(draft||importPreview){draft=null;importPreview=null;confirmDel=null}else{sec="home";confirmDel=null}render();window.scrollTo(0,0);return}
+  const sh=e.target.closest("[data-sheet]");if(sh){sheet(true);return}
+  const qk=e.target.closest("[data-quick]");if(qk){quick(qk.dataset.quick);return}
+  const go=e.target.closest("[data-go]");if(go){readInputs();if(active&&sec==="zd")saveActive();if(go.dataset.go==="hulp"&&(sec==="zd"||sec==="kb"))sub.hulp=sec;sec=go.dataset.go;if(go.dataset.to)sub[sec]=go.dataset.to;if(sec==="zd"&&active)sub.zd="bake";draft=null;confirmDel=null;render();window.scrollTo(0,0);return}
+  if(e.target.closest("[data-home]")){readInputs();if(active&&sec==="zd")saveActive();sec="home";draft=null;confirmDel=null;render();return}
+  const tb=e.target.closest("#sub button");if(tb){readInputs();sub[sec]=tb.dataset.sub;draft=null;confirmDel=null;render();return}
+  const b=e.target.closest("[data-act]");if(!b)return;
+  const act=b.dataset.act,k=+b.dataset.k,id=b.dataset.id;readInputs();document.title="Kitchen Witch";
+  switch(act){
+    case "start":{const r=getZd(selId);active={id:uid("b"),startedAt:Date.now(),recipeId:r.id,recipeName:r.name,steps:clone(r.steps),step:0,stepStart:null,reps:0,notes:{},temp:"",stepDone:{}};confirmStop=false;keepAwake(true);saveActive();break}
+    case "timer":active.stepStart=Date.now();keepAwake(true);saveActive();break;
+    case "fold":active.reps=(active.reps||0)+1;if(active.reps>=steps()[active.step].reps)nextStep();else active.stepStart=Date.now();keepAwake(true);saveActive();break;
+    case "next":nextStep();saveActive();break;
+    case "prev":active.step=Math.max(0,active.step-1);active.stepStart=null;active.reps=0;saveActive();break;
+    case "stop":confirmStop=true;break;
+    case "stop-no":confirmStop=false;break;
+    case "stop-yes":active=null;confirmStop=false;keepAwake(false);saveActive();break;
+    case "score":result.score=+b.dataset.n;break;
+    case "save-bake":S.bakes.save({...active,finished:true,problems:result.problems||[],photos:result.photos||[],score:result.score,good:result.good||"",bad:result.bad||"",next:result.next||"",endedAt:Date.now()});const savedId=active.id;lastTips=((result.problems||[]).length||(result.photos||[]).length)?{sec:"zd",keys:result.problems||[],bakeId:savedId}:null;if(lastTips)adviseBake(savedId);active=null;result={score:0};keepAwake(false);saveActive();sub.zd="log";window.scrollTo(0,0);break;
+    case "zd-new":draft={isNew:true,id:uid("r"),name:"",ingredients:[{n:"",g:"",flour:true}],steps:[{t:"",min:0,reps:0,d:"",tip:""}]};break;
+    case "zd-copy":{const r=getZd(recView);draft={...clone(r),isNew:true,builtin:false,id:uid("r"),created:0,name:r.name+" (kopie)"};break}
+    case "zd-edit":draft={...clone(getZd(recView)),isNew:false};break;
+    case "ing-add":draft.ingredients.push({n:"",g:"",flour:false});break;
+    case "ing-del":draft.ingredients.splice(k,1);break;
+    case "st-add":draft.steps.push({t:"",min:0,reps:0,d:"",tip:""});break;
+    case "st-del":draft.steps.splice(k,1);break;
+    case "st-up":{const s=draft.steps.splice(k,1)[0];draft.steps.splice(k-1,0,s);break}
+    case "zd-save":{const ing=draft.ingredients.filter(i=>String(i.n).trim()),st=draft.steps.filter(s=>s.t.trim());
+      if(!draft.name.trim())return fail("Geef je recept een naam.");if(!st.length)return fail("Voeg minstens één stap met een titel toe.");
+      const r={id:draft.id,name:draft.name.trim(),created:draft.created||Date.now(),ingredients:ing.map(i=>({n:i.n.trim(),g:+i.g||0,flour:!!i.flour})),
+        steps:st.map(s=>{const o={t:s.t.trim(),min:+s.min||0,d:s.d.trim()};if(s.reps>1)o.reps=+s.reps;if(s.tip&&s.tip.trim())o.tip=s.tip.trim();return o})};
+      S.zdRec.save(r);recView=r.id;selId=r.id;lsSet("kw-sel",selId);draft=null;break}
+    case "cancel":draft=null;break;
+    case "prob":{const p=result.problems||[];result.problems=p.includes(b.dataset.k)?p.filter(x=>x!==b.dataset.k):[...p,b.dataset.k];break}
+    case "kbprob":{const p=draft.problems||[];draft.problems=p.includes(b.dataset.k)?p.filter(x=>x!==b.dataset.k):[...p,b.dataset.k];break}
+    case "pl-new":draft=newSpot();break;
+    case "pl-edit":draft={...clone(S.pluk.get(id)),isNew:false};break;
+    case "pl-save":{const {isNew,...it}=draft;it.name=(it.name||"").trim();if(!it.name)return fail("Geef je plek een naam.");it.created=it.created||Date.now();S.pluk.save(it);draft=null;break}
+    case "pin":{if(b.dataset.scroll){selPin=id;const sp=S.pluk.get(id),p=sp&&onMap(sp),m=$("map");if(p&&m)mapScroll=[p.x*MAP.sc-m.clientWidth/2,p.y*MAP.sc-m.clientHeight/2];render();const mc=document.querySelector(".map-card");if(mc)mc.scrollIntoView({behavior:"smooth",block:"start"});return}selPin=selPin===id?null:id;break}
+    case "imp-no":importPreview=null;break;
+    case "imp-list":importPreview=listTodo().map(x=>({...x,url:"",plant:matchPlant(x.name)}));window.scrollTo(0,0);break;
+    case "imp-yes":{const have=new Set(S.pluk.items.map(x=>x.name+"|"+x.lat+"|"+x.lng));let n=0,t=Date.now();
+      importPreview.forEach(x=>{if(have.has(x.name+"|"+x.lat+"|"+x.lng))return;const P=PLANT[x.plant];
+        S.pluk.save({id:uid("p")+n,name:x.name,plant:x.plant||"",s:P?P.s:null,e:P?P.e:null,note:x.note||"",lat:x.lat,lng:x.lng,url:x.url||"",created:t+n});n++});
+      importPreview=null;setStatus(n?n+" plekken toegevoegd.":"Deze plekken stonden er al in.");break}
+    case "k-new":draft=newKast();break;
+    case "k-edit":draft={...clone(S.kast.get(id)),isNew:false};break;
+    case "k-min":case "k-plus":{const it=S.kast.get(id);if(it)S.kast.save({...it,count:Math.max(0,(+it.count||0)+(act==="k-plus"?1:-1))});break}
+    case "k-save":{const {isNew,...it}=draft;it.name=(it.name||"").trim();if(!it.name)return fail("Geef het een naam.");S.kast.save(it);draft=null;break}
+    case "to-kast":{const src=b.dataset.from==="sap"?S.sap.get(id):S.kbBatch.get(id);sec="kast";
+      draft={...newKast(),name:src?src.name:"",type:b.dataset.from==="sap"?"Sap":"Kombucha",date:src?src.date:Date.now(),from:id};window.scrollTo(0,0);break}
+    case "del":confirmDel={type:b.dataset.type,id};break;
+    case "del-no":confirmDel=null;break;
+    case "del-yes":{S[confirmDel.type].del(confirmDel.id);if(confirmDel.type==="zdRec"){recView="standaard";if(selId===confirmDel.id){selId="standaard";lsSet("kw-sel",selId)}}confirmDel=null;break}
+    case "feed":{const f={at:fromInput(val("feed-date")),note:val("feed-note").trim()};scoby.feeds.push(f);saveScoby();toast("Scoby gevoed genoteerd.",()=>{scoby.feeds=scoby.feeds.filter(x=>x!==f);saveScoby();render()});break}
+    case "kb-new":draft={isNew:true,id:uid("k"),name:"",date:Date.now(),recipeId:"",sapId:"",amount:"",notes:"",evaluated:false,wrong:false,score:0};break;
+    case "kb-edit":draft={...clone(S.kbBatch.get(id)),isNew:false,stock:(kastFor(id)||{}).count??""};break;
+    case "kb-eval":{const v=b.dataset.v,on=draft.evaluated&&(draft.wrong?"bad":"ok")===v;draft.evaluated=!on;draft.wrong=!on&&v==="bad";break}
+    case "kb-more":case "sap-more":draft.more=!draft.more;break;
+    case "res-more":result.more=!result.more;break;
+    case "kb-score":draft.score=+b.dataset.n;break;
+    case "kb-save":{const {isNew,stock,more,saveRec,...it}=draft;if(saveRec&&it.name.trim())S.kbRec.save({id:uid("kr"),name:it.name.trim(),ingredients:"",method:it.notes||"",notes:"Gemaakt op "+dateLabel(it.date),created:Date.now()});it.name=it.name.trim();if(!it.name)return fail("Geef je kombucha een naam of smaak.");S.kbBatch.save(it);syncStock(it,"Kombucha",stock);lastTips=it.wrong&&(it.problems||[]).length?{sec:"kb",keys:it.problems}:null;draft=null;window.scrollTo(0,0);break}
+    case "tips-close":lastTips=null;break;
+    case "ask-claude":shareAdvice(id);return;
+    case "calc":calcFlour=+b.dataset.n;break;
+    case "calc-open":calcOpen=true;break;
+    case "calc-close":calcOpen=false;calcFlour=null;break;
+    case "backup":{backup();return}
+    case "bk-edit":draft={...clone(S.bakes.get(id)),isNew:false};window.scrollTo(0,0);break;
+    case "bk-score":draft.score=+b.dataset.n;break;
+    case "bkprob":{const p=draft.problems||[];draft.problems=p.includes(b.dataset.k)?p.filter(x=>x!==b.dataset.k):[...p,b.dataset.k];break}
+    case "bk-save":{const cur=S.bakes.get(draft.id)||{};const {isNew,...it}=draft;S.bakes.save({...it,photos:cur.photos||it.photos||[]});lastTips=(it.problems||[]).length?{sec:"zd",keys:it.problems}:null;draft=null;window.scrollTo(0,0);break}
+    case "kbr-new":draft={isNew:true,id:uid("kr"),name:"",ingredients:"",method:"",notes:""};break;
+    case "kbr-edit":draft={...clone(S.kbRec.get(id)),isNew:false};break;
+    case "kbr-save":{const {isNew,...it}=draft;it.name=it.name.trim();if(!it.name)return fail("Geef je recept een naam.");it.created=it.created||Date.now();S.kbRec.save(it);draft=null;break}
+    case "sap-new":draft={isNew:true,id:uid("s"),name:"",date:Date.now(),ingredients:"",amount:"",notes:"",score:0};break;
+    case "sap-edit":draft={...clone(S.sap.get(id)),isNew:false,stock:(kastFor(id)||{}).count??""};break;
+    case "sap-score":draft.score=+b.dataset.n;break;
+    case "sap-save":{const {isNew,stock,more,...it}=draft;it.name=it.name.trim();if(!it.name)return fail("Geef je sap een naam.");S.sap.save(it);syncStock(it,"Sap",stock);draft=null;break}
+  }
+  render();
+});
+let toastT=null,toastUndo=null;
+function toast(msg,undo){const t=$("toast");toastUndo=undo||null;t.innerHTML=`<span>${esc(msg)}</span>${undo?`<button data-toast="undo">Ongedaan maken</button>`:""}`;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>{t.hidden=true;toastUndo=null},7000)}
+let navDepth=0,lastHash=null;
+const HSEC={home:"overzicht",zd:"desem",kb:"kombucha",sap:"sappen",pluk:"wildpluk",kast:"voorraad",hulp:"hulp"};
+const HSEC_R=Object.fromEntries(Object.entries(HSEC).map(([k,v])=>[v,k]));
+function stateHash(){if(sec==="home")return "overzicht";return HSEC[sec]+"-"+sub[sec]+(draft?"-bewerken":"")}
+function syncHash(){const h=stateHash();if(location.hash==="#"+h){lastHash=h;return}
+  if(lastHash&&lastHash===h+"-bewerken"&&navDepth>0){lastHash=h;navDepth--;try{history.back()}catch(e){}return}const same=lastHash&&lastHash.split("-")[0]===h.split("-")[0]&&!/-bewerken$/.test(lastHash)&&!/-bewerken$/.test(h);
+  lastHash=h;try{if((location.hash||navDepth)&&!same){history.pushState(null,"","#"+h);navDepth++}else history.replaceState(null,"","#"+h)}catch(e){}}
+function applyHash(){const h=(location.hash||"").slice(1);if(!h||h===lastHash)return;const [a,b,c]=h.split("-");const sc=HSEC_R[a];if(!sc)return;
+  readInputs();if(active&&sec==="zd")saveActive();navDepth=Math.max(0,navDepth-1);
+  sec=sc;if(b&&SECS[sc]&&SECS[sc].subs.some(x=>x[0]===b))sub[sc]=b;if(c!=="bewerken"){draft=null;importPreview=null}confirmDel=null;sheet(false);render()}
+window.addEventListener("popstate",applyHash);window.addEventListener("hashchange",applyHash);
+function sheet(open){$("sheet").hidden=!open;$("sheet-bg").hidden=!open;if(open)$("sheet").querySelector(".act").focus()}
+function quick(k){
+  sheet(false);if(k==="close")return;readInputs();confirmDel=null;
+  if(k==="bake"){sec="zd";sub.zd="bake";draft=null}
+  if(k==="feed"){const f={at:Date.now(),note:""};scoby.feeds.push(f);saveScoby();sec="kb";sub.kb="scoby";draft=null;
+    toast("Scoby gevoed vandaag genoteerd.",()=>{scoby.feeds=scoby.feeds.filter(x=>x!==f);saveScoby();render()})}
+  if(k==="kb"){sec="kb";sub.kb="log";draft={isNew:true,id:uid("k"),name:"",date:Date.now(),recipeId:"",sapId:"",amount:"",notes:"",evaluated:false,wrong:false,score:0}}
+  if(k==="pluk"){sec="pluk";sub.pluk="plekken";draft=newSpot()}
+  if(k==="kast"){sec="kast";draft=newKast()}
+  if(k==="sap"){sec="sap";draft={isNew:true,id:uid("s"),name:"",date:Date.now(),ingredients:"",amount:"",notes:"",score:0}}
+  render();window.scrollTo(0,0);
+}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("sheet").hidden)sheet(false)});
+function kastFor(id){return S.kast.items.find(k=>k.from===id)}
+function syncStock(src,type,stock){
+  if(stock===""||stock==null)return;const n=Math.max(0,+stock||0),ex=kastFor(src.id);
+  if(ex){if(ex.count!==n||ex.name!==src.name)S.kast.save({...ex,count:n,name:src.name})}
+  else if(n>0){const {isNew,...base}=newKast();S.kast.save({...base,name:src.name,type,count:n,unit:"flessen",date:src.date||Date.now(),from:src.id})}
+}
+function newSpot(){return {isNew:true,id:uid("p"),name:"",plant:"",s:null,e:null,note:"",lat:null,lng:null,url:""}}
+function newKast(){return {isNew:true,id:uid("v"),name:"",type:"Sap",count:1,unit:"flessen",date:Date.now(),best:null,note:""}}
+function nextStep(){active.stepDone=active.stepDone||{};active.stepDone[active.step]=Date.now();active.stepStart=null;active.reps=0;
+  if(active.step>=steps().length-1)active.finished=true;else{active.step++;if(steps()[active.step].min>0)active.stepStart=Date.now()}}
+
+document.addEventListener("change",e=>{
+  const t=e.target.id;
+  if(t==="note"||t==="temp"){readInputs();saveActive()}
+  if(t==="zd-sel"){calcFlour=null;selId=e.target.value;lsSet("kw-sel",selId);render()}
+  if(t==="zd-view"){recView=e.target.value;confirmDel=null;calcFlour=null;render()}
+  if(t==="calc-flour"){calcFlour=Math.max(1,+e.target.value||0)||null;render()}
+  if(t==="lead"){settings.lead=Math.max(1,+e.target.value||14);lsSet("kw-settings",settings);if(settingsRef)queue(()=>settingsRef.set(settings));render()}
+  if(t==="pl-plant"){readPlukDraft();const P=PLANT[draft.plant];if(P){draft.s=P.s;draft.e=P.e}render()}
+  if(t.startsWith("photo-"))addPhoto(e.target);
+  if(t==="ios-on"){settings.ios=e.target.checked;lsSet("kw-settings",settings);if(settingsRef)queue(()=>settingsRef.set(settings));render()}
+  if(t==="restore-file"){const f=e.target.files&&e.target.files[0];if(f)restore(f)}
+  if(t==="imp-file"){const f=e.target.files&&e.target.files[0];if(!f)return;busy="imp";render();
+    readImport(f).then(list=>{busy="";if(!list.length){render();$("err").textContent="Er stonden geen plekken in dit bestand.";return}importPreview=list;render()})
+      .catch(()=>{busy="";render();$("err").textContent="Dit bestand kon ik niet lezen. Kies een KML-, KMZ-, GeoJSON- of CSV-bestand van Google."})}
+  if(t==="feed-every"){scoby.every=Math.max(1,+e.target.value||7);saveScoby();render()}
+});
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"&&active&&!active.finished)keepAwake(true)});
+
+if(!zdRecipes().some(r=>r.id===selId))selId="standaard";
+render();
+setTimeout(()=>{if(!settingsRef){seedList();safeRender()}},4000);
+
+(async()=>{
+  try{
+    if(!window.claude?.use)return;
+    const [d,u]=await Promise.all([claude.use("db"),claude.use("user")]);
+    const me=u?await u.id():null;
+    if(!d||!me)return;
+    const P="data/users/"+me;
+    activeRef=d.doc(P+"/actief");scobyRef=d.doc(P+"/scoby");
+    S.bakes.attach(d.doc(P+"/zuurdesem").collection("broden"));
+    S.zdRec.attach(d.doc(P+"/zuurdesem").collection("recepten"));
+    S.kbBatch.attach(d.doc(P+"/kombucha").collection("batches"));
+    S.kbRec.attach(d.doc(P+"/kombucha").collection("recepten"));
+    S.sap.attach(d.doc(P+"/sappen").collection("sappen"));
+    S.pluk.attach(d.doc(P+"/wildpluk").collection("plekken"));
+    S.kast.attach(d.doc(P+"/voorraad").collection("items"));
+    settingsRef=d.doc(P+"/instellingen");
+    settingsRef.get().then(s=>{if(s.exists){settings={...settings,...s.data()};lsSet("kw-settings",settings)}setTimeout(()=>{seedList();safeRender()},1500)}).catch(()=>{});
+    claude.use("assets").then(a=>{assetsNS=a;safeRender()}).catch(()=>{});
+    claude.use("sample").then(f=>{if(f){sampleFn=f;safeRender()}}).catch(()=>{});
+    let first=true;
+    activeRef.onSnapshot(s=>{if(s.metadata.hasPendingWrites)return;const data=s.exists?s.data():null;
+      if(first&&!data&&active){first=false;saveActive();return}first=false;
+      active=data?clone(data):null;lsSet("kw-active",active);if(sec==="zd")safeRender()},()=>{});
+    let firstS=true;
+    scobyRef.onSnapshot(s=>{if(s.metadata.hasPendingWrites)return;const data=s.exists?s.data():null;
+      if(firstS&&!data&&scoby.feeds.length){firstS=false;saveScoby();return}firstS=false;
+      scoby=data?clone(data):{feeds:[]};if(!scoby.feeds)scoby.feeds=[];lsSet("kw-scoby",scoby);safeRender()},()=>{});
+  }catch(e){}
+})();
+</script>
+
+<script>if("serviceWorker" in navigator&&location.protocol==="https:"){navigator.serviceWorker.register("sw.js").catch(()=>{})}</script>
+</body>
+</html>
