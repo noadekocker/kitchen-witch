@@ -191,6 +191,8 @@ h1.hello{font-size:34px;color:var(--ink)}
 .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
 .legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px;background:var(--biet)}
 .legend span.due::before{background:none;box-shadow:inset 0 0 0 2px var(--biet)}
+.phone-t{display:flex;gap:12px;align-items:center;background:var(--b2);color:var(--b2-ink);border-radius:18px;padding:14px 16px;margin:6px 0}
+.phone-t .pt-ico{font-size:26px;line-height:1}.phone-t b{display:block;font-weight:500}.phone-t small{display:block;opacity:.8;margin-top:2px}
 .ring{position:relative;width:min(230px,66vw);aspect-ratio:1;margin:4px auto}
 .ring svg{width:100%;height:100%;transform:rotate(-90deg);display:block}
 .ring .track{stroke:var(--line)}
@@ -593,14 +595,15 @@ function zdActive(){
   const list=steps(), s=list[active.step], i=active.step, pct=Math.round(i/list.length*100);
   const r=remaining(), running=active.stepStart!=null, done=active.reps||0, reps=s.reps>1?s.reps:0;
   const C=2*Math.PI*100, frac=running?Math.max(0,r)/(s.min*60000):1;
-  const timer=s.min?`<div class="ring"><svg viewBox="0 0 220 220" aria-hidden="true"><circle class="track" cx="110" cy="110" r="100" fill="none" stroke-width="12"/><circle class="prog" id="ring-p" cx="110" cy="110" r="100" fill="none" stroke-width="12" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-frac)}" style="${running?"":"opacity:.35"}"/></svg>
+  const timer=s.min&&settings.ios?`<div class="phone-t"><span class="pt-ico" aria-hidden="true">⏰</span><div><b>${running?"Timer loopt op je iPhone":durLabel(s.min)}</b><small>${running?"Klaar om "+timeLabel(active.stepStart+s.min*60000):"Je iPhone-timer start als je op de knop tikt"}</small></div></div>`
+    :s.min?`<div class="ring"><svg viewBox="0 0 220 220" aria-hidden="true"><circle class="track" cx="110" cy="110" r="100" fill="none" stroke-width="12"/><circle class="prog" id="ring-p" cx="110" cy="110" r="100" fill="none" stroke-width="12" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-frac)}" style="${running?"":"opacity:.35"}"/></svg>
       <div class="rt"><div class="timer${running&&r<=0?" done":""}" id="timer">${running?fmt(r):fmt(s.min*60000)}</div>
       <p class="timer-sub" id="timer-sub">${running?(r<=0?"Tijd is om!":"Klaar om "+timeLabel(active.stepStart+s.min*60000)):"Nog niet gestart"}</p></div></div>`:"";
   let actions;
-  if(reps&&s.min)actions=running?`<div class="row"><button class="btn primary" data-act="fold">Ronde ${done+1} gedaan</button></div>${settings.ios&&r>0?`<div class="row tight"><a class="btn sm ios" href="${sc("KW Timer",String(Math.max(1,Math.ceil(r/60000))))}">Timer op iPhone</a></div>`:""}`
+  if(reps&&s.min)actions=running?`<div class="row"><button class="btn primary" data-act="fold">Ronde ${done+1} gedaan</button></div>`
     :`<div class="row"><button class="btn primary" data-act="timer">Start ronde ${done+1} van ${reps}</button><button class="btn soft" data-act="next">Stap overslaan</button></div>`;
-  else if(s.min&&!running)actions=`<div class="row"><button class="btn primary" data-act="timer">Start timer</button><button class="btn soft" data-act="next">Klaar, volgende stap</button></div>`;
-  else actions=`<div class="row"><button class="btn primary" data-act="next">${i===list.length-1?"Klaar!":"Klaar, volgende stap"}</button></div>${s.min&&running?`<div class="row tight">${settings.ios&&r>0?`<a class="btn sm ios" href="${sc("KW Timer",String(Math.max(1,Math.ceil(r/60000))))}">Timer op iPhone</a>`:""}<button class="btn soft sm" data-act="timer">↻ Timer opnieuw starten</button></div>`:""}`;
+  else if(s.min&&!running)actions=`<div class="row"><button class="btn primary" data-act="timer">${settings.ios?"Start timer op iPhone":"Start timer"}</button><button class="btn soft" data-act="next">Klaar, volgende stap</button></div>`;
+  else actions=`<div class="row"><button class="btn primary" data-act="next">${i===list.length-1?"Klaar!":"Klaar, volgende stap"}</button></div>${s.min&&running?`<div class="row tight"><button class="btn soft sm" data-act="timer">↻ ${settings.ios?"iPhone-timer opnieuw":"Timer opnieuw starten"}</button></div>`:""}`;
   return `<div class="stack"><section class="card">
     <div><span class="chip">${esc(active.recipeName||DEFAULT.name)} · stap ${i+1}/${list.length}</span></div>
     <div class="progress"><i style="width:${pct}%"></i></div>
@@ -898,7 +901,7 @@ function remindLink(title,date,label){if(!settings.ios)return "";const d=new Dat
   return `<a class="btn soft sm ios" href="${sc("KW Herinnering",title+"|"+iso)}">${label||"Herinnering op iPhone"}</a>`}
 function iosCard(){return `<section class="card"><h3>iPhone-koppeling</h3>
   <p class="small">Met de app Opdrachten zet Kitchen Witch timers in je Klok-app en herinneringen in je Herinneringen-app. Die gaan ook af als je gsm op slot is. Je maakt daarvoor eerst twee opdrachten: <b>KW Timer</b> en <b>KW Herinnering</b>.</p>
-  <label class="chk big-chk" for="ios-on"><input id="ios-on" type="checkbox" ${settings.ios?"checked":""}>Knoppen voor iPhone tonen</label></section>`}
+  <label class="chk big-chk" for="ios-on"><input id="ios-on" type="checkbox" ${settings.ios?"checked":""}>iPhone-timers en herinneringen gebruiken</label><p class="small">Staat dit aan, dan start je iPhone-timer vanzelf bij elke bakstap en telt de app zelf niet meer af.</p></section>`}
 /* ---------- hulp ---------- */
 const BASIS={
  zd:[
@@ -1163,11 +1166,11 @@ function runbar(){
   const rb=$("runbar");if(!rb)return;const show=!!active&&!(sec==="zd"&&sub.zd==="bake");rb.hidden=!show;document.body.classList.toggle("has-run",show);if(!show)return;
   if(active.finished){rb.innerHTML=`<span class="rb-dot"></span><span class="rb-txt"><b>Je brood is klaar</b><small>Tik om een score te geven</small></span><span class="rb-time">→</span>`;return}
   const s=steps()[active.step],r=remaining();
-  rb.innerHTML=`<span class="rb-dot ${r!=null&&r<=0?"done":""}"></span><span class="rb-txt"><b>Stap ${active.step+1}: ${esc(s.t)}</b><small>${esc(active.recipeName||DEFAULT.name)}${r!=null&&r>0?" · klaar om "+timeLabel(active.stepStart+s.min*60000):r!=null?" · tijd is om!":""}</small></span><span class="rb-time" id="rb-time">${r!=null?fmt(r):"→"}</span>`;
+  rb.innerHTML=`<span class="rb-dot ${r!=null&&r<=0?"done":""}"></span><span class="rb-txt"><b>Stap ${active.step+1}: ${esc(s.t)}</b><small>${esc(active.recipeName||DEFAULT.name)}${r!=null&&r>0?" · klaar om "+timeLabel(active.stepStart+s.min*60000):r!=null?" · tijd is om!":""}</small></span><span class="rb-time" id="rb-time">${r!=null&&!settings.ios?fmt(r):"→"}</span>`;
 }
 function tick(){
-  if(active&&!active.finished&&!$("runbar").hidden){const el=$("rb-time"),r=remaining();if(el&&r!=null){el.textContent=fmt(r);if(r<=0&&!el.dataset.done){el.dataset.done=1;runbar()}}
-    const key=active.step+"-"+active.stepStart;if(r!=null&&r<=0&&!alerted.has(key)){alerted.add(key);beep()}}
+  if(active&&!active.finished&&!$("runbar").hidden){const el=$("rb-time"),r=remaining();if(el&&r!=null&&!settings.ios){el.textContent=fmt(r);if(r<=0&&!el.dataset.done){el.dataset.done=1;runbar()}}
+    const key=active.step+"-"+active.stepStart;if(r!=null&&r<=0&&!alerted.has(key)){alerted.add(key);if(!settings.ios)beep()}}
   const el=$("timer");if(!el||!active||!active.stepStart)return;
   const r=remaining();el.textContent=fmt(r);
   const rp=$("ring-p");if(rp){const C=2*Math.PI*100,tot=steps()[active.step].min*60000;rp.setAttribute("stroke-dashoffset",C*(1-Math.max(0,r)/tot))}
@@ -1204,10 +1207,11 @@ document.addEventListener("click",e=>{
   const tb=e.target.closest("#sub button");if(tb){readInputs();sub[sec]=tb.dataset.sub;draft=null;confirmDel=null;render();return}
   const b=e.target.closest("[data-act]");if(!b)return;
   const act=b.dataset.act,k=+b.dataset.k,id=b.dataset.id;readInputs();document.title="Kitchen Witch";
+  const tBefore=active?active.step+"-"+active.stepStart:"";
   switch(act){
-    case "start":{const r=getZd(selId);active={id:uid("b"),startedAt:Date.now(),recipeId:r.id,recipeName:r.name,steps:clone(r.steps),step:0,stepStart:null,reps:0,notes:{},temp:"",stepDone:{}};confirmStop=false;keepAwake(true);saveActive();break}
-    case "timer":active.stepStart=Date.now();keepAwake(true);saveActive();break;
-    case "fold":active.reps=(active.reps||0)+1;if(active.reps>=steps()[active.step].reps)nextStep();else active.stepStart=Date.now();keepAwake(true);saveActive();break;
+    case "start":{const r=getZd(selId);active={id:uid("b"),startedAt:Date.now(),recipeId:r.id,recipeName:r.name,steps:clone(r.steps),step:0,stepStart:null,reps:0,notes:{},temp:"",stepDone:{}};confirmStop=false;keepAwake(!settings.ios);saveActive();break}
+    case "timer":active.stepStart=Date.now();keepAwake(!settings.ios);saveActive();break;
+    case "fold":active.reps=(active.reps||0)+1;if(active.reps>=steps()[active.step].reps)nextStep();else active.stepStart=Date.now();keepAwake(!settings.ios);saveActive();break;
     case "next":nextStep();saveActive();break;
     case "prev":active.step=Math.max(0,active.step-1);active.stepStart=null;active.reps=0;saveActive();break;
     case "stop":confirmStop=true;break;
@@ -1276,8 +1280,15 @@ document.addEventListener("click",e=>{
     case "sap-score":draft.score=+b.dataset.n;break;
     case "sap-save":{const {isNew,stock,more,...it}=draft;it.name=it.name.trim();if(!it.name)return fail("Geef je sap een naam.");S.sap.save(it);syncStock(it,"Sap",stock);draft=null;break}
   }
+  phoneTimer(tBefore);
   render();
 });
+function phoneTimer(before){
+  if(!settings.ios||!active||active.finished||!active.stepStart)return;
+  if(active.step+"-"+active.stepStart===before)return;
+  const s=steps()[active.step];if(!s||!s.min)return;
+  location.href=sc("KW Timer",String(Math.max(1,Math.round(s.min))));
+}
 let toastT=null,toastUndo=null;
 function toast(msg,undo){const t=$("toast");toastUndo=undo||null;t.innerHTML=`<span>${esc(msg)}</span>${undo?`<button data-toast="undo">Ongedaan maken</button>`:""}`;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>{t.hidden=true;toastUndo=null},7000)}
 let navDepth=0,lastHash=null;
@@ -1331,7 +1342,7 @@ document.addEventListener("change",e=>{
       .catch(()=>{busy="";render();$("err").textContent="Dit bestand kon ik niet lezen. Kies een KML-, KMZ-, GeoJSON- of CSV-bestand van Google."})}
   if(t==="feed-every"){scoby.every=Math.max(1,+e.target.value||7);saveScoby();render()}
 });
-document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"&&active&&!active.finished)keepAwake(true)});
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"&&active&&!active.finished)keepAwake(!settings.ios)});
 
 if(!zdRecipes().some(r=>r.id===selId))selId="standaard";
 render();
