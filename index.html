@@ -1148,7 +1148,7 @@ function kastPage(){
   const has=S.kast.items.filter(i=>+i.count>0),gone=S.kast.items.filter(i=>!(+i.count>0));
   const oldest={};has.forEach(i=>{const t=i.type||"Andere";if(!oldest[t])oldest[t]=i.id});
   const card=i=>`<div class="entry"><div class="row between"><strong>${esc(i.name)}</strong><span class="chip-row">${oldest[i.type||"Andere"]===i.id&&has.filter(x=>(x.type||"Andere")===(i.type||"Andere")).length>1?`<span class="chip ok">Eerst op</span>`:""}${kastChip(i)}</span></div>
-    <div class="meta"><span>${esc(i.type||"Andere")}</span>${i.date?`<span>Gemaakt ${dateLabel(i.date)}</span>`:""}${i.best&&i.type!=="Sap"&&i.type!=="Kombucha"?`<span>Houdbaar tot ${dateLabel(i.best)}</span>`:""}</div>
+    <div class="meta"><span>${esc(i.type||"Andere")}</span>${i.date?`<span>Gemaakt ${dateLabel(i.date)}</span>`:""}</div>
     ${i.note?`<p class="small pre">${esc(i.note)}</p>`:""}
     <div class="row between"><div class="counter"><button class="x" data-act="k-min" data-id="${esc(i.id)}" aria-label="Eén minder">−</button><b>${+i.count||0}</b><button class="x" data-act="k-plus" data-id="${esc(i.id)}" aria-label="Eén meer">+</button><span class="small">${esc(i.unit||"stuks")}</span></div>
     <div class="row tight"><button class="btn sm" data-act="k-edit" data-id="${esc(i.id)}">Bewerken</button><button class="btn sm danger" data-act="del" data-type="kast" data-id="${esc(i.id)}">Verwijderen</button></div></div>
@@ -1164,16 +1164,14 @@ function kastEditor(){
     <div class="nums"><label for="ks-type">Soort<select id="ks-type">${KAST_TYPES.map(t=>`<option ${t===d.type?"selected":""}>${t}</option>`).join("")}</select></label>
     <label for="ks-count">Aantal<input id="ks-count" type="number" inputmode="numeric" min="0" value="${esc(d.count)}"></label></div>
     <label for="ks-unit">Eenheid<input id="ks-unit" value="${esc(d.unit||"")}" placeholder="flessen, potten…"></label>
-    ${d.type==="Sap"||d.type==="Kombucha"?`<label for="ks-date">Gemaakt op<input id="ks-date" type="date" value="${toInput(d.date)}"></label>`
-    :`<div class="nums"><label for="ks-date">Gemaakt op<input id="ks-date" type="date" value="${toInput(d.date)}"></label>
-    <label for="ks-best">Houdbaar tot (mag leeg)<input id="ks-best" type="date" value="${d.best?toInput(d.best):""}"></label></div>`}
+    <label for="ks-date">Gemaakt op<input id="ks-date" type="date" value="${toInput(d.date)}"></label>
     <label for="ks-note">Notitie<textarea id="ks-note">${esc(d.note||"")}</textarea></label>
     <p class="err" id="err"></p>
     <div class="row"><button class="btn primary" data-act="k-save">Opslaan</button><button class="btn soft" data-act="cancel">Annuleren</button></div></section>`;
 }
 function readKastDraft(){
   if(!$("ks-name"))return;draft.name=val("ks-name");draft.type=val("ks-type");draft.count=Math.max(0,+val("ks-count")||0);draft.unit=val("ks-unit");
-  draft.date=fromInput(val("ks-date"));if($("ks-best"))draft.best=val("ks-best")?fromInput(val("ks-best")):null;else if(draft.type==="Sap"||draft.type==="Kombucha")draft.best=null;draft.note=val("ks-note");
+  draft.date=fromInput(val("ks-date"));draft.best=null;draft.note=val("ks-note");
 }
 
 /* ---------- timer ---------- */
@@ -1350,7 +1348,6 @@ document.addEventListener("change",e=>{
   if(t==="lead"){settings.lead=Math.max(1,+e.target.value||14);lsSet("kw-settings",settings);if(settingsRef)queue(()=>settingsRef.set(settings));render()}
   if(t==="pl-plant"){readPlukDraft();const P=PLANT[draft.plant];if(P){draft.s=P.s;draft.e=P.e}render()}
   if(t.startsWith("photo-"))addPhoto(e.target);
-  if(t==="ks-type"){readInputs();render();return}
   if(t==="ios-on"){settings.ios=e.target.checked;lsSet("kw-settings",settings);if(settingsRef)queue(()=>settingsRef.set(settings));render()}
   if(t==="restore-file"){const f=e.target.files&&e.target.files[0];if(f)restore(f)}
   if(t==="imp-file"){const f=e.target.files&&e.target.files[0];if(!f)return;busy="imp";render();
