@@ -191,6 +191,7 @@ h1.hello{font-size:34px;color:var(--ink)}
 .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
 .legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px;background:var(--biet)}
 .legend span.due::before{background:none;box-shadow:inset 0 0 0 2px var(--biet)}
+.copybox{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.35);display:flex;align-items:flex-end;padding:16px}.copybox .card{width:100%;max-width:560px;margin:0 auto}.copybox textarea{width:100%;font-size:14px}
 .phone-t{display:flex;gap:12px;align-items:center;background:var(--b2);color:var(--b2-ink);border-radius:18px;padding:14px 16px;margin:6px 0}
 .phone-t .pt-ico{font-size:26px;line-height:1}.phone-t b{display:block;font-weight:500}.phone-t small{display:block;opacity:.8;margin-top:2px}
 .ring{position:relative;width:min(230px,66vw);aspect-ratio:1;margin:4px auto}
@@ -510,7 +511,7 @@ async function keepAwake(on){try{if(on&&!wake&&navigator.wakeLock){wake=await na
 function typing(){const a=document.activeElement;return a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)}
 function safeRender(){if(!typing()&&!draft)render()}
 function render(){
-  syncHash();renderTop();runbar();
+  setTimeout(prepShare,0);syncHash();renderTop();runbar();
   document.querySelectorAll(".dock [data-go]").forEach(b=>b.dataset.go===sec?b.setAttribute("aria-current","page"):b.removeAttribute("aria-current"));
   if(sec==="home"){$("sub").hidden=true;$("view").innerHTML=home();return}
   const subs=SECS[sec].subs;
@@ -689,13 +690,26 @@ ${b.bad?(share?"Mijn uitleg: ":"Haar uitleg: ")+b.bad+"\n":""}${notes?"Notities 
 Geef wat ze de volgende keer anders moet doen. Verander bij voorkeur maar één ding tegelijk.
 Antwoord met alleen JSON zoals: {"next":"Eén zin met het belangrijkste wat je anders doet.","tips":["korte tip","korte tip"]}. Maximaal 3 tips.`}`;
 }
-async function shareAdvice(id){
-  const b=S.bakes.get(id);if(!b)return;const text=bakePrompt(b,true);
-  const files=[];for(const ph of (b.photos||[]).slice(0,2)){const bl=await photoBlob(ph.id);if(bl)files.push(new File([bl],"brood.jpg",{type:"image/jpeg"}))}
-  try{
-    if(navigator.share){const d={text};if(files.length&&navigator.canShare&&navigator.canShare({files}))d.files=files;await navigator.share(d);return}
-  }catch(e){if(e&&e.name==="AbortError")return}
-  try{await navigator.clipboard.writeText(text);toast("Vraag gekopieerd. Plak hem in de Claude-app.")}catch(e){toast("Delen lukt hier niet.")}
+const shareCache={};
+function prepShare(){document.querySelectorAll('[data-act="ask-claude"]').forEach(async btn=>{const id=btn.dataset.id;if(!id||shareCache[id])return;shareCache[id]=[];
+  const b=S.bakes.get(id);if(!b)return;const out=[];
+  for(const ph of (b.photos||[]).slice(0,2)){const bl=await photoBlob(ph.id);if(bl){const t=bl.type||"image/jpeg";out.push(new File([bl],"brood."+(t.split("/")[1]||"jpg").replace("jpeg","jpg"),{type:t}))}}
+  shareCache[id]=out})}
+function shareAdvice(id){
+  const b=S.bakes.get(id);if(!b)return;const text=bakePrompt(b,true),files=shareCache[id]||[];
+  if(navigator.share){const d={text};try{if(files.length&&navigator.canShare&&navigator.canShare({text,files}))d.files=files}catch(e){}
+    navigator.share(d).catch(e=>{if(!e||e.name!=="AbortError")copyBox(text)});return}
+  copyBox(text);
+}
+function copyBox(text){
+  const old=$("copybox");if(old)old.remove();
+  const el=document.createElement("div");el.id="copybox";el.className="copybox";
+  el.innerHTML=`<section class="card"><h3>Vraag voor Claude</h3><p class="small">Kopieer de vraag en plak hem in de Claude-app.</p><textarea readonly rows="7">${esc(text)}</textarea><div class="row"><button class="btn primary" type="button" data-cb="copy">Kopieer vraag</button><button class="btn soft" type="button" data-cb="close">Sluiten</button></div></section>`;
+  el.addEventListener("click",ev=>{const k=ev.target.closest("[data-cb]");if(!k)return;ev.stopPropagation();
+    if(k.dataset.cb==="copy"){const ta=el.querySelector("textarea");ta.focus();ta.select();ta.setSelectionRange(0,99999);
+      (navigator.clipboard?navigator.clipboard.writeText(text):Promise.reject()).catch(()=>document.execCommand("copy")).finally(()=>{toast("Gekopieerd. Plak hem in de Claude-app.");el.remove()})}
+    else el.remove()});
+  document.body.appendChild(el);
 }
 async function adviseBake(id){
   try{if(!sampleFn&&window.claude?.use)sampleFn=await claude.use("sample")}catch(e){}
